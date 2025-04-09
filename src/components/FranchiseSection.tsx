@@ -26,6 +26,7 @@ import {
   MapPin,
   TrendingUp,
 } from "lucide-react";
+import MapSection from "./MapSection";
 
 interface ROICalculatorProps {
   investmentAmount?: number;
