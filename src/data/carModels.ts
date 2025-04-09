@@ -18,6 +18,7 @@ export const carBrands = [
   "Chevrolet",
   "Fiat",
   "Ford",
+  "GWM",
   "Hyundai",
   "JAC",
   "Jeep",
@@ -31,6 +32,52 @@ export const carBrands = [
 ];
 
 export const carModels: CarModel[] = [
+  // GWM
+  {
+    id: "gwm-ora-03",
+    brand: "GWM",
+    model: "ORA 03",
+    type: "electric",
+    batteryCapacity: 48,
+    range: 310,
+    chargingSpeed: 80,
+  },
+  {
+    id: "gwm-ora-good-cat",
+    brand: "GWM",
+    model: "ORA Good Cat",
+    type: "electric",
+    batteryCapacity: 63.1,
+    range: 420,
+    chargingSpeed: 80,
+  },
+  {
+    id: "gwm-haval-h6-hybrid",
+    brand: "GWM",
+    model: "Haval H6 Hybrid",
+    type: "hybrid",
+    batteryCapacity: 1.8,
+    range: 0,
+    chargingSpeed: 0,
+  },
+  {
+    id: "gwm-haval-h6-phev",
+    brand: "GWM",
+    model: "Haval H6 PHEV",
+    type: "hybrid",
+    batteryCapacity: 19.94,
+    range: 80,
+    chargingSpeed: 6.6,
+  },
+  {
+    id: "gwm-tank-300",
+    brand: "GWM",
+    model: "Tank 300 HEV",
+    type: "hybrid",
+    batteryCapacity: 1.7,
+    range: 0,
+    chargingSpeed: 0,
+  },
   // Tesla
   {
     id: "tesla-model-3",

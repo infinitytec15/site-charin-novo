@@ -50,7 +50,56 @@ interface SimulationResult {
   targetBattery: number;
   estimatedTime: number;
   estimatedCost: number;
+  chargerType?: string;
+  chargerPower?: number;
 }
+
+// Definição dos tipos de carregadores disponíveis
+interface ChargerType {
+  id: string;
+  name: string;
+  power: number; // kW
+  type: "AC" | "DC";
+  description: string;
+}
+
+const chargerTypes: ChargerType[] = [
+  {
+    id: "slow-ac",
+    name: "Carregador Lento (AC)",
+    power: 7.4,
+    type: "AC",
+    description: "Carregador residencial ou público de baixa potência",
+  },
+  {
+    id: "medium-ac",
+    name: "Carregador Médio (AC)",
+    power: 22,
+    type: "AC",
+    description: "Carregador público de média potência",
+  },
+  {
+    id: "fast-dc",
+    name: "Carregador Rápido (DC)",
+    power: 50,
+    type: "DC",
+    description: "Carregador rápido de corrente contínua",
+  },
+  {
+    id: "ultrafast-dc",
+    name: "Carregador Ultrarrápido (DC)",
+    power: 150,
+    type: "DC",
+    description: "Carregador ultrarrápido de alta potência",
+  },
+  {
+    id: "superfast-dc",
+    name: "Carregador Superrápido (DC)",
+    power: 250,
+    type: "DC",
+    description: "Carregador superrápido para veículos compatíveis",
+  },
+];
 
 const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   onSaveSimulation = () => {},
@@ -61,14 +110,16 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   const [availableModels, setAvailableModels] = useState<CarModel[]>([]);
   const [currentBattery, setCurrentBattery] = useState<number>(20);
   const [targetBattery, setTargetBattery] = useState<number>(80);
+  const [selectedChargerType, setSelectedChargerType] =
+    useState<string>("fast-dc");
   const [simulationResult, setSimulationResult] =
     useState<SimulationResult | null>(null);
   const [selectedCar, setSelectedCar] = useState<CarModel | null>(null);
 
-  // Initialize with Tesla as default brand
+  // Initialize with GWM as default brand
   useEffect(() => {
     if (carBrands.length > 0) {
-      setSelectedBrand("Tesla");
+      setSelectedBrand("GWM");
     }
   }, []);
 
@@ -134,15 +185,72 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
       return;
     }
 
+    // Encontrar o carregador selecionado
+    const selectedCharger = chargerTypes.find(
+      (charger) => charger.id === selectedChargerType,
+    );
+    if (!selectedCharger) {
+      toast({
+        title: "Erro na simulação",
+        description: "Tipo de carregador não encontrado",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const batteryDifference = targetBattery - currentBattery;
     const kWhToCharge = (batteryDifference / 100) * selectedCar.batteryCapacity;
 
-    // Time in hours = kWh to charge / charging rate in kW
-    const timeInHours = kWhToCharge / selectedCar.chargingSpeed;
+    // Determinar a taxa de carregamento efetiva
+    // Usamos o menor valor entre a capacidade do carregador e a capacidade máxima do veículo
+    const effectiveChargingRate = Math.min(
+      selectedCharger.power,
+      selectedCar.chargingSpeed,
+    );
+
+    // Ajuste para carregadores DC vs AC
+    // DC tende a ser mais rápido no início e desacelera no final
+    // AC tende a ser mais constante
+    let timeInHours;
+
+    if (selectedCharger.type === "DC") {
+      // Para DC, a velocidade diminui após 80% da carga
+      if (targetBattery <= 80) {
+        // Carregamento rápido até 80%
+        timeInHours = kWhToCharge / effectiveChargingRate;
+      } else {
+        // Cálculo para carregamento até 80%
+        const kWhTo80Percent =
+          ((80 - currentBattery) / 100) * selectedCar.batteryCapacity;
+        const timeTo80Percent = kWhTo80Percent / effectiveChargingRate;
+
+        // Cálculo para carregamento de 80% até o alvo (mais lento)
+        const kWhFrom80ToTarget =
+          ((targetBattery - 80) / 100) * selectedCar.batteryCapacity;
+        const timeFrom80ToTarget =
+          kWhFrom80ToTarget / (effectiveChargingRate * 0.5); // 50% mais lento após 80%
+
+        timeInHours = timeTo80Percent + timeFrom80ToTarget;
+      }
+    } else {
+      // Para AC, a velocidade é mais constante
+      timeInHours = kWhToCharge / effectiveChargingRate;
+    }
+
     const timeInMinutes = timeInHours * 60;
 
-    // Assuming average cost of R$1.20 per kWh
-    const costPerKwh = 1.2;
+    // Custo baseado no tipo de carregador
+    // Carregadores mais rápidos tendem a ser mais caros
+    let costPerKwh = 1.2; // Valor base
+
+    if (selectedCharger.type === "DC") {
+      if (selectedCharger.power >= 150) {
+        costPerKwh = 1.8; // Ultrarrápido
+      } else if (selectedCharger.power >= 50) {
+        costPerKwh = 1.5; // Rápido
+      }
+    }
+
     const estimatedCost = kWhToCharge * costPerKwh;
 
     const result: SimulationResult = {
@@ -151,6 +259,8 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
       targetBattery,
       estimatedTime: timeInMinutes,
       estimatedCost,
+      chargerType: selectedCharger.name,
+      chargerPower: selectedCharger.power,
     };
 
     setSimulationResult(result);
@@ -201,7 +311,7 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
 
   const getVehicleTypeIcon = (type: "electric" | "hybrid") => {
     return type === "electric" ? (
-      <Zap className="h-4 w-4 text-[#00FF99]" />
+      <Zap className="h-4 w-4 text-[#00A651]" />
     ) : (
       <Car className="h-4 w-4 text-blue-400" />
     );
@@ -322,6 +432,54 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
           </div>
         )}
 
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Tipo de Carregador</label>
+          <Select
+            value={selectedChargerType}
+            onValueChange={setSelectedChargerType}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o tipo de carregador" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Carregadores AC</SelectLabel>
+                {chargerTypes
+                  .filter((charger) => charger.type === "AC")
+                  .map((charger) => (
+                    <SelectItem key={charger.id} value={charger.id}>
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-blue-500" />
+                        <span>
+                          {charger.name} ({charger.power} kW)
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel>Carregadores DC</SelectLabel>
+                {chargerTypes
+                  .filter((charger) => charger.type === "DC")
+                  .map((charger) => (
+                    <SelectItem key={charger.id} value={charger.id}>
+                      <div className="flex items-center gap-2">
+                        <Zap className="h-4 w-4 text-[#00A651]" />
+                        <span>
+                          {charger.name} ({charger.power} kW)
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-gray-500 mt-1">
+            {chargerTypes.find((c) => c.id === selectedChargerType)
+              ?.description || "Selecione um tipo de carregador"}
+          </p>
+        </div>
+
         <div className="space-y-4">
           <div className="space-y-2">
             <div className="flex justify-between items-center">
@@ -401,6 +559,17 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
                 </div>
                 <span className="font-bold">
                   R$ {simulationResult.estimatedCost.toFixed(2)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Zap className="h-5 w-5 text-[#0C1F38] mr-2" />
+                  <span className="text-sm">Carregador:</span>
+                </div>
+                <span className="font-bold">
+                  {simulationResult.chargerType} (
+                  {simulationResult.chargerPower} kW)
                 </span>
               </div>
 

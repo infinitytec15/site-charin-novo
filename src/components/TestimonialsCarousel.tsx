@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import TestimonialCard from "./TestimonialCard";
+import ModernTestimonialCard from "./ModernTestimonialCard";
 
 interface Testimonial {
   id: number;
@@ -25,7 +25,7 @@ const defaultTestimonials: Testimonial[] = [
     title: "Motorista de App",
     company: "Uber",
     testimonial:
-      "A EletriCharge transformou minha rotina de trabalho. Agora consigo fazer mais corridas com meu carro elétrico sem preocupações com a bateria.",
+      "A Chargin transformou minha rotina de trabalho. Agora consigo fazer mais corridas com meu carro elétrico sem preocupações com a bateria.",
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const defaultTestimonials: Testimonial[] = [
     title: "Gerente de Frota",
     company: "LogTech Transportes",
     testimonial:
-      "Nossa frota de veículos elétricos opera com muito mais eficiência desde que começamos a utilizar a rede EletriCharge. Economia real e sustentabilidade.",
+      "Nossa frota de veículos elétricos opera com muito mais eficiência desde que começamos a utilizar a rede Chargin. Economia real e sustentabilidade.",
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const defaultTestimonials: Testimonial[] = [
     title: "Engenheiro",
     company: "EcoSolutions",
     testimonial:
-      "Como profissional que viaja muito, os pontos de recarga da EletriCharge em todo o país me dão a tranquilidade que preciso para usar meu veículo elétrico.",
+      "Como profissional que viaja muito, os pontos de recarga da Chargin em todo o país me dão a tranquilidade que preciso para usar meu veículo elétrico.",
   },
   {
     id: 4,
@@ -52,7 +52,7 @@ const defaultTestimonials: Testimonial[] = [
     title: "Empresária",
     company: "Verde Mobilidade",
     testimonial:
-      "A parceria com a EletriCharge foi fundamental para implementarmos nossa política de sustentabilidade. Nossos clientes adoram a facilidade de recarga.",
+      "A parceria com a Chargin foi fundamental para implementarmos nossa política de sustentabilidade. Nossos clientes adoram a facilidade de recarga.",
   },
   {
     id: 5,
@@ -61,7 +61,7 @@ const defaultTestimonials: Testimonial[] = [
     title: "Diretor Comercial",
     company: "Rede Supermercados Eco",
     testimonial:
-      "Instalar pontos de recarga EletriCharge em nossas lojas aumentou significativamente o tempo de permanência dos clientes e as vendas. Um diferencial competitivo real.",
+      "Instalar pontos de recarga Chargin em nossas lojas aumentou significativamente o tempo de permanência dos clientes e as vendas. Um diferencial competitivo real.",
   },
 ];
 
@@ -71,9 +71,30 @@ const TestimonialsCarousel = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
-  const itemsPerPage =
-    window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+  // Update items per page based on screen size
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      if (window.innerWidth >= 1024) {
+        setItemsPerPage(3);
+      } else if (window.innerWidth >= 768) {
+        setItemsPerPage(2);
+      } else {
+        setItemsPerPage(1);
+      }
+    };
+
+    // Initial calculation
+    updateItemsPerPage();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", updateItemsPerPage);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
 
   const nextSlide = () => {
     setDirection(1);
@@ -97,7 +118,14 @@ const TestimonialsCarousel = ({
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, autoplay]);
+  }, [currentIndex, autoplay, itemsPerPage]);
+
+  // Ensure currentIndex is valid when itemsPerPage changes
+  useEffect(() => {
+    if (currentIndex > testimonials.length - itemsPerPage) {
+      setCurrentIndex(0);
+    }
+  }, [itemsPerPage, currentIndex, testimonials.length]);
 
   const visibleTestimonials = testimonials.slice(
     currentIndex,
@@ -105,29 +133,29 @@ const TestimonialsCarousel = ({
   );
 
   const variants = {
-    enter: (direction: number) => {
-      return {
-        x: direction > 0 ? 1000 : -1000,
-        opacity: 0,
-      };
-    },
+    enter: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.9,
+    }),
     center: {
       x: 0,
       opacity: 1,
+      scale: 1,
     },
-    exit: (direction: number) => {
-      return {
-        x: direction < 0 ? 1000 : -1000,
-        opacity: 0,
-      };
-    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.9,
+    }),
   };
 
   return (
     <div
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden py-8"
       onMouseEnter={() => setAutoplay(false)}
       onMouseLeave={() => setAutoplay(true)}
+      ref={containerRef}
     >
       <div className="flex justify-between absolute top-1/2 transform -translate-y-1/2 z-10 w-full px-4">
         <Button
@@ -148,30 +176,36 @@ const TestimonialsCarousel = ({
         </Button>
       </div>
 
-      <AnimatePresence custom={direction} initial={false}>
-        <motion.div
-          key={currentIndex}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4"
-        >
-          {visibleTestimonials.map((testimonial) => (
-            <div key={testimonial.id} className="h-full">
-              <TestimonialCard
-                image={testimonial.image}
-                name={testimonial.name}
-                title={testimonial.title}
-                company={testimonial.company}
-                testimonial={testimonial.testimonial}
-              />
-            </div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+      <div className="overflow-hidden px-4">
+        <AnimatePresence custom={direction} initial={false} mode="wait">
+          <motion.div
+            key={currentIndex}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`grid grid-cols-${itemsPerPage} gap-6`}
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${itemsPerPage}, minmax(0, 1fr))`,
+            }}
+          >
+            {visibleTestimonials.map((testimonial) => (
+              <div key={testimonial.id} className="h-full">
+                <ModernTestimonialCard
+                  image={testimonial.image}
+                  name={testimonial.name}
+                  title={testimonial.title}
+                  company={testimonial.company}
+                  testimonial={testimonial.testimonial}
+                />
+              </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className="flex justify-center mt-6 space-x-2">
         {Array.from(
@@ -184,7 +218,7 @@ const TestimonialsCarousel = ({
               setDirection(i > currentIndex ? 1 : -1);
               setCurrentIndex(i);
             }}
-            className={`h-2 rounded-full transition-all ${i === currentIndex ? "w-6 bg-[#00FF99]" : "w-2 bg-gray-300"}`}
+            className={`h-2 rounded-full transition-all ${i === currentIndex ? "w-6 bg-[#00A651]" : "w-2 bg-gray-300"}`}
           />
         ))}
       </div>
