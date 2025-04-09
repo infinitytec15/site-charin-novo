@@ -16,76 +16,7 @@ import AcquisitionProcess from "@/components/franchise/AcquisitionProcess";
 import FAQComponent from "@/components/franchise/FAQComponent";
 import FinalCTAComponent from "@/components/franchise/FinalCTAComponent";
 import { useToast } from "@/components/ui/use-toast";
-// Lista estática de estados brasileiros
-const getStates = () => [
-  { code: "1", name: "Acre" },
-  { code: "2", name: "Alagoas" },
-  { code: "3", name: "Amapá" },
-  { code: "4", name: "Amazonas" },
-  { code: "5", name: "Bahia" },
-  { code: "6", name: "Ceará" },
-  { code: "7", name: "Distrito Federal" },
-  { code: "8", name: "Espírito Santo" },
-  { code: "9", name: "Goiás" },
-  { code: "10", name: "Maranhão" },
-  { code: "11", name: "Mato Grosso" },
-  { code: "12", name: "Mato Grosso do Sul" },
-  { code: "13", name: "Minas Gerais" },
-  { code: "14", name: "Pará" },
-  { code: "15", name: "Paraíba" },
-  { code: "16", name: "Paraná" },
-  { code: "17", name: "Pernambuco" },
-  { code: "18", name: "Piauí" },
-  { code: "19", name: "Rio de Janeiro" },
-  { code: "20", name: "Rio Grande do Norte" },
-  { code: "21", name: "Rio Grande do Sul" },
-  { code: "22", name: "Rondônia" },
-  { code: "23", name: "Roraima" },
-  { code: "24", name: "Santa Catarina" },
-  { code: "25", name: "São Paulo" },
-  { code: "26", name: "Sergipe" },
-  { code: "27", name: "Tocantins" },
-];
-
-// Função para obter cidades por estado (versão simplificada)
-const getCitiesByState = (stateCode) => {
-  // Mapeamento simplificado de algumas cidades principais por estado
-  const citiesByState = {
-    "1": ["Rio Branco", "Cruzeiro do Sul", "Sena Madureira"],
-    "2": ["Maceió", "Arapiraca", "Palmeira dos Índios"],
-    "3": ["Macapá", "Santana", "Laranjal do Jari"],
-    "4": ["Manaus", "Parintins", "Itacoatiara"],
-    "5": ["Salvador", "Feira de Santana", "Vitória da Conquista"],
-    "6": ["Fortaleza", "Caucaia", "Juazeiro do Norte"],
-    "7": ["Brasília", "Ceilândia", "Taguatinga"],
-    "8": ["Vitória", "Serra", "Vila Velha"],
-    "9": ["Goiânia", "Aparecida de Goiânia", "Anápolis"],
-    "10": ["São Luís", "Imperatriz", "Timon"],
-    "11": ["Cuiabá", "Várzea Grande", "Rondonópolis"],
-    "12": ["Campo Grande", "Dourados", "Três Lagoas"],
-    "13": ["Belo Horizonte", "Uberlândia", "Contagem"],
-    "14": ["Belém", "Ananindeua", "Santarém"],
-    "15": ["João Pessoa", "Campina Grande", "Santa Rita"],
-    "16": ["Curitiba", "Londrina", "Maringá"],
-    "17": ["Recife", "Jaboatão dos Guararapes", "Olinda"],
-    "18": ["Teresina", "Parnaíba", "Picos"],
-    "19": ["Rio de Janeiro", "São Gonçalo", "Duque de Caxias"],
-    "20": ["Natal", "Mossoró", "Parnamirim"],
-    "21": ["Porto Alegre", "Caxias do Sul", "Pelotas"],
-    "22": ["Porto Velho", "Ji-Paraná", "Ariquemes"],
-    "23": ["Boa Vista", "Rorainópolis", "Caracaraí"],
-    "24": ["Florianópolis", "Joinville", "Blumenau"],
-    "25": ["São Paulo", "Guarulhos", "Campinas"],
-    "26": ["Aracaju", "Nossa Senhora do Socorro", "Lagarto"],
-    "27": ["Palmas", "Araguaína", "Gurupi"],
-  };
-
-  const cities = citiesByState[stateCode] || [];
-  return cities.map((cityName, index) => ({
-    code: `${stateCode}-${index}`,
-    name: cityName,
-  }));
-};
+// Removido o código de estados e cidades estáticos, pois agora usamos campos de input
 
 const FranchisePage = () => {
   const { toast } = useToast();
@@ -99,27 +30,7 @@ const FranchisePage = () => {
     message: "",
   });
 
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    // Load Brazilian states when component mounts
-    const brazilianStates = getStates();
-    setStates(brazilianStates);
-  }, []);
-
-  useEffect(() => {
-    // Load cities when state changes
-    if (formData.state) {
-      const citiesForState = getCitiesByState(formData.state);
-      setCities(citiesForState);
-      // Reset city when state changes
-      setFormData((prev) => ({ ...prev, city: "" }));
-    } else {
-      setCities([]);
-    }
-  }, [formData.state]);
 
   const scrollToForm = () => {
     const formElement = document.getElementById("franchise-form");
@@ -279,49 +190,108 @@ const FranchisePage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-20 md:py-32 bg-gradient-to-br from-[#0C1F38] to-[#0C1F38]/90">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1562077981-4d7eafd44932?w=1200&q=80')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            mixBlendMode: "overlay",
-          }}
-        ></div>
+      <section className="relative py-24 md:py-36 bg-gradient-to-br from-[#0C1F38] to-[#0C1F38]/90 overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-20 transform scale-105"
+            style={{
+              backgroundImage:
+                "url('https://images.unsplash.com/photo-1562077981-4d7eafd44932?w=1200&q=80')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              mixBlendMode: "overlay",
+            }}
+          ></div>
+
+          {/* 3D Decorative elements */}
+          <div className="absolute -top-20 -left-20 w-80 h-80 bg-[#00FF99]/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/3 -right-20 w-80 h-80 bg-[#00A651]/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-1/4 w-60 h-60 bg-[#00FF99]/10 rounded-full blur-3xl"></div>
+        </div>
+
         <div className="container relative z-10">
           <div className="max-w-3xl mx-auto text-center text-white">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="mb-6 inline-block px-4 py-1 bg-[#00FF99]/20 backdrop-blur-sm rounded-full text-[#00FF99] font-medium"
+            >
+              Oportunidade de Negócio
+            </motion.div>
+
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className="text-4xl md:text-6xl font-bold leading-tight mb-6"
             >
-              Seja dono da mobilidade elétrica na sua região!
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-[#00FF99]/90">
+                Seja dono da mobilidade elétrica
+              </span>{" "}
+              na sua região!
             </motion.h1>
+
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xl text-gray-200 mb-8"
+              className="text-xl text-gray-200 mb-10"
             >
               Junte-se à rede de recarga que está transformando o Brasil. Alta
               rentabilidade, operação simples e suporte total.
             </motion.p>
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Button
                 onClick={scrollToForm}
-                className="bg-[#00A651] text-white hover:bg-[#00A651]/90 text-lg px-8 py-6 rounded-xl"
+                className="bg-gradient-to-r from-[#00A651] to-[#00FF99] text-white hover:from-[#00A651]/90 hover:to-[#00FF99]/90 text-lg px-8 py-6 rounded-xl shadow-lg shadow-[#00FF99]/20 transition-all duration-300 w-full sm:w-auto"
                 size="lg"
               >
                 QUERO SER UM FRANQUEADO
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
+
+              <a
+                href="#faq"
+                className="text-white hover:text-[#00FF99] transition-colors duration-300 flex items-center gap-2 font-medium w-full sm:w-auto justify-center"
+              >
+                Ver perguntas frequentes
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+            >
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
+                <div className="text-4xl font-bold text-[#00FF99] mb-2">
+                  500+
+                </div>
+                <div className="text-gray-200">Estações em operação</div>
+              </div>
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
+                <div className="text-4xl font-bold text-[#00FF99] mb-2">
+                  24/7
+                </div>
+                <div className="text-gray-200">Suporte técnico</div>
+              </div>
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 hover:bg-white/10 transition-all duration-300">
+                <div className="text-4xl font-bold text-[#00FF99] mb-2">
+                  100%
+                </div>
+                <div className="text-gray-200">Energia limpa</div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -340,9 +310,15 @@ const FranchisePage = () => {
       <FinalCTAComponent onScrollToForm={scrollToForm} />
 
       {/* Franchise Form Section */}
-      <section id="franchise-form" className="py-20 bg-white">
+      <section
+        id="franchise-form"
+        className="py-20 bg-gradient-to-b from-white to-gray-50"
+      >
         <div className="container">
           <div className="text-center mb-16">
+            <div className="inline-block px-4 py-1 bg-[#00A651]/10 rounded-full text-[#00A651] font-medium mb-4">
+              Faça Parte
+            </div>
             <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
               Formulário de Interesse
             </h2>
@@ -352,21 +328,30 @@ const FranchisePage = () => {
             </p>
           </div>
 
-          <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-            <form className="space-y-6" onSubmit={handleFormSubmit}>
+          <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8 border border-gray-100 relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#00FF99]/10 rounded-full blur-2xl"></div>
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[#00A651]/10 rounded-full blur-2xl"></div>
+
+            <form className="space-y-6 relative" onSubmit={handleFormSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome completo</Label>
+                  <Label htmlFor="name" className="text-[#0C1F38] font-medium">
+                    Nome completo
+                  </Label>
                   <Input
                     id="name"
                     placeholder="Seu nome completo"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     required
+                    className="border-gray-300 focus:border-[#00FF99] focus:ring focus:ring-[#00FF99]/20 transition-all duration-200"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">E-mail</Label>
+                  <Label htmlFor="email" className="text-[#0C1F38] font-medium">
+                    E-mail
+                  </Label>
                   <Input
                     id="email"
                     type="email"
@@ -374,6 +359,7 @@ const FranchisePage = () => {
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     required
+                    className="border-gray-300 focus:border-[#00FF99] focus:ring focus:ring-[#00FF99]/20 transition-all duration-200"
                   />
                 </div>
               </div>
@@ -387,54 +373,32 @@ const FranchisePage = () => {
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
                     required
+                    className="border-gray-300 focus:border-[#00FF99] focus:ring focus:ring-[#00FF99]/20 transition-all duration-200"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="state">Estado</Label>
-                  <Select
+                  <Input
+                    id="state"
+                    placeholder="Digite seu estado"
                     value={formData.state}
-                    onValueChange={(value) => handleInputChange("state", value)}
+                    onChange={(e) => handleInputChange("state", e.target.value)}
                     required
-                  >
-                    <SelectTrigger id="state">
-                      <SelectValue placeholder="Selecione o estado" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {states.map((state) => (
-                        <SelectItem key={state.code} value={state.code}>
-                          {state.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    className="border-gray-300 focus:border-[#00FF99] focus:ring focus:ring-[#00FF99]/20 transition-all duration-200"
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="city">Cidade</Label>
-                <Select
+                <Input
+                  id="city"
+                  placeholder="Digite sua cidade"
                   value={formData.city}
-                  onValueChange={(value) => handleInputChange("city", value)}
-                  disabled={!formData.state}
+                  onChange={(e) => handleInputChange("city", e.target.value)}
                   required
-                >
-                  <SelectTrigger id="city">
-                    <SelectValue
-                      placeholder={
-                        formData.state
-                          ? "Selecione a cidade"
-                          : "Selecione um estado primeiro"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {cities.map((city) => (
-                      <SelectItem key={city.code} value={city.name}>
-                        {city.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  className="border-gray-300 focus:border-[#00FF99] focus:ring focus:ring-[#00FF99]/20 transition-all duration-200"
+                />
               </div>
 
               <div className="space-y-2">
@@ -476,11 +440,28 @@ const FranchisePage = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white py-6"
+                className="w-full bg-gradient-to-r from-[#0C1F38] to-[#0C1F38]/90 hover:from-[#0C1F38]/90 hover:to-[#0C1F38] text-white py-6 rounded-xl shadow-lg transition-all duration-300 relative overflow-hidden group"
                 size="lg"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Enviando..." : "Enviar Formulário"}
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#00A651]/20 to-[#00FF99]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="relative flex items-center justify-center">
+                  {isSubmitting ? (
+                    <>
+                      <span className="animate-pulse mr-2">Enviando</span>
+                      <span className="flex space-x-1">
+                        <span className="animate-bounce delay-75">.</span>
+                        <span className="animate-bounce delay-150">.</span>
+                        <span className="animate-bounce delay-300">.</span>
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      Enviar Formulário
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </>
+                  )}
+                </span>
               </Button>
             </form>
           </div>
