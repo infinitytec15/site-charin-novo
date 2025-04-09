@@ -196,7 +196,7 @@ const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
       ref={markerRef}
     >
       <Popup>
-        <div className="p-2 min-w-[200px]">
+        <div className="p-2 min-w-[250px]">
           <h3 className="font-semibold">{station.name}</h3>
           <p className="text-sm text-gray-600">{station.address}</p>
           <div className="flex items-center gap-1 mt-1">
@@ -210,6 +210,31 @@ const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
           <p className="text-xs mt-1">
             {station.pricePerKwh.toFixed(2)} R$/kWh
           </p>
+          {station.id === "1" && (
+            <p className="text-xs mt-1 text-gray-600 italic">
+              Estação localizada na região norte do Brasil, ideal para veículos
+              elétricos que trafegam pela costa amazônica.
+            </p>
+          )}
+          {station.id === "2" && (
+            <p className="text-xs mt-1 text-gray-600 italic">
+              Estação estratégica no interior de São Paulo, perfeita para
+              recarregar veículos elétricos em rotas que conectam a capital ao
+              sul do estado.
+            </p>
+          )}
+          {station.id === "3" && (
+            <p className="text-xs mt-1 text-gray-600 italic">
+              Estação de recarga na capital paranaense, conhecida por sua
+              sustentabilidade e infraestrutura para veículos elétricos.
+            </p>
+          )}
+          {station.id === "4" && (
+            <p className="text-xs mt-1 text-gray-600 italic">
+              Estação localizada no nordeste brasileiro, próxima a praias e
+              pontos turísticos, facilitando a mobilidade elétrica na região.
+            </p>
+          )}
         </div>
       </Popup>
     </Marker>
@@ -474,47 +499,47 @@ const MapSection = ({
   const mockStations: ChargingStation[] = [
     {
       id: "1",
-      name: "Estação Central",
-      address: "Av. Paulista, 1000, São Paulo, SP",
+      name: "Estação Macapá",
+      address: "Próximo à costa do Amapá, Brasil, na região de Macapá",
       distance: "1.2 km",
       connectorTypes: ["CCS", "CHAdeMO"],
       availability: "available",
       pricePerKwh: 1.25,
       rating: 4.5,
-      position: [-23.5505, -46.6333], // São Paulo - Av. Paulista
+      position: [0.0203674, -51.068569], // Macapá - Costa Amazônica
     },
     {
       id: "2",
-      name: "Shopping Recarga",
-      address: "Rua Augusta, 500, São Paulo, SP",
+      name: "Estação Itapetininga",
+      address: "Itapetininga, São Paulo, Brasil",
       distance: "2.5 km",
       connectorTypes: ["Type 2", "CCS"],
       availability: "busy",
       pricePerKwh: 1.5,
       rating: 4.2,
-      position: [-23.5489, -46.6388], // São Paulo - Rua Augusta
+      position: [-23.6297976, -48.0377299], // Itapetininga - SP
     },
     {
       id: "3",
-      name: "Posto Eletro",
-      address: "Av. Rebouças, 750, São Paulo, SP",
+      name: "Estação Curitiba",
+      address: "Curitiba, Paraná, Brasil",
       distance: "3.8 km",
       connectorTypes: ["Type 2"],
       availability: "available",
       pricePerKwh: 1.15,
       rating: 4.7,
-      position: [-23.5607, -46.6704], // São Paulo - Av. Rebouças
+      position: [-25.4295963, -49.2712724], // Curitiba - PR
     },
     {
       id: "4",
-      name: "EletriCharge Rio",
-      address: "Av. Atlântica, 500, Rio de Janeiro, RJ",
+      name: "Estação Natal",
+      address: "Natal, Rio Grande do Norte, Brasil",
       distance: "0.8 km",
       connectorTypes: ["CCS", "CHAdeMO", "Type 2"],
       availability: "available",
       pricePerKwh: 1.35,
       rating: 4.8,
-      position: [-22.9068, -43.1729], // Rio de Janeiro - Copacabana
+      position: [-5.805398, -35.2080905], // Natal - RN
     },
     {
       id: "5",
@@ -529,14 +554,14 @@ const MapSection = ({
     },
     {
       id: "6",
-      name: "Eletroposto Curitiba",
+      name: "Eletroposto Curitiba Centro",
       address: "Rua XV de Novembro, 250, Curitiba, PR",
       distance: "2.1 km",
       connectorTypes: ["Type 2"],
       availability: "available",
       pricePerKwh: 1.1,
       rating: 4.6,
-      position: [-25.4284, -49.2733], // Curitiba
+      position: [-25.4284, -49.2733], // Curitiba - Centro
     },
   ];
 
@@ -827,8 +852,8 @@ const MapSection = ({
                 }}
               >
                 <MapContainer
-                  center={[-23.5505, -46.6333]}
-                  zoom={13}
+                  center={[-15.7801, -47.9292]} // Centralizado no Brasil
+                  zoom={4} // Zoom mais afastado para mostrar o Brasil inteiro
                   style={{
                     height: "100%",
                     width: "100%",

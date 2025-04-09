@@ -1,12 +1,21 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Zap, Clock, MapPin, Calculator } from "lucide-react";
+import {
+  ArrowRight,
+  Zap,
+  Clock,
+  MapPin,
+  Calculator,
+  HelpCircle,
+  BookOpen,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import MapSection from "./MapSection";
 import ChargingSimulator from "./ChargingSimulator";
 import FranchiseSection from "./FranchiseSection";
 import TestimonialsCarousel from "./TestimonialsCarousel";
+import FAQ from "./FAQ";
 
 const Home = () => {
   return (
@@ -50,6 +59,18 @@ const Home = () => {
               className="text-sm font-medium hover:text-[#00FF99] transition-colors"
             >
               Pontos de Recarga
+            </a>
+            <a
+              href="/#faq"
+              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+            >
+              FAQ
+            </a>
+            <a
+              href="/blog"
+              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+            >
+              Blog
             </a>
             <a
               href="/sobre"
@@ -325,6 +346,22 @@ const Home = () => {
             </p>
           </div>
           <TestimonialsCarousel />
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
+              Perguntas Frequentes
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Encontre respostas para as dúvidas mais comuns sobre carregamento
+              de veículos elétricos e nossos serviços.
+            </p>
+          </div>
+          <FAQ />
         </div>
       </section>
 

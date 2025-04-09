@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Zap, TrendingUp, MapPin, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,81 @@ import AcquisitionProcess from "@/components/franchise/AcquisitionProcess";
 import FAQComponent from "@/components/franchise/FAQComponent";
 import FinalCTAComponent from "@/components/franchise/FinalCTAComponent";
 import { useToast } from "@/components/ui/use-toast";
+// Mock data para estados e cidades do Brasil
+const mockStates = [
+  { code: "SP", name: "São Paulo" },
+  { code: "RJ", name: "Rio de Janeiro" },
+  { code: "MG", name: "Minas Gerais" },
+  { code: "RS", name: "Rio Grande do Sul" },
+  { code: "PR", name: "Paraná" },
+  { code: "BA", name: "Bahia" },
+  { code: "SC", name: "Santa Catarina" },
+  { code: "PE", name: "Pernambuco" },
+  { code: "CE", name: "Ceará" },
+  { code: "PA", name: "Pará" },
+  { code: "DF", name: "Distrito Federal" },
+  { code: "ES", name: "Espírito Santo" },
+  { code: "GO", name: "Goiás" },
+  { code: "AM", name: "Amazonas" },
+  { code: "PB", name: "Paraíba" },
+  { code: "RN", name: "Rio Grande do Norte" },
+  { code: "MT", name: "Mato Grosso" },
+  { code: "MS", name: "Mato Grosso do Sul" },
+  { code: "AL", name: "Alagoas" },
+  { code: "PI", name: "Piauí" },
+  { code: "SE", name: "Sergipe" },
+  { code: "RO", name: "Rondônia" },
+  { code: "TO", name: "Tocantins" },
+  { code: "AC", name: "Acre" },
+  { code: "AP", name: "Amapá" },
+  { code: "RR", name: "Roraima" },
+];
+
+const mockCities = {
+  SP: [
+    { code: "SP-1", name: "São Paulo" },
+    { code: "SP-2", name: "Campinas" },
+    { code: "SP-3", name: "Santos" },
+    { code: "SP-4", name: "Ribeirão Preto" },
+    { code: "SP-5", name: "São José dos Campos" },
+  ],
+  RJ: [
+    { code: "RJ-1", name: "Rio de Janeiro" },
+    { code: "RJ-2", name: "Niterói" },
+    { code: "RJ-3", name: "Petrópolis" },
+    { code: "RJ-4", name: "Volta Redonda" },
+    { code: "RJ-5", name: "Campos dos Goytacazes" },
+  ],
+  MG: [
+    { code: "MG-1", name: "Belo Horizonte" },
+    { code: "MG-2", name: "Uberlândia" },
+    { code: "MG-3", name: "Contagem" },
+    { code: "MG-4", name: "Juiz de Fora" },
+    { code: "MG-5", name: "Betim" },
+  ],
+  RS: [
+    { code: "RS-1", name: "Porto Alegre" },
+    { code: "RS-2", name: "Caxias do Sul" },
+    { code: "RS-3", name: "Pelotas" },
+    { code: "RS-4", name: "Canoas" },
+    { code: "RS-5", name: "Santa Maria" },
+  ],
+  PR: [
+    { code: "PR-1", name: "Curitiba" },
+    { code: "PR-2", name: "Londrina" },
+    { code: "PR-3", name: "Maringá" },
+    { code: "PR-4", name: "Ponta Grossa" },
+    { code: "PR-5", name: "Cascavel" },
+  ],
+};
+
+// Função para obter todos os estados
+const getStates = () => mockStates;
+
+// Função para obter cidades por estado
+const getCitiesByState = (stateCode) => {
+  return mockCities[stateCode] || mockCities["SP"].slice(0, 3);
+};
 
 const FranchisePage = () => {
   const { toast } = useToast();
@@ -23,11 +98,33 @@ const FranchisePage = () => {
     name: "",
     email: "",
     phone: "",
+    state: "",
     city: "",
     investmentRange: "",
-    message: ""
+    message: "",
   });
+
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    // Load Brazilian states when component mounts
+    const brazilianStates = getStates();
+    setStates(brazilianStates);
+  }, []);
+
+  useEffect(() => {
+    // Load cities when state changes
+    if (formData.state) {
+      const citiesForState = getCitiesByState(formData.state);
+      setCities(citiesForState);
+      // Reset city when state changes
+      setFormData((prev) => ({ ...prev, city: "" }));
+    } else {
+      setCities([]);
+    }
+  }, [formData.state]);
 
   const scrollToForm = () => {
     const formElement = document.getElementById("franchise-form");
@@ -35,69 +132,98 @@ const FranchisePage = () => {
       formElement.scrollIntoView({ behavior: "smooth" });
     }
   };
-  
+
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
-  
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
-    if (!formData.name || !formData.email || !formData.phone || !formData.city) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.state ||
+      !formData.city
+    ) {
       toast({
         title: "Erro no formulário",
         description: "Por favor, preencha todos os campos obrigatórios.",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast({
         title: "Email inválido",
         description: "Por favor, insira um endereço de email válido.",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
-    
+
     // Phone validation (simple Brazilian format)
     const phoneRegex = /^\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}$/;
     if (!phoneRegex.test(formData.phone)) {
       toast({
         title: "Telefone inválido",
-        description: "Por favor, insira um telefone no formato (00) 00000-0000.",
-        variant: "destructive"
+        description:
+          "Por favor, insira um telefone no formato (00) 00000-0000.",
+        variant: "destructive",
       });
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
+    // Send email using a service like EmailJS or a backend API
+    // For now, we'll simulate the API call
+    const emailData = {
+      to_email: "gilberto@chargin.io",
+      from_name: formData.name,
+      from_email: formData.email,
+      subject: "Novo interesse em franquia EletriCharge",
+      message: `
+        Nome: ${formData.name}
+        Email: ${formData.email}
+        Telefone: ${formData.phone}
+        Estado: ${formData.state}
+        Cidade: ${formData.city}
+        Faixa de Investimento: ${formData.investmentRange}
+        Mensagem: ${formData.message}
+      `,
+    };
+
+    console.log("Sending email to gilberto@chargin.io with data:", emailData);
+
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
-      
+
       // Success notification
       toast({
         title: "Formulário enviado com sucesso!",
         description: "Em breve nossa equipe entrará em contato com você.",
-        variant: "default"
+        variant: "default",
       });
-      
+
       // Reset form
       setFormData({
         name: "",
         email: "",
         phone: "",
+        state: "",
         city: "",
         investmentRange: "",
-        message: ""
+        message: "",
       });
     }, 1500);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -221,12 +347,12 @@ const FranchisePage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">Nome completo</Label>
-                  <Input 
-                    id="name" 
-                    placeholder="Seu nome completo" 
+                  <Input
+                    id="name"
+                    placeholder="Seu nome completo"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    required 
+                    required
                   />
                 </div>
                 <div className="space-y-2">
@@ -245,31 +371,69 @@ const FranchisePage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="phone">Telefone</Label>
-                  <Input 
-                    id="phone" 
-                    placeholder="(00) 00000-0000" 
+                  <Input
+                    id="phone"
+                    placeholder="(00) 00000-0000"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
-                    required 
+                    required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="city">Cidade/Estado</Label>
-                  <Input 
-                    id="city" 
-                    placeholder="Sua cidade e estado" 
-                    value={formData.city}
-                    onChange={(e) => handleInputChange("city", e.target.value)}
-                    required 
-                  />
+                  <Label htmlFor="state">Estado</Label>
+                  <Select
+                    value={formData.state}
+                    onValueChange={(value) => handleInputChange("state", value)}
+                    required
+                  >
+                    <SelectTrigger id="state">
+                      <SelectValue placeholder="Selecione o estado" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {states.map((state) => (
+                        <SelectItem key={state.code} value={state.code}>
+                          {state.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="city">Cidade</Label>
+                <Select
+                  value={formData.city}
+                  onValueChange={(value) => handleInputChange("city", value)}
+                  disabled={!formData.state}
+                  required
+                >
+                  <SelectTrigger id="city">
+                    <SelectValue
+                      placeholder={
+                        formData.state
+                          ? "Selecione a cidade"
+                          : "Selecione um estado primeiro"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {cities.map((city) => (
+                      <SelectItem key={city.code} value={city.name}>
+                        {city.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="investment-range">Faixa de Investimento</Label>
-                <Select 
-                  value={formData.investmentRange} 
-                  onValueChange={(value) => handleInputChange("investmentRange", value)}
+                <Select
+                  value={formData.investmentRange}
+                  onValueChange={(value) =>
+                    handleInputChange("investmentRange", value)
+                  }
                 >
                   <SelectTrigger id="investment-range">
                     <SelectValue placeholder="Selecione a faixa de investimento" />
@@ -328,7 +492,7 @@ const FranchisePage = () => {
 
           <div className="relative h-[500px] rounded-xl overflow-hidden shadow-lg">
             <img
-              src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?w=1200&q=80"
+              src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=1200&q=80"
               alt="Mapa do Brasil com franquias"
               className="w-full h-full object-cover"
             />
