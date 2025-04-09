@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { motion } from "framer-motion";
 import {
@@ -17,9 +17,18 @@ import {
   AlertCircle,
   ChevronDown,
   ChevronUp,
+  Trophy,
+  Star,
+  Target,
+  Flame,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { LevelCard } from "@/components/ui/level-card";
+import { AchievementBadge } from "@/components/ui/achievement-badge";
+import { ProgressBadge } from "@/components/ui/progress-badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Accordion,
   AccordionContent,
@@ -35,24 +44,63 @@ const AppPage = () => {
       icon: <Award className="h-8 w-8 text-amber-600" />,
       description: "Recarregue 5 vezes no mês e ganhe pontos bônus!",
       progress: 40,
+      points: 120,
+      pointsToNextLevel: 300,
+      level: 1,
+      maxLevel: 3,
+      benefits: [
+        "5% de desconto em recargas rápidas",
+        "Acumule 2x mais pontos aos domingos",
+        "Notificações de promoções exclusivas",
+      ],
     },
     {
       name: "Prata",
       icon: <Award className="h-8 w-8 text-gray-400" />,
       description: "Suba de nível: Bronze → Prata → Ouro",
       progress: 20,
+      points: 60,
+      pointsToNextLevel: 300,
+      level: 1,
+      maxLevel: 5,
+      benefits: [
+        "10% de desconto em recargas rápidas",
+        "Reserva prioritária de estações",
+        "Acumule 3x mais pontos aos domingos",
+      ],
     },
     {
       name: "Ouro",
       icon: <Award className="h-8 w-8 text-yellow-500" />,
       description: "Troque pontos por créditos ou brindes em parceiros!",
       progress: 5,
+      points: 15,
+      pointsToNextLevel: 300,
+      level: 0,
+      maxLevel: 5,
+      benefits: [
+        "15% de desconto em todas as recargas",
+        "Acesso a estações exclusivas",
+        "Suporte prioritário 24/7",
+        "Bônus mensal de 50 pontos",
+      ],
     },
     {
       name: "Premium",
       icon: <Award className="h-8 w-8 text-[#00A651]" />,
       description: "Acesso antecipado a estações premium",
       progress: 0,
+      points: 0,
+      pointsToNextLevel: 500,
+      level: 0,
+      maxLevel: 3,
+      benefits: [
+        "20% de desconto em todas as recargas",
+        "Acesso a estações premium exclusivas",
+        "Suporte VIP com atendimento dedicado",
+        "Bônus mensal de 100 pontos",
+        "Convites para eventos exclusivos",
+      ],
     },
   ];
 
@@ -349,32 +397,161 @@ const AppPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {gamificationLevels.map((level, index) => (
-              <Card
+              <LevelCard
                 key={index}
-                className="border-none shadow-lg hover:shadow-xl transition-all overflow-hidden"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="bg-gray-100 p-3 rounded-full">
-                      {level.icon}
-                    </div>
-                    <h3 className="text-xl font-bold text-[#0C1F38]">
-                      {level.name}
-                    </h3>
+                title={level.name}
+                level={level.level}
+                maxLevel={level.maxLevel}
+                points={level.points}
+                pointsToNextLevel={level.pointsToNextLevel}
+                icon={Award}
+                description={level.description}
+                benefits={level.benefits}
+              />
+            ))}
+          </div>
+
+          <div className="mt-12">
+            <h3 className="text-2xl font-bold text-[#0C1F38] mb-6 text-center">
+              Suas Conquistas
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
+              <AchievementBadge
+                icon={Zap}
+                label="Primeira Recarga"
+                description="Complete sua primeira recarga em uma estação Chargin"
+                unlocked={true}
+                level={3}
+                maxLevel={3}
+              />
+              <AchievementBadge
+                icon={Flame}
+                label="Recarga Rápida"
+                description="Complete 5 recargas rápidas em menos de 30 minutos"
+                unlocked={true}
+                level={2}
+                maxLevel={3}
+              />
+              <AchievementBadge
+                icon={MapPin}
+                label="Explorador"
+                description="Utilize 10 estações diferentes"
+                unlocked={true}
+                level={1}
+                maxLevel={3}
+              />
+              <AchievementBadge
+                icon={Star}
+                label="Avaliador"
+                description="Avalie 5 estações diferentes"
+                unlocked={true}
+                level={3}
+                maxLevel={3}
+              />
+              <AchievementBadge
+                icon={Trophy}
+                label="Maratonista"
+                description="Recarregue 3 dias consecutivos"
+                unlocked={false}
+                level={0}
+                maxLevel={3}
+              />
+              <AchievementBadge
+                icon={Sparkles}
+                label="Eco Warrior"
+                description="Economize 100kg de CO₂ usando estações Chargin"
+                unlocked={false}
+                level={0}
+                maxLevel={3}
+              />
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <h3 className="text-2xl font-bold text-[#0C1F38] mb-6 text-center">
+              Seu Progresso
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <Card className="border-none shadow-md hover:shadow-lg transition-all">
+                <CardContent className="p-6 flex flex-col items-center text-center">
+                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
+                    <Zap className="h-8 w-8 text-[#00A651]" />
                   </div>
-                  <p className="text-gray-600 mb-4">{level.description}</p>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-[#00A651] h-2.5 rounded-full"
-                      style={{ width: `${level.progress}%` }}
-                    ></div>
+                  <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
+                    Recargas Totais
+                  </h4>
+                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                    27
                   </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    {level.progress}% completo
-                  </p>
+                  <ProgressBadge
+                    label="Próximo nível"
+                    value={27}
+                    max={50}
+                    variant="success"
+                    className="w-full mt-2"
+                  />
                 </CardContent>
               </Card>
-            ))}
+
+              <Card className="border-none shadow-md hover:shadow-lg transition-all">
+                <CardContent className="p-6 flex flex-col items-center text-center">
+                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
+                    <Trophy className="h-8 w-8 text-[#00A651]" />
+                  </div>
+                  <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
+                    Pontos Acumulados
+                  </h4>
+                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                    1,250
+                  </div>
+                  <Badge variant="outline" className="bg-gray-100">
+                    Nível Bronze
+                  </Badge>
+                </CardContent>
+              </Card>
+
+              <Card className="border-none shadow-md hover:shadow-lg transition-all">
+                <CardContent className="p-6 flex flex-col items-center text-center">
+                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
+                    <Leaf className="h-8 w-8 text-[#00A651]" />
+                  </div>
+                  <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
+                    CO₂ Economizado
+                  </h4>
+                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                    78kg
+                  </div>
+                  <ProgressBadge
+                    label="Meta mensal"
+                    value={78}
+                    max={100}
+                    variant="success"
+                    className="w-full mt-2"
+                  />
+                </CardContent>
+              </Card>
+
+              <Card className="border-none shadow-md hover:shadow-lg transition-all">
+                <CardContent className="p-6 flex flex-col items-center text-center">
+                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
+                    <Target className="h-8 w-8 text-[#00A651]" />
+                  </div>
+                  <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
+                    Desafios Completos
+                  </h4>
+                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                    4/12
+                  </div>
+                  <ProgressBadge
+                    label="Progresso"
+                    value={4}
+                    max={12}
+                    variant="success"
+                    className="w-full mt-2"
+                  />
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
