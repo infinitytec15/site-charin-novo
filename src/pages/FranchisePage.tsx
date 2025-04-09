@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Zap, TrendingUp, MapPin, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,14 +15,89 @@ import BenefitsSection from "@/components/franchise/BenefitsSection";
 import AcquisitionProcess from "@/components/franchise/AcquisitionProcess";
 import FAQComponent from "@/components/franchise/FAQComponent";
 import FinalCTAComponent from "@/components/franchise/FinalCTAComponent";
+import { useToast } from "@/components/ui/use-toast";
 
 const FranchisePage = () => {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    city: "",
+    investmentRange: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const scrollToForm = () => {
     const formElement = document.getElementById("franchise-form");
     if (formElement) {
       formElement.scrollIntoView({ behavior: "smooth" });
     }
   };
+  
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate form
+    if (!formData.name || !formData.email || !formData.phone || !formData.city) {
+      toast({
+        title: "Erro no formulário",
+        description: "Por favor, preencha todos os campos obrigatórios.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Email inválido",
+        description: "Por favor, insira um endereço de email válido.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Phone validation (simple Brazilian format)
+    const phoneRegex = /^\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast({
+        title: "Telefone inválido",
+        description: "Por favor, insira um telefone no formato (00) 00000-0000.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      
+      // Success notification
+      toast({
+        title: "Formulário enviado com sucesso!",
+        description: "Em breve nossa equipe entrará em contato com você.",
+        variant: "default"
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        city: "",
+        investmentRange: "",
+        message: ""
+      });
+    }, 1500);
 
   return (
     <div className="min-h-screen bg-white">
@@ -142,11 +217,17 @@ const FranchisePage = () => {
           </div>
 
           <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleFormSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">Nome completo</Label>
-                  <Input id="name" placeholder="Seu nome completo" required />
+                  <Input 
+                    id="name" 
+                    placeholder="Seu nome completo" 
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    required 
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">E-mail</Label>
@@ -154,6 +235,8 @@ const FranchisePage = () => {
                     id="email"
                     type="email"
                     placeholder="seu@email.com"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
                     required
                   />
                 </div>
@@ -162,17 +245,32 @@ const FranchisePage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="phone">Telefone</Label>
-                  <Input id="phone" placeholder="(00) 00000-0000" required />
+                  <Input 
+                    id="phone" 
+                    placeholder="(00) 00000-0000" 
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    required 
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="city">Cidade/Estado</Label>
-                  <Input id="city" placeholder="Sua cidade e estado" required />
+                  <Input 
+                    id="city" 
+                    placeholder="Sua cidade e estado" 
+                    value={formData.city}
+                    onChange={(e) => handleInputChange("city", e.target.value)}
+                    required 
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="investment-range">Faixa de Investimento</Label>
-                <Select>
+                <Select 
+                  value={formData.investmentRange} 
+                  onValueChange={(value) => handleInputChange("investmentRange", value)}
+                >
                   <SelectTrigger id="investment-range">
                     <SelectValue placeholder="Selecione a faixa de investimento" />
                   </SelectTrigger>
@@ -197,6 +295,8 @@ const FranchisePage = () => {
                   id="message"
                   className="w-full min-h-[100px] p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00FF99]"
                   placeholder="Conte-nos mais sobre seu interesse e experiência"
+                  value={formData.message}
+                  onChange={(e) => handleInputChange("message", e.target.value)}
                 />
               </div>
 
@@ -204,8 +304,9 @@ const FranchisePage = () => {
                 type="submit"
                 className="w-full bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white py-6"
                 size="lg"
+                disabled={isSubmitting}
               >
-                Enviar Formulário
+                {isSubmitting ? "Enviando..." : "Enviar Formulário"}
               </Button>
             </form>
           </div>

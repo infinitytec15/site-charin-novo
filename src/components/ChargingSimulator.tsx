@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,7 +10,9 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -24,7 +26,16 @@ import {
   DollarSign,
   Save,
   RotateCcw,
+  Car,
+  Zap,
 } from "lucide-react";
+import {
+  carBrands,
+  carModels,
+  getModelsByBrand,
+  getCarById,
+  CarModel,
+} from "@/data/carModels";
 
 interface ChargingSimulatorProps {
   onSaveSimulation?: (data: SimulationResult) => void;
@@ -41,30 +52,62 @@ interface SimulationResult {
 const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   onSaveSimulation = () => {},
 }) => {
-  const [vehicleModel, setVehicleModel] = useState<string>("Tesla Model 3");
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedModelId, setSelectedModelId] = useState<string>("");
+  const [availableModels, setAvailableModels] = useState<CarModel[]>([]);
   const [currentBattery, setCurrentBattery] = useState<number>(20);
   const [targetBattery, setTargetBattery] = useState<number>(80);
   const [simulationResult, setSimulationResult] =
     useState<SimulationResult | null>(null);
+  const [selectedCar, setSelectedCar] = useState<CarModel | null>(null);
 
-  const vehicleModels = [
-    { name: "Tesla Model 3", capacity: 75, chargingRate: 250 },
-    { name: "Nissan Leaf", capacity: 62, chargingRate: 100 },
-    { name: "Volkswagen ID.4", capacity: 82, chargingRate: 135 },
-    { name: "Hyundai Ioniq 5", capacity: 72.6, chargingRate: 220 },
-    { name: "BMW i4", capacity: 83.9, chargingRate: 200 },
-  ];
+  // Initialize with Tesla as default brand
+  useEffect(() => {
+    if (carBrands.length > 0) {
+      setSelectedBrand("Tesla");
+    }
+  }, []);
+
+  // Update available models when brand changes
+  useEffect(() => {
+    if (selectedBrand) {
+      const models = getModelsByBrand(selectedBrand);
+      setAvailableModels(models);
+
+      // Reset selected model if current selection is not in the new brand
+      if (models.length > 0) {
+        setSelectedModelId(models[0].id);
+      } else {
+        setSelectedModelId("");
+        setSelectedCar(null);
+      }
+    } else {
+      setAvailableModels([]);
+      setSelectedModelId("");
+      setSelectedCar(null);
+    }
+  }, [selectedBrand]);
+
+  // Update selected car when model changes
+  useEffect(() => {
+    if (selectedModelId) {
+      const car = getCarById(selectedModelId);
+      if (car) {
+        setSelectedCar(car);
+      }
+    } else {
+      setSelectedCar(null);
+    }
+  }, [selectedModelId]);
 
   const calculateSimulation = () => {
-    const selectedVehicle = vehicleModels.find((v) => v.name === vehicleModel);
-
-    if (!selectedVehicle) return;
+    if (!selectedCar) return;
 
     const batteryDifference = targetBattery - currentBattery;
-    const kWhToCharge = (batteryDifference / 100) * selectedVehicle.capacity;
+    const kWhToCharge = (batteryDifference / 100) * selectedCar.batteryCapacity;
 
     // Time in hours = kWh to charge / charging rate in kW
-    const timeInHours = kWhToCharge / selectedVehicle.chargingRate;
+    const timeInHours = kWhToCharge / selectedCar.chargingSpeed;
     const timeInMinutes = timeInHours * 60;
 
     // Assuming average cost of R$1.20 per kWh
@@ -72,7 +115,7 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
     const estimatedCost = kWhToCharge * costPerKwh;
 
     const result: SimulationResult = {
-      vehicleModel,
+      vehicleModel: `${selectedCar.brand} ${selectedCar.model}`,
       currentBattery,
       targetBattery,
       estimatedTime: timeInMinutes,
@@ -83,7 +126,6 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   };
 
   const resetSimulation = () => {
-    setVehicleModel("Tesla Model 3");
     setCurrentBattery(20);
     setTargetBattery(80);
     setSimulationResult(null);
@@ -101,8 +143,23 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
     return `${hours}h ${mins}min`;
   };
 
+  const getVehicleTypeIcon = (type: "electric" | "hybrid") => {
+    return type === "electric" ? (
+      <Zap className="h-4 w-4 text-[#00FF99]" />
+    ) : (
+      <Car className="h-4 w-4 text-blue-400" />
+    );
+  };
+
+  const getVehicleTypeLabel = (type: "electric" | "hybrid") => {
+    return type === "electric" ? "100% Elétrico" : "Híbrido";
+  };
+
   return (
-    <Card className="w-full max-w-2xl mx-auto bg-white shadow-lg">
+    <Card
+      className="w-full max-w-2xl mx-auto bg-white shadow-lg z-10"
+      style={{ opacity: 1, visibility: "visible" }}
+    >
       <CardHeader className="bg-[#0C1F38] text-white">
         <CardTitle className="text-2xl font-bold">
           Simulador de Recarga
@@ -114,20 +171,100 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
 
       <CardContent className="pt-6 space-y-6">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Modelo do Veículo</label>
-          <Select value={vehicleModel} onValueChange={setVehicleModel}>
+          <label className="text-sm font-medium">Marca do Veículo</label>
+          <Select value={selectedBrand} onValueChange={setSelectedBrand}>
             <SelectTrigger>
-              <SelectValue placeholder="Selecione o modelo" />
+              <SelectValue placeholder="Selecione a marca" />
             </SelectTrigger>
             <SelectContent>
-              {vehicleModels.map((vehicle) => (
-                <SelectItem key={vehicle.name} value={vehicle.name}>
-                  {vehicle.name}
+              {carBrands.map((brand) => (
+                <SelectItem key={brand} value={brand}>
+                  {brand}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
+
+        {selectedBrand && (
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Modelo do Veículo</label>
+            <Select
+              value={selectedModelId}
+              onValueChange={setSelectedModelId}
+              disabled={availableModels.length === 0}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione o modelo" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Elétricos</SelectLabel>
+                  {availableModels
+                    .filter((model) => model.type === "electric")
+                    .map((model) => (
+                      <SelectItem key={model.id} value={model.id}>
+                        <div className="flex items-center gap-2">
+                          {getVehicleTypeIcon("electric")}
+                          <span>{model.model}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
+
+                {availableModels.some((model) => model.type === "hybrid") && (
+                  <SelectGroup>
+                    <SelectLabel>Híbridos</SelectLabel>
+                    {availableModels
+                      .filter((model) => model.type === "hybrid")
+                      .map((model) => (
+                        <SelectItem key={model.id} value={model.id}>
+                          <div className="flex items-center gap-2">
+                            {getVehicleTypeIcon("hybrid")}
+                            <span>{model.model}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                  </SelectGroup>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {selectedCar && (
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">
+                  {selectedCar.brand} {selectedCar.model}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 bg-gray-200 px-2 py-1 rounded-full text-xs">
+                {getVehicleTypeIcon(selectedCar.type)}
+                <span>{getVehicleTypeLabel(selectedCar.type)}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2 mt-3 text-sm">
+              <div>
+                <span className="text-gray-500 block">Bateria</span>
+                <span className="font-medium">
+                  {selectedCar.batteryCapacity} kWh
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-500 block">Autonomia</span>
+                <span className="font-medium">{selectedCar.range} km</span>
+              </div>
+              <div>
+                <span className="text-gray-500 block">Potência</span>
+                <span className="font-medium">
+                  {selectedCar.chargingSpeed} kW
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-4">
           <div className="space-y-2">
@@ -177,6 +314,7 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
           <Button
             onClick={calculateSimulation}
             className="w-full bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38] font-bold"
+            disabled={!selectedCar}
           >
             <BatteryMedium className="mr-2 h-4 w-4" />
             Calcular Recarga

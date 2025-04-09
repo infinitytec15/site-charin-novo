@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { useRoutes, Routes, Route } from "react-router-dom";
 import routes from "tempo-routes";
+import { Toaster } from "@/components/ui/toaster";
 
 // Lazy load components for better performance
 const Home = lazy(() => import("./components/home"));
@@ -66,6 +67,7 @@ function App() {
           )}
         </Routes>
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
+        <Toaster />
       </>
     </Suspense>
   );

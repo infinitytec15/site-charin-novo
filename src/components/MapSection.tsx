@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 import {
   Search,
   Filter,
@@ -11,6 +13,8 @@ import {
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import gsap from "gsap";
 
 // Fix Leaflet icon issue
@@ -23,6 +27,7 @@ let DefaultIcon = L.icon({
   shadowUrl: iconShadow,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
+  popupAnchor: [0, -41], // Fix popup positioning
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
@@ -70,6 +75,14 @@ if (typeof window !== "undefined") {
     }
     .leaflet-control {
       z-index: 5 !important;
+    }
+    .leaflet-popup-content-wrapper {
+      max-width: 300px !important;
+      width: auto !important;
+    }
+    .leaflet-popup-content {
+      margin: 8px !important;
+      width: auto !important;
     }
   `;
   document.head.appendChild(style);
@@ -141,6 +154,7 @@ const createCustomIcon = (availability: string) => {
     `,
     iconSize: [32, 32],
     iconAnchor: [16, 32],
+    popupAnchor: [0, -32], // Fix popup positioning
   });
 };
 
@@ -171,24 +185,9 @@ const getAvailabilityText = (status: string) => {
   }
 };
 
-// Animation component for map markers
+// Marker component without animations
 const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
   const markerRef = useRef<L.Marker>(null);
-
-  useEffect(() => {
-    if (markerRef.current) {
-      const markerElement = markerRef.current.getElement();
-      if (markerElement) {
-        gsap.from(markerElement, {
-          opacity: 0,
-          y: 20,
-          duration: 0.5,
-          ease: "power2.out",
-          delay: parseInt(station.id) * 0.2,
-        });
-      }
-    }
-  }, [station.id]);
 
   return (
     <Marker
@@ -197,7 +196,7 @@ const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
       ref={markerRef}
     >
       <Popup>
-        <div className="p-2">
+        <div className="p-2 min-w-[200px]">
           <h3 className="font-semibold">{station.name}</h3>
           <p className="text-sm text-gray-600">{station.address}</p>
           <div className="flex items-center gap-1 mt-1">
@@ -217,21 +216,121 @@ const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
   );
 };
 
-// Map center animation component
+// Map center animation component with routing capability
 const MapCenterAnimator = ({
   center,
   zoom = 13,
+  selectedStation,
 }: {
   center: [number, number];
   zoom?: number;
+  selectedStation?: ChargingStation;
 }) => {
   const map = useMap();
+  const routingControlRef = useRef<L.Routing.Control | null>(null);
 
   useEffect(() => {
     map.flyTo(center, zoom, {
       duration: 0.8,
     });
   }, [center, map, zoom]);
+
+  // Handle routing when a station is selected
+  useEffect(() => {
+    // Remove previous routing control if it exists
+    if (routingControlRef.current) {
+      map.removeControl(routingControlRef.current);
+      routingControlRef.current = null;
+    }
+
+    // If a station is selected, create a route
+    if (selectedStation) {
+      // Try to get user's current location
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLocation = [
+            position.coords.latitude,
+            position.coords.longitude,
+          ];
+
+          // Create routing control with improved configuration
+          routingControlRef.current = L.Routing.control({
+            waypoints: [
+              L.latLng(userLocation[0], userLocation[1]),
+              L.latLng(
+                selectedStation.position[0],
+                selectedStation.position[1],
+              ),
+            ],
+            routeWhileDragging: true,
+            showAlternatives: true,
+            fitSelectedRoutes: true,
+            lineOptions: {
+              styles: [{ color: "#00FF99", weight: 4 }],
+              extendToWaypoints: true,
+              missingRouteTolerance: 0,
+            },
+            altLineOptions: {
+              styles: [{ color: "#0C1F38", weight: 2, opacity: 0.7 }],
+            },
+            createMarker: function () {
+              return null;
+            }, // Don't create default markers
+            collapsible: true,
+            show: false, // Don't show the routing control panel
+            autoRoute: true,
+            addWaypoints: false, // Prevent users from adding waypoints
+            draggableWaypoints: false, // Prevent users from dragging waypoints
+          }).addTo(map);
+
+          // Show success toast for route calculation
+          toast({
+            title: "Rota calculada",
+            description: `Rota para ${selectedStation.name} calculada com sucesso.`,
+            variant: "default",
+          });
+
+          // Track routing in Google Tag Manager
+          if (window.dataLayer) {
+            window.dataLayer.push({
+              event: "routeCalculated",
+              routeOrigin: `${userLocation[0]},${userLocation[1]}`,
+              routeDestination: `${selectedStation.position[0]},${selectedStation.position[1]}`,
+              stationName: selectedStation.name,
+            });
+          }
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+          // If user location is not available, just center on the station
+          map.flyTo(selectedStation.position, 14);
+
+          // Show error toast for geolocation error
+          toast({
+            title: "Erro de localização",
+            description:
+              "Não foi possível obter sua localização atual. Verifique as permissões do navegador.",
+            variant: "destructive",
+          });
+
+          // Track error in Google Tag Manager
+          if (window.dataLayer) {
+            window.dataLayer.push({
+              event: "routeError",
+              errorType: "geolocationError",
+              errorMessage: error.message,
+            });
+          }
+        },
+      );
+    }
+
+    return () => {
+      if (routingControlRef.current) {
+        map.removeControl(routingControlRef.current);
+      }
+    };
+  }, [selectedStation, map]);
 
   return null;
 };
@@ -248,13 +347,25 @@ const FixMapSize = () => {
       setTimeout(() => {
         map.setZoom(map.getZoom());
       }, 100);
+
+      // Track map resize in Google Tag Manager
+      if (window.dataLayer) {
+        window.dataLayer.push({
+          event: "mapResized",
+          mapZoom: map.getZoom(),
+          mapCenter: map.getCenter()
+            ? [map.getCenter().lat, map.getCenter().lng]
+            : null,
+        });
+      }
     };
 
-    // Initial resize with multiple attempts to ensure it works
+    // More aggressive initial resize with multiple attempts to ensure it works
     setTimeout(resizeMap, 100);
     setTimeout(resizeMap, 300);
     setTimeout(resizeMap, 500);
     setTimeout(resizeMap, 1000);
+    setTimeout(resizeMap, 2000); // Added extra timeout for slower devices
 
     // Add resize listener
     window.addEventListener("resize", resizeMap);
@@ -270,9 +381,17 @@ const FixMapSize = () => {
       });
     }
 
+    // Force resize when tab becomes visible
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        setTimeout(resizeMap, 100);
+      }
+    });
+
     // Cleanup
     return () => {
       window.removeEventListener("resize", resizeMap);
+      document.removeEventListener("visibilitychange", resizeMap);
       observer.disconnect();
     };
   }, [map]);
@@ -294,33 +413,55 @@ const MapSection = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
+  // Remove opacity animations and ensure elements are always visible
   useEffect(() => {
-    // Animate elements on component mount
+    // Set elements to be fully visible immediately without animations
     if (mapContainerRef.current && filtersRef.current && searchRef.current) {
-      gsap.from(searchRef.current, {
-        y: -20,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.out",
+      // Apply styles directly to ensure visibility
+      mapContainerRef.current.style.opacity = "1";
+      mapContainerRef.current.style.visibility = "visible";
+      mapContainerRef.current.style.display = "block";
+
+      filtersRef.current.style.opacity = "1";
+      filtersRef.current.style.visibility = "visible";
+      filtersRef.current.style.display = "block";
+
+      searchRef.current.style.opacity = "1";
+      searchRef.current.style.visibility = "visible";
+      searchRef.current.style.display = "block";
+      searchRef.current.style.transform = "translateY(0)";
+
+      // Also use GSAP for additional safety
+      gsap.set(searchRef.current, {
+        opacity: 1,
+        y: 0,
+        visibility: "visible",
+        display: "block",
+      });
+      gsap.set(filtersRef.current, {
+        opacity: 1,
+        visibility: "visible",
+        display: "block",
+      });
+      gsap.set(mapContainerRef.current, {
+        opacity: 1,
+        scale: 1,
+        visibility: "visible",
+        display: "block",
       });
 
-      gsap.from(filtersRef.current, {
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.3,
-        ease: "power2.out",
-      });
-
-      gsap.from(mapContainerRef.current, {
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.8,
-        delay: 0.2,
-        ease: "power2.out",
-      });
+      // Track component visibility in Google Tag Manager
+      if (window.dataLayer) {
+        window.dataLayer.push({
+          event: "mapSectionVisible",
+          componentId: "mapSection",
+        });
+      }
     }
   }, []);
+
   const [activeTab, setActiveTab] = useState("map");
   const [priceRange, setPriceRange] = useState([0, 2]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -542,7 +683,7 @@ const MapSection = ({
     setSearchQuery(e.target.value);
   };
 
-  // Handle search form submission
+  // Handle search form submission with improved map refresh
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // If there are filtered results and we're not already viewing the first one
@@ -552,36 +693,68 @@ const MapSection = ({
       // Get the coordinates of the first result to center the map
       if (activeTab === "map") {
         // If we're in map view, we'll center on the first result
-        // The MapCenterAnimator component will handle the actual centering
+        // Force map to recalculate size after search
+        setTimeout(() => {
+          const mapElement = document.querySelector(".leaflet-container");
+          if (mapElement && mapElement instanceof HTMLElement) {
+            const event = new Event("resize");
+            window.dispatchEvent(event);
+          }
+        }, 100);
+
+        // Show success toast
+        toast({
+          title: "Busca realizada com sucesso",
+          description: `Encontrados ${filteredStations.length} pontos de recarga.`,
+          variant: "default",
+        });
       } else {
         // If we're in list view, switch to map view to show the result
         setActiveTab("map");
+        // Force map to recalculate size after tab switch
+        setTimeout(() => {
+          const mapElement = document.querySelector(".leaflet-container");
+          if (mapElement && mapElement instanceof HTMLElement) {
+            const event = new Event("resize");
+            window.dispatchEvent(event);
+          }
+        }, 300);
+
+        // Show success toast
+        toast({
+          title: "Busca realizada com sucesso",
+          description: `Encontrados ${filteredStations.length} pontos de recarga.`,
+          variant: "default",
+        });
       }
     } else {
-      // No results found
-      alert(
-        "Nenhum ponto de recarga encontrado para esta busca. Tente outra localização.",
-      );
+      // No results found - use toast instead of alert
+      toast({
+        title: "Nenhum resultado encontrado",
+        description:
+          "Nenhum ponto de recarga encontrado para esta busca. Tente outra localização.",
+        variant: "destructive",
+      });
     }
   };
-
-  // These functions are now defined at the module level
 
   return (
     <div
       className={`w-full h-full bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-md border border-gray-200 ${containerClassName}`}
-      style={{ backgroundColor: "white" }}
+      style={{ backgroundColor: "white", position: "relative", zIndex: 5 }}
     >
+      <Toaster />
       <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38] mb-6">
         Encontre Pontos de Recarga
       </h2>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left side - Map and filters */}
+        {/* Left side - Map and search */}
         <div className="w-full lg:w-2/3">
           <div
             ref={searchRef}
             className="mb-4 flex flex-col md:flex-row gap-4 bg-white"
+            style={{ opacity: 1, visibility: "visible" }}
           >
             <form
               onSubmit={handleSearchSubmit}
@@ -649,6 +822,8 @@ const MapSection = ({
                   position: "relative",
                   zIndex: 1,
                   display: "block",
+                  visibility: "visible",
+                  opacity: 1,
                 }}
               >
                 <MapContainer
@@ -662,6 +837,8 @@ const MapSection = ({
                     top: 0,
                     left: 0,
                     zIndex: 1,
+                    visibility: "visible",
+                    opacity: 1,
                   }}
                   className="leaflet-container-fix"
                   key="map-container"
@@ -677,6 +854,7 @@ const MapSection = ({
                     <MapCenterAnimator
                       center={selectedStation.position}
                       zoom={14}
+                      selectedStation={selectedStation}
                     />
                   )}
 
@@ -687,7 +865,10 @@ const MapSection = ({
                   <FixMapSize />
                 </MapContainer>
 
-                <div className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-md text-sm z-[1000] border border-gray-300">
+                <div
+                  className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-md text-sm z-[1000] border border-gray-300"
+                  style={{ visibility: "visible", opacity: 1 }}
+                >
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                     <span>Disponível</span>
@@ -756,74 +937,13 @@ const MapSection = ({
           </Tabs>
         </div>
 
-        {/* Right side - Filters and station details */}
+        {/* Right side - Filters */}
         <div className="w-full lg:w-1/3">
-          {selectedStation ? (
-            <Card className="mb-6 border border-gray-300 shadow-md">
-              <CardContent className="p-4">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="font-bold text-xl">
-                      {selectedStation.name}
-                    </h3>
-                    <p className="text-gray-600">{selectedStation.address}</p>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div
-                      className={`w-3 h-3 rounded-full ${getAvailabilityColor(selectedStation.availability)}`}
-                    ></div>
-                    <span>
-                      {getAvailabilityText(selectedStation.availability)}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 text-gray-700">
-                      <Battery size={18} />
-                      <span className="text-sm font-medium">Conectores</span>
-                    </div>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {selectedStation.connectorTypes.map((type) => (
-                        <Badge
-                          key={type}
-                          variant="outline"
-                          className="bg-white"
-                        >
-                          {type}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 text-gray-700">
-                      <DollarSign size={18} />
-                      <span className="text-sm font-medium">Preço</span>
-                    </div>
-                    <p className="mt-2 font-semibold text-lg">
-                      {selectedStation.pricePerKwh.toFixed(2)} R$/kWh
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 mt-4">
-                  <Button className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38]">
-                    <Navigation size={16} className="mr-2" /> Obter Direções
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1 border-[#0C1F38] text-[#0C1F38]"
-                  >
-                    <Clock size={16} className="mr-2" /> Reservar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ) : null}
-
-          <Card ref={filtersRef} className="border border-gray-300 shadow-md">
+          <Card
+            ref={filtersRef}
+            className="border border-gray-300 shadow-md mb-6"
+            style={{ visibility: "visible", opacity: 1, zIndex: 10 }}
+          >
             <CardContent className="p-4">
               <h3 className="font-semibold text-lg mb-4">Filtros</h3>
 
@@ -892,10 +1012,31 @@ const MapSection = ({
                 <Button
                   className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38]"
                   onClick={() => {
-                    // Scroll back to map/list view after applying filters on mobile
-                    if (window.innerWidth < 1024 && mapContainerRef.current) {
-                      mapContainerRef.current.scrollIntoView({
-                        behavior: "smooth",
+                    // Scroll to list of stations after applying filters on mobile
+                    if (window.innerWidth < 1024 && activeTab === "list") {
+                      const listElement = document.querySelector(
+                        '[data-value="list"]',
+                      );
+                      if (listElement) {
+                        listElement.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }
+                    }
+
+                    // Show toast notification based on filter results
+                    if (filteredStations.length > 0) {
+                      toast({
+                        title: "Filtros aplicados",
+                        description: `${filteredStations.length} estações encontradas com os filtros selecionados.`,
+                        variant: "default",
+                      });
+                    } else {
+                      toast({
+                        title: "Nenhum resultado",
+                        description:
+                          "Nenhuma estação encontrada com os filtros selecionados. Tente outros filtros.",
+                        variant: "destructive",
                       });
                     }
                   }}
@@ -911,6 +1052,13 @@ const MapSection = ({
                       availability: [],
                     });
                     setPriceRange([0, 2]);
+
+                    // Show toast notification for cleared filters
+                    toast({
+                      title: "Filtros limpos",
+                      description: "Todos os filtros foram removidos.",
+                      variant: "default",
+                    });
                   }}
                 >
                   Limpar
@@ -918,6 +1066,148 @@ const MapSection = ({
               </div>
             </CardContent>
           </Card>
+
+          {/* List of filtered stations - Now appears below filters */}
+          {activeTab === "list" && (
+            <div className="space-y-4 mt-4">
+              <h3 className="font-semibold text-lg">
+                Estações Encontradas ({filteredStations.length})
+              </h3>
+              {filteredStations.length > 0 ? (
+                filteredStations.map((station) => (
+                  <Card
+                    key={station.id}
+                    className={`cursor-pointer hover:border-[#00FF99] transition-colors shadow-md ${selectedStation?.id === station.id ? "border-[#00FF99] border-2" : "border border-gray-300"}`}
+                    onClick={() => handleStationSelect(station)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-semibold text-lg">
+                            {station.name}
+                          </h3>
+                          <p className="text-gray-600 text-sm">
+                            {station.address}
+                          </p>
+                          <div className="flex gap-2 mt-2">
+                            {station.connectorTypes.map((type) => (
+                              <Badge
+                                key={type}
+                                variant="outline"
+                                className="bg-gray-100"
+                              >
+                                {type}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="flex items-center gap-1 mb-1">
+                            <div
+                              className={`w-2 h-2 rounded-full ${getAvailabilityColor(station.availability)}`}
+                            ></div>
+                            <span className="text-sm">
+                              {getAvailabilityText(station.availability)}
+                            </span>
+                          </div>
+                          <p className="text-sm">{station.distance}</p>
+                          <p className="font-medium text-[#0C1F38]">
+                            {station.pricePerKwh.toFixed(2)} R$/kWh
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <p className="text-gray-600">
+                    Nenhuma estação encontrada com os filtros selecionados.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Selected station details */}
+          {selectedStation && (
+            <Card
+              className="mt-6 border border-gray-300 shadow-md"
+              style={{ visibility: "visible", opacity: 1, zIndex: 10 }}
+            >
+              <CardContent className="p-4">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="font-bold text-xl">
+                      {selectedStation.name}
+                    </h3>
+                    <p className="text-gray-600">{selectedStation.address}</p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div
+                      className={`w-3 h-3 rounded-full ${getAvailabilityColor(selectedStation.availability)}`}
+                    ></div>
+                    <span>
+                      {getAvailabilityText(selectedStation.availability)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <div className="flex items-center gap-2 text-gray-700">
+                      <Battery size={18} />
+                      <span className="text-sm font-medium">Conectores</span>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {selectedStation.connectorTypes.map((type) => (
+                        <Badge
+                          key={type}
+                          variant="outline"
+                          className="bg-white"
+                        >
+                          {type}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <div className="flex items-center gap-2 text-gray-700">
+                      <DollarSign size={18} />
+                      <span className="text-sm font-medium">Preço</span>
+                    </div>
+                    <p className="mt-2 font-semibold text-lg">
+                      {selectedStation.pricePerKwh.toFixed(2)} R$/kWh
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38]"
+                    onClick={() => {
+                      // Ensure map tab is active to show the route
+                      setActiveTab("map");
+                      // Force map to recalculate size
+                      setTimeout(() => {
+                        const event = new Event("resize");
+                        window.dispatchEvent(event);
+                      }, 100);
+                    }}
+                  >
+                    <Navigation size={16} className="mr-2" /> Obter Direções
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="flex-1 border-[#0C1F38] text-[#0C1F38]"
+                  >
+                    <Clock size={16} className="mr-2" /> Reservar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>

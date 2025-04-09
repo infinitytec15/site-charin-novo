@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Zap,
   ArrowRight,
@@ -45,6 +46,8 @@ const WhiteLabelPage = () => {
     }
   };
 
+  const { toast } = useToast();
+
   const [formData, setFormData] = React.useState({
     companyName: "",
     contactName: "",
@@ -56,28 +59,110 @@ const WhiteLabelPage = () => {
   });
 
   const [formSubmitted, setFormSubmitted] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [formErrors, setFormErrors] = React.useState<Record<string, string>>(
+    {},
+  );
 
   const handleFormChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
+    // Clear error for this field when user starts typing
+    if (formErrors[field]) {
+      setFormErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const errors: Record<string, string> = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\([0-9]{2}\)\s[0-9]{5}-[0-9]{4}$/;
+
+    if (!formData.companyName.trim()) {
+      errors.companyName = "Nome da empresa é obrigatório";
+    }
+
+    if (!formData.contactName.trim()) {
+      errors.contactName = "Nome do responsável é obrigatório";
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = "E-mail é obrigatório";
+    } else if (!emailRegex.test(formData.email)) {
+      errors.email = "Formato de e-mail inválido";
+    }
+
+    if (!formData.phone.trim()) {
+      errors.phone = "Telefone é obrigatório";
+    } else if (!phoneRegex.test(formData.phone)) {
+      errors.phone = "Formato de telefone inválido (00) 00000-0000";
+    }
+
+    if (!formData.location.trim()) {
+      errors.location = "Localização é obrigatória";
+    }
+
+    if (!formData.segment) {
+      errors.segment = "Segmento é obrigatório";
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    setFormSubmitted(true);
-    // Reset form after submission
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({
-        companyName: "",
-        contactName: "",
-        email: "",
-        phone: "",
-        location: "",
-        segment: "",
-        message: "",
+
+    if (!validateForm()) {
+      toast({
+        title: "Erro no formulário",
+        description:
+          "Por favor, corrija os erros no formulário antes de enviar.",
+        variant: "destructive",
       });
-    }, 5000);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Simulate API call with a delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Here you would typically send the form data to your backend
+      setFormSubmitted(true);
+      toast({
+        title: "Solicitação enviada!",
+        description: "Em breve nossa equipe entrará em contato.",
+        variant: "default",
+      });
+
+      // Reset form after submission
+      setTimeout(() => {
+        setFormSubmitted(false);
+        setFormData({
+          companyName: "",
+          contactName: "",
+          email: "",
+          phone: "",
+          location: "",
+          segment: "",
+          message: "",
+        });
+      }, 5000);
+    } catch (error) {
+      toast({
+        title: "Erro ao enviar",
+        description:
+          "Ocorreu um erro ao enviar sua solicitação. Tente novamente mais tarde.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const features = [
@@ -539,8 +624,14 @@ const WhiteLabelPage = () => {
                       onChange={(e) =>
                         handleFormChange("companyName", e.target.value)
                       }
+                      className={formErrors.companyName ? "border-red-500" : ""}
                       required
                     />
+                    {formErrors.companyName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.companyName}
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="contactName">Nome do responsável</Label>
@@ -551,8 +642,14 @@ const WhiteLabelPage = () => {
                       onChange={(e) =>
                         handleFormChange("contactName", e.target.value)
                       }
+                      className={formErrors.contactName ? "border-red-500" : ""}
                       required
                     />
+                    {formErrors.contactName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.contactName}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -567,8 +664,14 @@ const WhiteLabelPage = () => {
                       onChange={(e) =>
                         handleFormChange("email", e.target.value)
                       }
+                      className={formErrors.email ? "border-red-500" : ""}
                       required
                     />
+                    {formErrors.email && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.email}
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Telefone</Label>
@@ -579,8 +682,14 @@ const WhiteLabelPage = () => {
                       onChange={(e) =>
                         handleFormChange("phone", e.target.value)
                       }
+                      className={formErrors.phone ? "border-red-500" : ""}
                       required
                     />
+                    {formErrors.phone && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.phone}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -594,8 +703,14 @@ const WhiteLabelPage = () => {
                       onChange={(e) =>
                         handleFormChange("location", e.target.value)
                       }
+                      className={formErrors.location ? "border-red-500" : ""}
                       required
                     />
+                    {formErrors.location && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.location}
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="segment">Segmento de atuação</Label>
@@ -605,7 +720,10 @@ const WhiteLabelPage = () => {
                         handleFormChange("segment", value)
                       }
                     >
-                      <SelectTrigger id="segment">
+                      <SelectTrigger
+                        id="segment"
+                        className={formErrors.segment ? "border-red-500" : ""}
+                      >
                         <SelectValue placeholder="Selecione o segmento" />
                       </SelectTrigger>
                       <SelectContent>
@@ -618,6 +736,11 @@ const WhiteLabelPage = () => {
                         <SelectItem value="outro">Outro</SelectItem>
                       </SelectContent>
                     </Select>
+                    {formErrors.segment && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.segment}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -638,8 +761,9 @@ const WhiteLabelPage = () => {
                   type="submit"
                   className="w-full bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white py-6"
                   size="lg"
+                  disabled={isSubmitting}
                 >
-                  Enviar Solicitação
+                  {isSubmitting ? "Enviando..." : "Enviar Solicitação"}
                 </Button>
               </form>
             )}
