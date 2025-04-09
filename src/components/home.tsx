@@ -22,13 +22,13 @@ const Home = () => {
           </div>
           <nav className="hidden md:flex items-center space-x-6">
             <a
-              href="#map"
+              href="/#map"
               className="text-sm font-medium hover:text-[#00FF99] transition-colors"
             >
               Mapa de Estações
             </a>
             <a
-              href="#simulator"
+              href="/#simulator"
               className="text-sm font-medium hover:text-[#00FF99] transition-colors"
             >
               Simulador
@@ -52,7 +52,7 @@ const Home = () => {
               Pontos de Recarga
             </a>
             <a
-              href="#about"
+              href="/sobre"
               className="text-sm font-medium hover:text-[#00FF99] transition-colors"
             >
               Sobre Nós
@@ -375,13 +375,16 @@ const Home = () => {
               <h3 className="font-bold text-[#0C1F38] mb-4">Links Rápidos</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="#map" className="text-gray-600 hover:text-[#00FF99]">
+                  <a
+                    href="/#map"
+                    className="text-gray-600 hover:text-[#00FF99]"
+                  >
                     Mapa de Estações
                   </a>
                 </li>
                 <li>
                   <a
-                    href="#simulator"
+                    href="/#simulator"
                     className="text-gray-600 hover:text-[#00FF99]"
                   >
                     Simulador de Recarga
@@ -389,7 +392,7 @@ const Home = () => {
                 </li>
                 <li>
                   <a
-                    href="#franchise"
+                    href="/franchise"
                     className="text-gray-600 hover:text-[#00FF99]"
                   >
                     Seja um Franqueado
@@ -397,7 +400,7 @@ const Home = () => {
                 </li>
                 <li>
                   <a
-                    href="#about"
+                    href="/sobre"
                     className="text-gray-600 hover:text-[#00FF99]"
                   >
                     Sobre Nós

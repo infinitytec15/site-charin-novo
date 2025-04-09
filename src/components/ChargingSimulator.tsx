@@ -20,6 +20,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
 import {
   BatteryMedium,
   Clock,
@@ -52,6 +53,7 @@ interface SimulationResult {
 const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   onSaveSimulation = () => {},
 }) => {
+  const { toast } = useToast();
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedModelId, setSelectedModelId] = useState<string>("");
   const [availableModels, setAvailableModels] = useState<CarModel[]>([]);
@@ -80,13 +82,18 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
       } else {
         setSelectedModelId("");
         setSelectedCar(null);
+        toast({
+          title: "Nenhum modelo disponível",
+          description: `Não encontramos modelos para a marca ${selectedBrand}`,
+          variant: "destructive",
+        });
       }
     } else {
       setAvailableModels([]);
       setSelectedModelId("");
       setSelectedCar(null);
     }
-  }, [selectedBrand]);
+  }, [selectedBrand, toast]);
 
   // Update selected car when model changes
   useEffect(() => {
@@ -94,14 +101,36 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
       const car = getCarById(selectedModelId);
       if (car) {
         setSelectedCar(car);
+        toast({
+          title: "Modelo selecionado",
+          description: `${car.brand} ${car.model} selecionado com sucesso`,
+          variant: "default",
+        });
       }
     } else {
       setSelectedCar(null);
     }
-  }, [selectedModelId]);
+  }, [selectedModelId, toast]);
 
   const calculateSimulation = () => {
-    if (!selectedCar) return;
+    if (!selectedCar) {
+      toast({
+        title: "Erro na simulação",
+        description: "Selecione um veículo para calcular a recarga",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (currentBattery >= targetBattery) {
+      toast({
+        title: "Erro na simulação",
+        description:
+          "O nível desejado deve ser maior que o nível atual da bateria",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const batteryDifference = targetBattery - currentBattery;
     const kWhToCharge = (batteryDifference / 100) * selectedCar.batteryCapacity;
@@ -123,17 +152,42 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
     };
 
     setSimulationResult(result);
+
+    toast({
+      title: "Simulação concluída",
+      description: `Tempo estimado: ${Math.floor(timeInMinutes / 60)}h ${Math.round(timeInMinutes % 60)}min | Custo: R$ ${estimatedCost.toFixed(2)}`,
+      variant: "default",
+    });
   };
 
   const resetSimulation = () => {
     setCurrentBattery(20);
     setTargetBattery(80);
     setSimulationResult(null);
+
+    toast({
+      title: "Simulação reiniciada",
+      description: "Os valores foram redefinidos para uma nova simulação",
+      variant: "default",
+    });
   };
 
   const handleSaveSimulation = () => {
     if (simulationResult) {
       onSaveSimulation(simulationResult);
+
+      toast({
+        title: "Simulação salva",
+        description: "Os resultados da simulação foram salvos com sucesso",
+        variant: "success",
+      });
+    } else {
+      toast({
+        title: "Erro ao salvar",
+        description:
+          "Não há resultados para salvar. Faça uma simulação primeiro.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -370,7 +424,11 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
         </Button>
 
         {simulationResult && (
-          <Button onClick={handleSaveSimulation} variant="secondary">
+          <Button
+            onClick={handleSaveSimulation}
+            variant="secondary"
+            className="bg-[#0C1F38]/10 hover:bg-[#0C1F38]/20 text-[#0C1F38]"
+          >
             <Save className="mr-2 h-4 w-4" />
             Salvar Simulação
           </Button>
