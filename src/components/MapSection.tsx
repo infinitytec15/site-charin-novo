@@ -9,6 +9,8 @@ import {
   Clock,
   DollarSign,
   Navigation,
+  Maximize2,
+  Minimize2,
 } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
@@ -428,17 +430,20 @@ interface MapSectionProps {
   isFranchiseMode?: boolean;
   containerHeight?: string;
   containerClassName?: string;
+  isFullScreen?: boolean;
 }
 
 const MapSection = ({
   isFranchiseMode = false,
   containerHeight = "800px",
   containerClassName = "",
+  isFullScreen = false,
 }: MapSectionProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const [fullScreen, setFullScreen] = useState(isFullScreen);
 
   // Remove opacity animations and ensure elements are always visible
   useEffect(() => {
@@ -477,6 +482,14 @@ const MapSection = ({
         display: "block",
       });
 
+      // Reset filters to default state on component load
+      setSelectedFilters({
+        connectorTypes: [],
+        availability: [],
+      });
+      setPriceRange([0, 2]);
+      setFiltersApplied(false);
+
       // Track component visibility in Google Tag Manager
       if (window.dataLayer) {
         window.dataLayer.push({
@@ -494,6 +507,19 @@ const MapSection = ({
     connectorTypes: [] as string[],
     availability: [] as string[],
   });
+
+  // State to track if filters have been applied
+  const [filtersApplied, setFiltersApplied] = useState(false);
+
+  // Toggle fullscreen mode
+  const toggleFullScreen = () => {
+    setFullScreen(!fullScreen);
+    // Force map to recalculate size after fullscreen toggle
+    setTimeout(() => {
+      const event = new Event("resize");
+      window.dispatchEvent(event);
+    }, 100);
+  };
 
   // Mock data for charging stations
   const mockStations: ChargingStation[] = [
@@ -711,6 +737,9 @@ const MapSection = ({
   // Handle search form submission with improved map refresh
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Set filters as applied when search is submitted
+    setFiltersApplied(true);
+
     // If there are filtered results and we're not already viewing the first one
     if (filteredStations.length > 0) {
       setSelectedStation(filteredStations[0]);
@@ -765,17 +794,40 @@ const MapSection = ({
 
   return (
     <div
-      className={`w-full h-full bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-md border border-gray-200 ${containerClassName}`}
-      style={{ backgroundColor: "white", position: "relative", zIndex: 5 }}
+      className={`${fullScreen ? "fixed inset-0 z-50" : "w-full h-full"} bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-md border border-gray-200 ${containerClassName} transition-all duration-300 ease-in-out`}
+      style={{
+        backgroundColor: "white",
+        position: fullScreen ? "fixed" : "relative",
+        zIndex: fullScreen ? 50 : 5,
+      }}
     >
       <Toaster />
-      <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38] mb-6">
-        Encontre Pontos de Recarga
-      </h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38]">
+          Encontre Pontos de Recarga
+        </h2>
+        <Button
+          variant="outline"
+          className="border-[#0C1F38] text-[#0C1F38] hover:bg-[#00FF99]/20"
+          onClick={toggleFullScreen}
+        >
+          {fullScreen ? (
+            <>
+              <Minimize2 className="mr-2 h-4 w-4" />
+              Minimizar
+            </>
+          ) : (
+            <>
+              <Maximize2 className="mr-2 h-4 w-4" />
+              Expandir
+            </>
+          )}
+        </Button>
+      </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Left side - Map and search */}
-        <div className="w-full lg:w-2/3">
+        <div className={`w-full ${fullScreen ? "lg:w-3/4" : "lg:w-2/3"}`}>
           <div
             ref={searchRef}
             className="mb-4 flex flex-col md:flex-row gap-4 bg-white"
@@ -839,10 +891,10 @@ const MapSection = ({
             <TabsContent value="map" className="w-full">
               <div
                 ref={mapContainerRef}
-                className="w-full h-[400px] md:h-[500px] bg-gray-100 rounded-lg overflow-hidden relative border border-gray-300"
+                className="w-full h-[400px] md:h-[500px] bg-gray-100 rounded-lg overflow-hidden relative border border-gray-300 transition-all duration-300"
                 style={{
-                  minHeight: "500px",
-                  height: containerHeight,
+                  minHeight: fullScreen ? "600px" : "500px",
+                  height: fullScreen ? "calc(100vh - 300px)" : containerHeight,
                   backgroundColor: "#f0f0f0",
                   position: "relative",
                   zIndex: 1,
@@ -963,7 +1015,7 @@ const MapSection = ({
         </div>
 
         {/* Right side - Filters */}
-        <div className="w-full lg:w-1/3">
+        <div className={`w-full ${fullScreen ? "lg:w-1/4" : "lg:w-1/3"}`}>
           <Card
             ref={filtersRef}
             className="border border-gray-300 shadow-md mb-6"
@@ -1037,17 +1089,8 @@ const MapSection = ({
                 <Button
                   className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38]"
                   onClick={() => {
-                    // Scroll to list of stations after applying filters on mobile
-                    if (window.innerWidth < 1024 && activeTab === "list") {
-                      const listElement = document.querySelector(
-                        '[data-value="list"]',
-                      );
-                      if (listElement) {
-                        listElement.scrollIntoView({
-                          behavior: "smooth",
-                        });
-                      }
-                    }
+                    // Set filters as applied
+                    setFiltersApplied(true);
 
                     // Show toast notification based on filter results
                     if (filteredStations.length > 0) {
@@ -1077,6 +1120,7 @@ const MapSection = ({
                       availability: [],
                     });
                     setPriceRange([0, 2]);
+                    setFiltersApplied(false);
 
                     // Show toast notification for cleared filters
                     toast({
@@ -1089,70 +1133,76 @@ const MapSection = ({
                   Limpar
                 </Button>
               </div>
-            </CardContent>
-          </Card>
 
-          {/* List of filtered stations - Now appears below filters */}
-          {activeTab === "list" && (
-            <div className="space-y-4 mt-4">
-              <h3 className="font-semibold text-lg">
-                Estações Encontradas ({filteredStations.length})
-              </h3>
-              {filteredStations.length > 0 ? (
-                filteredStations.map((station) => (
-                  <Card
-                    key={station.id}
-                    className={`cursor-pointer hover:border-[#00FF99] transition-colors shadow-md ${selectedStation?.id === station.id ? "border-[#00FF99] border-2" : "border border-gray-300"}`}
-                    onClick={() => handleStationSelect(station)}
+              {/* Lista de estações filtradas abaixo dos filtros - só aparece quando os filtros são aplicados */}
+              {filtersApplied && (
+                <div className="mt-6 space-y-4">
+                  <h3 className="font-semibold text-lg border-t pt-4">
+                    Estações Encontradas ({filteredStations.length})
+                  </h3>
+                  <div
+                    className="max-h-[400px] overflow-y-auto pr-2"
+                    style={{ scrollbarWidth: "thin" }}
                   >
-                    <CardContent className="p-4">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-semibold text-lg">
-                            {station.name}
-                          </h3>
-                          <p className="text-gray-600 text-sm">
-                            {station.address}
-                          </p>
-                          <div className="flex gap-2 mt-2">
-                            {station.connectorTypes.map((type) => (
-                              <Badge
-                                key={type}
-                                variant="outline"
-                                className="bg-gray-100"
-                              >
-                                {type}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="flex items-center gap-1 mb-1">
-                            <div
-                              className={`w-2 h-2 rounded-full ${getAvailabilityColor(station.availability)}`}
-                            ></div>
-                            <span className="text-sm">
-                              {getAvailabilityText(station.availability)}
-                            </span>
-                          </div>
-                          <p className="text-sm">{station.distance}</p>
-                          <p className="font-medium text-[#0C1F38]">
-                            {station.pricePerKwh.toFixed(2)} R$/kWh
-                          </p>
-                        </div>
+                    {filteredStations.length > 0 ? (
+                      filteredStations.map((station) => (
+                        <Card
+                          key={station.id}
+                          className={`cursor-pointer hover:border-[#00FF99] transition-colors shadow-md mb-4 ${selectedStation?.id === station.id ? "border-[#00FF99] border-2" : "border border-gray-300"}`}
+                          onClick={() => handleStationSelect(station)}
+                        >
+                          <CardContent className="p-4">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h3 className="font-semibold text-lg">
+                                  {station.name}
+                                </h3>
+                                <p className="text-gray-600 text-sm">
+                                  {station.address}
+                                </p>
+                                <div className="flex gap-2 mt-2">
+                                  {station.connectorTypes.map((type) => (
+                                    <Badge
+                                      key={type}
+                                      variant="outline"
+                                      className="bg-gray-100"
+                                    >
+                                      {type}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className="flex items-center gap-1 mb-1">
+                                  <div
+                                    className={`w-2 h-2 rounded-full ${getAvailabilityColor(station.availability)}`}
+                                  ></div>
+                                  <span className="text-sm">
+                                    {getAvailabilityText(station.availability)}
+                                  </span>
+                                </div>
+                                <p className="text-sm">{station.distance}</p>
+                                <p className="font-medium text-[#0C1F38]">
+                                  {station.pricePerKwh.toFixed(2)} R$/kWh
+                                </p>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))
+                    ) : (
+                      <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p className="text-gray-600">
+                          Nenhuma estação encontrada com os filtros
+                          selecionados.
+                        </p>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <p className="text-gray-600">
-                    Nenhuma estação encontrada com os filtros selecionados.
-                  </p>
+                    )}
+                  </div>
                 </div>
               )}
-            </div>
-          )}
+            </CardContent>
+          </Card>
 
           {/* Selected station details */}
           {selectedStation && (
