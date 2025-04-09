@@ -11,7 +11,6 @@ const CodigoConduta = lazy(() => import("./pages/codigoconduta"));
 const PoliticaPrivacidade = lazy(() => import("./pages/politicaprivacidade"));
 const TermosDeUso = lazy(() => import("./pages/termosdeuso"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
-const MapStandalone = lazy(() => import("./pages/MapStandalone"));
 
 function App() {
   return (
@@ -35,7 +34,6 @@ function App() {
           />
           <Route path="/termosdeuso" element={<TermosDeUso />} />
           <Route path="/sobre" element={<AboutUs />} />
-          <Route path="/map-standalone" element={<MapStandalone />} />
           {import.meta.env.VITE_TEMPO === "true" && (
             <Route path="/tempobook/*" />
           )}

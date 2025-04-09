@@ -137,16 +137,10 @@ const FranchiseSection = () => {
               display: "block",
             }}
           >
-            <iframe
-              src="/map-standalone?franchise=true"
-              style={{
-                width: "100%",
-                height: "100%",
-                border: "none",
-                display: "block",
-                backgroundColor: "white",
-              }}
-              title="Mapa de Franquias"
+            <MapSection
+              isFranchiseMode={true}
+              containerHeight="600px"
+              containerClassName="border-none shadow-none rounded-none"
             />
           </div>
         </div>

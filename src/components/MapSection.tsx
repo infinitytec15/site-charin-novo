@@ -280,7 +280,17 @@ const FixMapSize = () => {
   return null;
 };
 
-const MapSection = () => {
+interface MapSectionProps {
+  isFranchiseMode?: boolean;
+  containerHeight?: string;
+  containerClassName?: string;
+}
+
+const MapSection = ({
+  isFranchiseMode = false,
+  containerHeight = "800px",
+  containerClassName = "",
+}: MapSectionProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -412,12 +422,7 @@ const MapSection = () => {
 
   // Add franchise-specific stations when in franchise mode
   const allStations = useMemo(() => {
-    // Check if we're in the franchise section by looking at window flag or parent container
-    const isFranchiseSection =
-      (window as any).isFranchiseMap ||
-      document.querySelector('div[style*="height: 600px"]') !== null;
-
-    if (isFranchiseSection) {
+    if (isFranchiseMode) {
       // Add franchise-specific locations
       return [
         ...mockStations,
@@ -491,7 +496,7 @@ const MapSection = () => {
     }
 
     return mockStations;
-  }, [mockStations]);
+  }, [mockStations, isFranchiseMode]);
 
   // Filter stations based on search query and other filters
   const filteredStations = useMemo(() => {
@@ -564,7 +569,7 @@ const MapSection = () => {
 
   return (
     <div
-      className="w-full h-full bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-md border border-gray-200"
+      className={`w-full h-full bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-md border border-gray-200 ${containerClassName}`}
       style={{ backgroundColor: "white" }}
     >
       <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38] mb-6">
@@ -639,6 +644,7 @@ const MapSection = () => {
                 className="w-full h-[400px] md:h-[500px] bg-gray-100 rounded-lg overflow-hidden relative border border-gray-300"
                 style={{
                   minHeight: "500px",
+                  height: containerHeight,
                   backgroundColor: "#f0f0f0",
                   position: "relative",
                   zIndex: 1,

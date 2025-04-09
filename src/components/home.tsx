@@ -192,16 +192,9 @@ const Home = () => {
             }}
             id="home-map-container"
           >
-            <iframe
-              src="/map-standalone"
-              style={{
-                width: "100%",
-                height: "100%",
-                border: "none",
-                display: "block",
-                backgroundColor: "white",
-              }}
-              title="Mapa de Estações"
+            <MapSection
+              containerHeight="800px"
+              containerClassName="border-none shadow-none rounded-none"
             />
           </div>
         </div>
