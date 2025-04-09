@@ -7,9 +7,39 @@ import {
   Truck,
   Users,
   TrendingUp,
+  Clock,
+  DollarSign,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+// 3D Icon Animation
+const Icon3D = ({ children, color = "#00FF99", size = 10 }) => {
+  return (
+    <motion.div
+      className={`relative flex items-center justify-center w-${size} h-${size}`}
+      initial={{ y: 0 }}
+      animate={{
+        y: [0, -5, 0],
+        rotateY: [0, 5, 0],
+        rotateX: [0, 5, 0],
+      }}
+      transition={{
+        duration: 3,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatType: "reverse",
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-sm" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-md transform scale-110" />
+      <div className={`relative z-10 text-${color}`}>{children}</div>
+      <div className="absolute bottom-0 w-2/3 h-[2px] bg-black/10 rounded-full blur-sm transform scale-x-110" />
+    </motion.div>
+  );
+};
 
 const Supermercados = () => {
   return (
@@ -18,7 +48,12 @@ const Supermercados = () => {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
+            <motion.div
+              whileHover={{ rotate: [0, 15, -15, 0], scale: 1.1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Zap className="h-8 w-8 text-[#00FF99]" />
+            </motion.div>
             <span className="text-xl font-bold text-[#0C1F38]">
               EletriCharge
             </span>
@@ -61,7 +96,7 @@ const Supermercados = () => {
               Sobre Nós
             </a>
           </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
+          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 rounded-full">
             Baixe o App
           </Button>
         </div>
@@ -76,6 +111,9 @@ const Supermercados = () => {
             transition={{ duration: 0.5 }}
             className="max-w-3xl mx-auto text-center space-y-6"
           >
+            <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+              Soluções para Supermercados
+            </Badge>
             <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
               Soluções de Recarga para Supermercados
             </h1>
@@ -83,12 +121,14 @@ const Supermercados = () => {
               Atraia clientes de alto valor e aumente o tempo de permanência em
               sua loja com estações de recarga para veículos elétricos.
             </p>
-            <Button
-              className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 mt-4"
-              size="lg"
-            >
-              Fale com um consultor
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 mt-4 rounded-full px-8"
+                size="lg"
+              >
+                Fale com um consultor
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0C1F38] opacity-80"></div>
@@ -104,73 +144,91 @@ const Supermercados = () => {
       {/* Benefits Section */}
       <section className="py-20 bg-white">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1593941707882-a56bbc8df44c?w=800&q=80"
-                alt="Estação de recarga em supermercado"
-                className="rounded-xl shadow-lg w-full h-auto"
-              />
-            </div>
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-                Benefícios para Supermercados
-              </h2>
-              <p className="text-gray-600">
-                Instalar pontos de recarga para veículos elétricos em seu
-                supermercado traz múltiplos benefícios para seu negócio:
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3 mt-1">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+          <div className="text-center mb-16">
+            <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+              Vantagens Exclusivas
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0C1F38] mb-4">
+              Benefícios para Supermercados
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Descubra como nossas soluções de recarga podem transformar a
+              experiência dos seus clientes e gerar novas fontes de receita.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-full bg-white overflow-hidden rounded-xl">
+                <CardContent className="p-8 flex flex-col items-center text-center h-full">
+                  <div className="bg-[#0C1F38]/5 p-6 rounded-full mb-6 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                    <Icon3D>
+                      <ShoppingCart className="h-10 w-10 text-[#00FF99]" />
+                    </Icon3D>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-[#0C1F38]">
-                      Aumento do tempo de permanência
-                    </h3>
-                    <p className="text-gray-600">
-                      Clientes com veículos elétricos permanecem mais tempo no
-                      supermercado enquanto seus carros carregam, aumentando o
-                      ticket médio de compras.
-                    </p>
+                  <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
+                    Aumento do Ticket Médio
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Clientes com veículos elétricos permanecem mais tempo no
+                    supermercado enquanto seus carros carregam, aumentando o
+                    ticket médio de compras.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-full bg-white overflow-hidden rounded-xl">
+                <CardContent className="p-8 flex flex-col items-center text-center h-full">
+                  <div className="bg-[#0C1F38]/5 p-6 rounded-full mb-6 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                    <Icon3D>
+                      <Users className="h-10 w-10 text-[#00FF99]" />
+                    </Icon3D>
                   </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3 mt-1">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
+                    Atração de Público Premium
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Proprietários de veículos elétricos geralmente possuem maior
+                    poder aquisitivo e valorizam estabelecimentos com
+                    infraestrutura sustentável.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-full bg-white overflow-hidden rounded-xl">
+                <CardContent className="p-8 flex flex-col items-center text-center h-full">
+                  <div className="bg-[#0C1F38]/5 p-6 rounded-full mb-6 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                    <Icon3D>
+                      <TrendingUp className="h-10 w-10 text-[#00FF99]" />
+                    </Icon3D>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-[#0C1F38]">
-                      Atração de público premium
-                    </h3>
-                    <p className="text-gray-600">
-                      Proprietários de veículos elétricos geralmente possuem
-                      maior poder aquisitivo e valorizam estabelecimentos com
-                      infraestrutura sustentável.
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3 mt-1">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-[#0C1F38]">
-                      Diferenciação competitiva
-                    </h3>
-                    <p className="text-gray-600">
-                      Destaque seu supermercado da concorrência ao oferecer uma
-                      infraestrutura moderna e alinhada às tendências de
-                      sustentabilidade.
-                    </p>
-                  </div>
-                </li>
-              </ul>
-              <Button className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white mt-4">
-                Solicite uma proposta
-              </Button>
-            </div>
+                  <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
+                    Diferenciação Competitiva
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Destaque seu supermercado da concorrência ao oferecer uma
+                    infraestrutura moderna e alinhada às tendências de
+                    sustentabilidade.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -178,57 +236,110 @@ const Supermercados = () => {
       {/* Case Study Section */}
       <section className="py-20 bg-gray-50">
         <div className="container">
-          <h2 className="text-3xl font-bold text-center text-[#0C1F38] mb-12">
-            Casos de Sucesso
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="bg-[#0C1F38]/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                  <ShoppingCart className="h-8 w-8 text-[#00FF99]" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                  Rede Pão de Açúcar
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Aumento de 25% no ticket médio dos clientes que utilizam os
-                  pontos de recarga, com retorno do investimento em apenas 10
-                  meses.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="bg-[#0C1F38]/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                  <Truck className="h-8 w-8 text-[#00FF99]" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                  Carrefour Hipermercados
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Crescimento de 18% no fluxo de clientes e aumento da
-                  fidelização após a implementação do programa de recarga
-                  elétrica.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="bg-[#0C1F38]/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                  <Users className="h-8 w-8 text-[#00FF99]" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                  Rede Atacadão
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Aumento de 20% no tempo médio de permanência dos clientes e
-                  crescimento de 15% nas vendas após a instalação de 8 pontos de
-                  recarga.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <img
+                src="https://images.unsplash.com/photo-1593941707882-a56bbc8df44c?w=800&q=80"
+                alt="Estação de recarga em supermercado"
+                className="rounded-xl shadow-2xl w-full h-auto object-cover"
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+                Caso de Sucesso
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#0C1F38] mb-4">
+                Rede Pão de Açúcar
+              </h2>
+              <p className="text-lg text-gray-600">
+                A rede de supermercados Pão de Açúcar implementou pontos de
+                recarga EletriCharge e viu um aumento de 25% no ticket médio dos
+                clientes que utilizam os pontos de recarga, com retorno do
+                investimento em apenas 10 meses.
+              </p>
+              <ul className="space-y-6 mt-8">
+                <motion.li
+                  className="flex items-start bg-white p-4 rounded-xl shadow-md"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className="bg-[#00FF99] rounded-full p-3 mr-4">
+                    <Icon3D size={6}>
+                      <Clock className="h-6 w-6 text-[#0C1F38]" />
+                    </Icon3D>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#0C1F38] text-lg">
+                      Tempo de permanência
+                    </h3>
+                    <p className="text-gray-600">
+                      Aumento de 35% no tempo médio de permanência dos clientes
+                      com veículos elétricos.
+                    </p>
+                  </div>
+                </motion.li>
+                <motion.li
+                  className="flex items-start bg-white p-4 rounded-xl shadow-md"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className="bg-[#00FF99] rounded-full p-3 mr-4">
+                    <Icon3D size={6}>
+                      <Check className="h-6 w-6 text-[#0C1F38]" />
+                    </Icon3D>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#0C1F38] text-lg">
+                      Fidelização de clientes
+                    </h3>
+                    <p className="text-gray-600">
+                      Crescimento de 40% na recorrência de visitas dos clientes
+                      que utilizam os pontos de recarga.
+                    </p>
+                  </div>
+                </motion.li>
+                <motion.li
+                  className="flex items-start bg-white p-4 rounded-xl shadow-md"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className="bg-[#00FF99] rounded-full p-3 mr-4">
+                    <Icon3D size={6}>
+                      <DollarSign className="h-6 w-6 text-[#0C1F38]" />
+                    </Icon3D>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#0C1F38] text-lg">
+                      Retorno sobre investimento
+                    </h3>
+                    <p className="text-gray-600">
+                      ROI completo em apenas 10 meses, considerando a receita
+                      direta e indireta gerada pelos pontos de recarga.
+                    </p>
+                  </div>
+                </motion.li>
+              </ul>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-8"
+              >
+                <Button className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white rounded-full px-8">
+                  Solicite uma proposta
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -237,28 +348,49 @@ const Supermercados = () => {
       <section className="py-20 bg-[#0C1F38]">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Transforme seu supermercado em um hub de mobilidade elétrica
-            </h2>
-            <p className="text-lg text-gray-300">
-              Nossa equipe de especialistas está pronta para desenvolver uma
-              solução personalizada para seu supermercado.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button
-                className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80"
-                size="lg"
-              >
-                Solicitar orçamento
-              </Button>
-              <Button
-                variant="outline"
-                className="border-white text-white hover:bg-white/10"
-                size="lg"
-              >
-                Agendar demonstração
-              </Button>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+                Comece Agora
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Transforme seu supermercado em um hub de mobilidade elétrica
+              </h2>
+              <p className="text-lg text-gray-300">
+                Nossa equipe de especialistas está pronta para desenvolver uma
+                solução personalizada para seu supermercado.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 rounded-full px-8"
+                    size="lg"
+                  >
+                    Solicitar orçamento
+                  </Button>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10 rounded-full px-8"
+                    size="lg"
+                  >
+                    <Clock className="mr-2 h-5 w-5" />
+                    Agendar demonstração
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -269,7 +401,12 @@ const Supermercados = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-6 w-6 text-[#00FF99]" />
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Zap className="h-6 w-6 text-[#00FF99]" />
+                </motion.div>
                 <span className="text-lg font-bold text-[#0C1F38]">
                   EletriCharge
                 </span>

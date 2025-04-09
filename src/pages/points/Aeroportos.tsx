@@ -1,7 +1,43 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Zap, ArrowRight, Plane, Check } from "lucide-react";
+import {
+  Zap,
+  ArrowRight,
+  Plane,
+  Check,
+  Clock,
+  DollarSign,
+  Award,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+
+// 3D Icon Animation
+const Icon3D = ({ children, color = "#00FF99", size = 10 }) => {
+  return (
+    <motion.div
+      className={`relative flex items-center justify-center w-${size} h-${size}`}
+      initial={{ y: 0 }}
+      animate={{
+        y: [0, -5, 0],
+        rotateY: [0, 5, 0],
+        rotateX: [0, 5, 0],
+      }}
+      transition={{
+        duration: 3,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatType: "reverse",
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-sm" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-md transform scale-110" />
+      <div className={`relative z-10 text-${color}`}>{children}</div>
+      <div className="absolute bottom-0 w-2/3 h-[2px] bg-black/10 rounded-full blur-sm transform scale-x-110" />
+    </motion.div>
+  );
+};
 
 const Aeroportos = () => {
   return (
@@ -10,7 +46,12 @@ const Aeroportos = () => {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
+            <motion.div
+              whileHover={{ rotate: [0, 15, -15, 0], scale: 1.1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Zap className="h-8 w-8 text-[#00FF99]" />
+            </motion.div>
             <span className="text-xl font-bold text-[#0C1F38]">
               EletriCharge
             </span>
@@ -53,7 +94,7 @@ const Aeroportos = () => {
               Sobre Nós
             </a>
           </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
+          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 rounded-full">
             Baixe o App
           </Button>
         </div>
@@ -68,6 +109,9 @@ const Aeroportos = () => {
             transition={{ duration: 0.5 }}
             className="max-w-3xl mx-auto text-center space-y-6"
           >
+            <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+              Soluções para Aeroportos
+            </Badge>
             <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
               Soluções de Recarga para Aeroportos
             </h1>
@@ -75,12 +119,14 @@ const Aeroportos = () => {
               Transforme seu aeroporto em um hub de mobilidade sustentável e
               ofereça uma experiência premium aos seus passageiros.
             </p>
-            <Button
-              className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 mt-4"
-              size="lg"
-            >
-              Solicite uma proposta
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 mt-4 rounded-full px-8"
+                size="lg"
+              >
+                Solicite uma proposta
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0C1F38] opacity-80"></div>
@@ -96,46 +142,92 @@ const Aeroportos = () => {
       {/* Benefits Section */}
       <section className="py-20 bg-white">
         <div className="container">
-          <h2 className="text-3xl font-bold text-center text-[#0C1F38] mb-12">
-            Benefícios para Aeroportos
-          </h2>
+          <div className="text-center mb-16">
+            <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+              Vantagens Exclusivas
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0C1F38] mb-4">
+              Benefícios para Aeroportos
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Descubra como nossas soluções de recarga podem transformar a
+              experiência dos seus passageiros e gerar novas fontes de receita.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-[#00FF99]/20 p-4 rounded-full inline-block mb-4">
-                <Plane className="h-8 w-8 text-[#0C1F38]" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
-                Experiência Premium
-              </h3>
-              <p className="text-gray-600">
-                Ofereça um serviço diferenciado para passageiros que utilizam
-                veículos elétricos, aumentando a satisfação do cliente.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-[#00FF99]/20 p-4 rounded-full inline-block mb-4">
-                <Check className="h-8 w-8 text-[#0C1F38]" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
-                Receita Adicional
-              </h3>
-              <p className="text-gray-600">
-                Gere uma nova fonte de receita através da cobrança pelo uso das
-                estações de recarga durante o período de estacionamento.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="bg-[#00FF99]/20 p-4 rounded-full inline-block mb-4">
-                <Zap className="h-8 w-8 text-[#0C1F38]" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
-                Sustentabilidade
-              </h3>
-              <p className="text-gray-600">
-                Fortaleça o compromisso do aeroporto com práticas sustentáveis e
-                reduza a pegada de carbono da operação.
-              </p>
-            </div>
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-full bg-white overflow-hidden rounded-xl">
+                <CardContent className="p-8 flex flex-col items-center text-center h-full">
+                  <div className="bg-[#0C1F38]/5 p-6 rounded-full mb-6 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                    <Icon3D>
+                      <Plane className="h-10 w-10 text-[#00FF99]" />
+                    </Icon3D>
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
+                    Experiência Premium
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Ofereça um serviço diferenciado para passageiros que
+                    utilizam veículos elétricos, aumentando a satisfação do
+                    cliente e destacando seu aeroporto da concorrência.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-full bg-white overflow-hidden rounded-xl">
+                <CardContent className="p-8 flex flex-col items-center text-center h-full">
+                  <div className="bg-[#0C1F38]/5 p-6 rounded-full mb-6 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                    <Icon3D>
+                      <DollarSign className="h-10 w-10 text-[#00FF99]" />
+                    </Icon3D>
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
+                    Receita Adicional
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Gere uma nova fonte de receita através da cobrança pelo uso
+                    das estações de recarga durante o período de estacionamento,
+                    com retorno rápido sobre o investimento.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-full bg-white overflow-hidden rounded-xl">
+                <CardContent className="p-8 flex flex-col items-center text-center h-full">
+                  <div className="bg-[#0C1F38]/5 p-6 rounded-full mb-6 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                    <Icon3D>
+                      <Award className="h-10 w-10 text-[#00FF99]" />
+                    </Icon3D>
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
+                    Sustentabilidade
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Fortaleça o compromisso do aeroporto com práticas
+                    sustentáveis, reduza a pegada de carbono da operação e
+                    melhore a imagem da sua marca perante o público e
+                    investidores.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -144,29 +236,49 @@ const Aeroportos = () => {
       <section className="py-20 bg-gray-50">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <img
                 src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=800&q=80"
                 alt="Caso de sucesso em aeroporto"
-                className="rounded-xl shadow-lg w-full h-auto"
+                className="rounded-xl shadow-2xl w-full h-auto object-cover"
               />
-            </div>
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-                Caso de Sucesso: Aeroporto Internacional de Brasília
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+                Caso de Sucesso
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#0C1F38] mb-4">
+                Aeroporto Internacional de Brasília
               </h2>
-              <p className="text-gray-600">
+              <p className="text-lg text-gray-600">
                 O Aeroporto Internacional de Brasília implementou 12 pontos de
                 recarga EletriCharge e viu um aumento de 30% na satisfação dos
                 passageiros que utilizam o estacionamento de longa duração.
               </p>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3 mt-1">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+              <ul className="space-y-6 mt-8">
+                <motion.li
+                  className="flex items-start bg-white p-4 rounded-xl shadow-md"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className="bg-[#00FF99] rounded-full p-3 mr-4">
+                    <Icon3D size={6}>
+                      <DollarSign className="h-6 w-6 text-[#0C1F38]" />
+                    </Icon3D>
                   </div>
                   <div>
-                    <h3 className="font-bold text-[#0C1F38]">
+                    <h3 className="font-bold text-[#0C1F38] text-lg">
                       Aumento de receita
                     </h3>
                     <p className="text-gray-600">
@@ -174,25 +286,39 @@ const Aeroportos = () => {
                       implementação das estações.
                     </p>
                   </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3 mt-1">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                </motion.li>
+                <motion.li
+                  className="flex items-start bg-white p-4 rounded-xl shadow-md"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className="bg-[#00FF99] rounded-full p-3 mr-4">
+                    <Icon3D size={6}>
+                      <Award className="h-6 w-6 text-[#0C1F38]" />
+                    </Icon3D>
                   </div>
                   <div>
-                    <h3 className="font-bold text-[#0C1F38]">Reconhecimento</h3>
+                    <h3 className="font-bold text-[#0C1F38] text-lg">
+                      Reconhecimento
+                    </h3>
                     <p className="text-gray-600">
                       Premiado como "Aeroporto Mais Sustentável" pelo segundo
                       ano consecutivo.
                     </p>
                   </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3 mt-1">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                </motion.li>
+                <motion.li
+                  className="flex items-start bg-white p-4 rounded-xl shadow-md"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className="bg-[#00FF99] rounded-full p-3 mr-4">
+                    <Icon3D size={6}>
+                      <ArrowRight className="h-6 w-6 text-[#0C1F38]" />
+                    </Icon3D>
                   </div>
                   <div>
-                    <h3 className="font-bold text-[#0C1F38]">
+                    <h3 className="font-bold text-[#0C1F38] text-lg">
                       Ocupação do estacionamento
                     </h3>
                     <p className="text-gray-600">
@@ -200,12 +326,18 @@ const Aeroportos = () => {
                       longa duração.
                     </p>
                   </div>
-                </li>
+                </motion.li>
               </ul>
-              <Button className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white mt-4">
-                Ver mais casos de sucesso
-              </Button>
-            </div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-8"
+              >
+                <Button className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white rounded-full px-8">
+                  Ver mais casos de sucesso
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -214,28 +346,49 @@ const Aeroportos = () => {
       <section className="py-20 bg-[#0C1F38]">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Pronto para transformar seu aeroporto?
-            </h2>
-            <p className="text-lg text-gray-300">
-              Nossa equipe de especialistas está pronta para desenvolver uma
-              solução personalizada para seu aeroporto.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button
-                className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80"
-                size="lg"
-              >
-                Solicitar orçamento
-              </Button>
-              <Button
-                variant="outline"
-                className="border-white text-white hover:bg-white/10"
-                size="lg"
-              >
-                Falar com consultor
-              </Button>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <Badge className="bg-[#00FF99]/20 text-[#00FF99] border-none px-4 py-1 text-sm mb-4 inline-block">
+                Comece Agora
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Pronto para transformar seu aeroporto?
+              </h2>
+              <p className="text-lg text-gray-300">
+                Nossa equipe de especialistas está pronta para desenvolver uma
+                solução personalizada para seu aeroporto.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 rounded-full px-8"
+                    size="lg"
+                  >
+                    Solicitar orçamento
+                  </Button>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10 rounded-full px-8"
+                    size="lg"
+                  >
+                    <Clock className="mr-2 h-5 w-5" />
+                    Agendar demonstração
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -246,7 +399,12 @@ const Aeroportos = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-6 w-6 text-[#00FF99]" />
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Zap className="h-6 w-6 text-[#00FF99]" />
+                </motion.div>
                 <span className="text-lg font-bold text-[#0C1F38]">
                   EletriCharge
                 </span>

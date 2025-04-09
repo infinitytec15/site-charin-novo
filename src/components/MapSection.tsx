@@ -11,6 +11,7 @@ import {
   Navigation,
   Maximize2,
   Minimize2,
+  X,
 } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
@@ -210,7 +211,7 @@ const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
             </span>
           </div>
           <p className="text-xs mt-1">
-            {station.pricePerKwh.toFixed(2)} R$/kWh
+            R$ {station.pricePerKwh.toFixed(2).replace(".", ",")}/kWh
           </p>
           {station.id === "1" && (
             <p className="text-xs mt-1 text-gray-600 italic">
@@ -431,6 +432,7 @@ interface MapSectionProps {
   containerHeight?: string;
   containerClassName?: string;
   isFullScreen?: boolean;
+  onFullScreenChange?: (isFullScreen: boolean) => void;
 }
 
 const MapSection = ({
@@ -438,12 +440,84 @@ const MapSection = ({
   containerHeight = "800px",
   containerClassName = "",
   isFullScreen = false,
+  onFullScreenChange,
 }: MapSectionProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const [fullScreen, setFullScreen] = useState(isFullScreen);
+
+  // Update fullScreen state when isFullScreen prop changes
+  useEffect(() => {
+    setFullScreen(isFullScreen);
+  }, [isFullScreen]);
+
+  // Add custom styles for scrollbar and animations to head
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = `
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #00FF99;
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #00CC77;
+      }
+      .station-card {
+        transition: all 0.3s ease;
+      }
+      .station-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0px); }
+      }
+      .icon-3d {
+        filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.1));
+        transition: all 0.3s ease;
+      }
+      .icon-float {
+        animation: float 3s ease-in-out infinite;
+      }
+      .icon-3d:hover {
+        filter: drop-shadow(2px 8px 8px rgba(0, 0, 0, 0.2));
+        transform: translateY(-5px);
+      }
+      .fullscreen-enter {
+        animation: fullscreenEnter 0.4s ease-out forwards;
+      }
+      .fullscreen-exit {
+        animation: fullscreenExit 0.4s ease-in forwards;
+      }
+      @keyframes fullscreenEnter {
+        from { transform: scale(0.95); opacity: 0.8; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      @keyframes fullscreenExit {
+        from { transform: scale(1); opacity: 1; }
+        to { transform: scale(0.95); opacity: 0.8; }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   // Remove opacity animations and ensure elements are always visible
   useEffect(() => {
@@ -513,7 +587,12 @@ const MapSection = ({
 
   // Toggle fullscreen mode
   const toggleFullScreen = () => {
-    setFullScreen(!fullScreen);
+    const newFullScreenState = !fullScreen;
+    setFullScreen(newFullScreenState);
+    // Call the callback if provided
+    if (onFullScreenChange) {
+      onFullScreenChange(newFullScreenState);
+    }
     // Force map to recalculate size after fullscreen toggle
     setTimeout(() => {
       const event = new Event("resize");
@@ -794,35 +873,51 @@ const MapSection = ({
 
   return (
     <div
-      className={`${fullScreen ? "fixed inset-0 z-50" : "w-full h-full"} bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-md border border-gray-200 ${containerClassName} transition-all duration-300 ease-in-out`}
+      className={`${fullScreen ? "fixed inset-0 z-50" : "w-full h-full"} bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-lg border border-gray-200 ${containerClassName} transition-all duration-500 ease-in-out ${fullScreen ? "fullscreen-enter" : "fullscreen-exit"}`}
       style={{
         backgroundColor: "white",
         position: fullScreen ? "fixed" : "relative",
         zIndex: fullScreen ? 50 : 5,
+        backdropFilter: fullScreen ? "blur(10px)" : "none",
+        boxShadow: fullScreen
+          ? "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+          : "",
       }}
     >
       <Toaster />
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38]">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38] flex items-center">
+          <MapPin className="mr-2 h-6 w-6 text-[#00FF99] icon-3d icon-float" />
           Encontre Pontos de Recarga
         </h2>
-        <Button
-          variant="outline"
-          className="border-[#0C1F38] text-[#0C1F38] hover:bg-[#00FF99]/20"
-          onClick={toggleFullScreen}
-        >
-          {fullScreen ? (
-            <>
-              <Minimize2 className="mr-2 h-4 w-4" />
-              Minimizar
-            </>
-          ) : (
-            <>
-              <Maximize2 className="mr-2 h-4 w-4" />
-              Expandir
-            </>
+        <div className="flex gap-2">
+          {fullScreen && (
+            <Button
+              variant="outline"
+              className="border-red-500 text-red-500 hover:bg-red-50 transition-all duration-300 shadow-sm hover:shadow-md"
+              onClick={toggleFullScreen}
+            >
+              <X className="h-4 w-4 icon-3d" />
+            </Button>
           )}
-        </Button>
+          <Button
+            variant="outline"
+            className="border-[#0C1F38] text-[#0C1F38] hover:bg-[#00FF99]/20 transition-all duration-300 shadow-sm hover:shadow-md"
+            onClick={toggleFullScreen}
+          >
+            {fullScreen ? (
+              <>
+                <Minimize2 className="mr-2 h-4 w-4 icon-3d" />
+                Minimizar
+              </>
+            ) : (
+              <>
+                <Maximize2 className="mr-2 h-4 w-4 icon-3d" />
+                Expandir
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
@@ -830,34 +925,34 @@ const MapSection = ({
         <div className={`w-full ${fullScreen ? "lg:w-3/4" : "lg:w-2/3"}`}>
           <div
             ref={searchRef}
-            className="mb-4 flex flex-col md:flex-row gap-4 bg-white"
+            className="mb-4 flex flex-col md:flex-row gap-4 bg-white rounded-lg p-2 shadow-sm border border-gray-100"
             style={{ opacity: 1, visibility: "visible" }}
           >
             <form
               onSubmit={handleSearchSubmit}
-              className="flex flex-grow gap-2"
+              className="flex flex-col sm:flex-row flex-grow gap-2"
             >
               <div className="relative flex-grow">
                 <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-3d"
                   size={18}
                 />
                 <Input
                   placeholder="Buscar por cidade, estado ou franquia (ex: São Paulo, SP)"
-                  className="pl-10 bg-gray-50 border-gray-200"
+                  className="pl-10 bg-gray-50 border-gray-200 focus:ring-2 focus:ring-[#00FF99] focus:border-transparent transition-all duration-300"
                   value={searchQuery}
                   onChange={handleSearchChange}
                 />
               </div>
               <Button
                 type="submit"
-                className="bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38] font-medium"
+                className="bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38] font-medium transition-all duration-300 transform hover:scale-105 shadow-sm"
               >
-                <Search size={16} className="mr-2" /> Buscar
+                <Search size={16} className="mr-2 icon-3d" /> Buscar
               </Button>
               <Button
                 type="button"
-                className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white font-medium"
+                className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white font-medium transition-all duration-300 transform hover:scale-105 shadow-sm"
                 onClick={() => {
                   // Scroll to filters section on mobile
                   if (window.innerWidth < 1024 && filtersRef.current) {
@@ -865,24 +960,24 @@ const MapSection = ({
                   }
                 }}
               >
-                <Filter size={16} className="mr-2" /> Filtros
+                <Filter size={16} className="mr-2 icon-3d" /> Filtros
               </Button>
             </form>
           </div>
 
           <Tabs defaultValue="map" className="w-full">
-            <TabsList className="mb-4 bg-gray-100 border border-gray-300">
+            <TabsList className="mb-4 bg-gray-100 border border-gray-300 p-1 rounded-lg shadow-sm">
               <TabsTrigger
                 value="map"
                 onClick={() => setActiveTab("map")}
-                className={activeTab === "map" ? "bg-[#00FF99]/20" : ""}
+                className={`transition-all duration-300 ${activeTab === "map" ? "bg-[#00FF99] text-[#0C1F38] shadow-sm" : "hover:bg-gray-200"}`}
               >
                 Mapa
               </TabsTrigger>
               <TabsTrigger
                 value="list"
                 onClick={() => setActiveTab("list")}
-                className={activeTab === "list" ? "bg-[#00FF99]/20" : ""}
+                className={`transition-all duration-300 ${activeTab === "list" ? "bg-[#00FF99] text-[#0C1F38] shadow-sm" : "hover:bg-gray-200"}`}
               >
                 Lista
               </TabsTrigger>
@@ -916,6 +1011,7 @@ const MapSection = ({
                     zIndex: 1,
                     visibility: "visible",
                     opacity: 1,
+                    borderRadius: "0.5rem",
                   }}
                   className="leaflet-container-fix"
                   key="map-container"
@@ -943,8 +1039,13 @@ const MapSection = ({
                 </MapContainer>
 
                 <div
-                  className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-md text-sm z-[1000] border border-gray-300"
-                  style={{ visibility: "visible", opacity: 1 }}
+                  className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-lg text-sm z-[1000] border border-gray-300 transition-all duration-300 max-w-[200px] md:max-w-none"
+                  style={{
+                    visibility: "visible",
+                    opacity: 1,
+                    backdropFilter: "blur(5px)",
+                    backgroundColor: "rgba(255, 255, 255, 0.95)",
+                  }}
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
@@ -963,11 +1064,14 @@ const MapSection = ({
             </TabsContent>
 
             <TabsContent value="list" className="w-full">
-              <div className="space-y-4">
+              <div
+                className="space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2"
+                style={{ scrollbarWidth: "thin" }}
+              >
                 {filteredStations.map((station) => (
                   <Card
                     key={station.id}
-                    className={`cursor-pointer hover:border-[#00FF99] transition-colors shadow-md ${selectedStation?.id === station.id ? "border-[#00FF99] border-2" : "border border-gray-300"}`}
+                    className={`cursor-pointer hover:border-[#00FF99] transition-all duration-300 shadow-md station-card ${selectedStation?.id === station.id ? "border-[#00FF99] border-2" : "border border-gray-300"}`}
                     onClick={() => handleStationSelect(station)}
                   >
                     <CardContent className="p-4">
@@ -1002,7 +1106,9 @@ const MapSection = ({
                           </div>
                           <p className="text-sm">{station.distance}</p>
                           <p className="font-medium text-[#0C1F38]">
-                            {station.pricePerKwh.toFixed(2)} R$/kWh
+                            R${" "}
+                            {station.pricePerKwh.toFixed(2).replace(".", ",")}
+                            /kWh
                           </p>
                         </div>
                       </div>
@@ -1018,14 +1124,25 @@ const MapSection = ({
         <div className={`w-full ${fullScreen ? "lg:w-1/4" : "lg:w-1/3"}`}>
           <Card
             ref={filtersRef}
-            className="border border-gray-300 shadow-md mb-6"
-            style={{ visibility: "visible", opacity: 1, zIndex: 10 }}
+            className="border border-gray-300 shadow-lg mb-6 transition-all duration-300"
+            style={{
+              visibility: "visible",
+              opacity: 1,
+              zIndex: 10,
+              borderRadius: "0.75rem",
+            }}
           >
             <CardContent className="p-4">
-              <h3 className="font-semibold text-lg mb-4">Filtros</h3>
+              <h3 className="font-semibold text-lg mb-4 flex items-center">
+                <Filter className="mr-2 h-5 w-5 text-[#00FF99] icon-3d icon-float" />
+                Filtros
+              </h3>
 
               <div className="mb-6">
-                <h4 className="text-sm font-medium mb-2">Tipo de Conector</h4>
+                <h4 className="text-sm font-medium mb-2 flex items-center">
+                  <Battery className="mr-2 h-4 w-4 text-gray-600 icon-3d" />
+                  Tipo de Conector
+                </h4>
                 <div className="flex flex-wrap gap-2">
                   {["CCS", "CHAdeMO", "Type 2", "Type 1"].map((type) => (
                     <Badge
@@ -1045,7 +1162,10 @@ const MapSection = ({
               </div>
 
               <div className="mb-6">
-                <h4 className="text-sm font-medium mb-2">Disponibilidade</h4>
+                <h4 className="text-sm font-medium mb-2 flex items-center">
+                  <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                  Disponibilidade
+                </h4>
                 <div className="flex flex-wrap gap-2">
                   {[
                     { id: "available", label: "Disponível" },
@@ -1069,7 +1189,10 @@ const MapSection = ({
               </div>
 
               <div>
-                <h4 className="text-sm font-medium mb-2">Preço por kWh</h4>
+                <h4 className="text-sm font-medium mb-2 flex items-center">
+                  <DollarSign className="mr-2 h-4 w-4 text-gray-600 icon-3d" />
+                  Preço por kWh
+                </h4>
                 <div className="px-2">
                   <Slider
                     defaultValue={[0, 2]}
@@ -1080,20 +1203,32 @@ const MapSection = ({
                   />
                 </div>
                 <div className="flex justify-between mt-2 text-sm text-gray-600">
-                  <span>{priceRange[0].toFixed(2)} R$</span>
-                  <span>{priceRange[1].toFixed(2)} R$</span>
+                  <span>R$ {priceRange[0].toFixed(2).replace(".", ",")}</span>
+                  <span>R$ {priceRange[1].toFixed(2).replace(".", ",")}</span>
                 </div>
               </div>
 
-              <div className="mt-6 flex gap-2">
+              <div className="mt-6 flex flex-col sm:flex-row gap-2">
                 <Button
-                  className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38]"
+                  className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38] transition-all duration-300 transform hover:scale-105 shadow-md rounded-lg"
                   onClick={() => {
                     // Set filters as applied
                     setFiltersApplied(true);
 
-                    // Show toast notification based on filter results
+                    // Scroll to results if they exist
                     if (filteredStations.length > 0) {
+                      setTimeout(() => {
+                        const resultsElement = document.querySelector(
+                          ".filtered-results-heading",
+                        );
+                        if (resultsElement) {
+                          resultsElement.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          });
+                        }
+                      }, 100);
+
                       toast({
                         title: "Filtros aplicados",
                         description: `${filteredStations.length} estações encontradas com os filtros selecionados.`,
@@ -1109,11 +1244,12 @@ const MapSection = ({
                     }
                   }}
                 >
-                  Aplicar Filtros ({filteredStations.length} resultados)
+                  <Filter size={16} className="mr-2 icon-3d" />
+                  Aplicar Filtros ({filteredStations.length})
                 </Button>
                 <Button
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 transition-all duration-300 hover:bg-gray-100 rounded-lg"
                   onClick={() => {
                     setSelectedFilters({
                       connectorTypes: [],
@@ -1121,6 +1257,8 @@ const MapSection = ({
                     });
                     setPriceRange([0, 2]);
                     setFiltersApplied(false);
+                    setSelectedStation(null);
+                    setSearchQuery("");
 
                     // Show toast notification for cleared filters
                     toast({
@@ -1137,18 +1275,25 @@ const MapSection = ({
               {/* Lista de estações filtradas abaixo dos filtros - só aparece quando os filtros são aplicados */}
               {filtersApplied && (
                 <div className="mt-6 space-y-4">
-                  <h3 className="font-semibold text-lg border-t pt-4">
+                  <h3 className="font-semibold text-lg border-t pt-4 filtered-results-heading flex items-center">
+                    <MapPin className="mr-2 h-5 w-5 text-[#00FF99] icon-3d icon-float" />
                     Estações Encontradas ({filteredStations.length})
                   </h3>
                   <div
-                    className="max-h-[400px] overflow-y-auto pr-2"
-                    style={{ scrollbarWidth: "thin" }}
+                    className="overflow-y-auto pr-2 custom-scrollbar"
+                    style={{
+                      scrollbarWidth: "thin",
+                      scrollBehavior: "smooth",
+                      overflowY: "auto",
+                      maxHeight: fullScreen ? "calc(100vh - 500px)" : "400px",
+                      minHeight: "200px",
+                    }}
                   >
                     {filteredStations.length > 0 ? (
                       filteredStations.map((station) => (
                         <Card
                           key={station.id}
-                          className={`cursor-pointer hover:border-[#00FF99] transition-colors shadow-md mb-4 ${selectedStation?.id === station.id ? "border-[#00FF99] border-2" : "border border-gray-300"}`}
+                          className={`cursor-pointer hover:border-[#00FF99] transition-all duration-300 shadow-md mb-4 station-card ${selectedStation?.id === station.id ? "border-[#00FF99] border-2" : "border border-gray-300"}`}
                           onClick={() => handleStationSelect(station)}
                         >
                           <CardContent className="p-4">
@@ -1183,7 +1328,11 @@ const MapSection = ({
                                 </div>
                                 <p className="text-sm">{station.distance}</p>
                                 <p className="font-medium text-[#0C1F38]">
-                                  {station.pricePerKwh.toFixed(2)} R$/kWh
+                                  R${" "}
+                                  {station.pricePerKwh
+                                    .toFixed(2)
+                                    .replace(".", ",")}
+                                  /kWh
                                 </p>
                               </div>
                             </div>
@@ -1191,10 +1340,13 @@ const MapSection = ({
                         </Card>
                       ))
                     ) : (
-                      <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <p className="text-gray-600">
+                      <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-200 shadow-inner">
+                        <p className="text-gray-600 mb-2">
                           Nenhuma estação encontrada com os filtros
                           selecionados.
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Tente ajustar seus filtros para ver mais resultados.
                         </p>
                       </div>
                     )}
@@ -1207,8 +1359,14 @@ const MapSection = ({
           {/* Selected station details */}
           {selectedStation && (
             <Card
-              className="mt-6 border border-gray-300 shadow-md"
-              style={{ visibility: "visible", opacity: 1, zIndex: 10 }}
+              className="mt-6 border border-gray-300 shadow-lg transition-all duration-300"
+              style={{
+                visibility: "visible",
+                opacity: 1,
+                zIndex: 10,
+                transform: "translateY(0)",
+                animation: "fadeIn 0.5s ease-in-out",
+              }}
             >
               <CardContent className="p-4">
                 <div className="flex justify-between items-start mb-4">
@@ -1231,7 +1389,7 @@ const MapSection = ({
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="bg-gray-50 p-3 rounded-lg">
                     <div className="flex items-center gap-2 text-gray-700">
-                      <Battery size={18} />
+                      <Battery size={18} className="icon-3d" />
                       <span className="text-sm font-medium">Conectores</span>
                     </div>
                     <div className="mt-2 flex flex-wrap gap-2">
@@ -1249,18 +1407,20 @@ const MapSection = ({
 
                   <div className="bg-gray-50 p-3 rounded-lg">
                     <div className="flex items-center gap-2 text-gray-700">
-                      <DollarSign size={18} />
+                      <DollarSign size={18} className="icon-3d" />
                       <span className="text-sm font-medium">Preço</span>
                     </div>
                     <p className="mt-2 font-semibold text-lg">
-                      {selectedStation.pricePerKwh.toFixed(2)} R$/kWh
+                      R${" "}
+                      {selectedStation.pricePerKwh.toFixed(2).replace(".", ",")}
+                      /kWh
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-2 mt-4">
                   <Button
-                    className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38]"
+                    className="flex-1 bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38] transition-all duration-300 transform hover:scale-105 shadow-md rounded-lg"
                     onClick={() => {
                       // Ensure map tab is active to show the route
                       setActiveTab("map");
@@ -1271,13 +1431,14 @@ const MapSection = ({
                       }, 100);
                     }}
                   >
-                    <Navigation size={16} className="mr-2" /> Obter Direções
+                    <Navigation size={16} className="mr-2 icon-3d" /> Obter
+                    Direções
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex-1 border-[#0C1F38] text-[#0C1F38]"
+                    className="flex-1 border-[#0C1F38] text-[#0C1F38] transition-all duration-300 hover:bg-[#0C1F38]/10 rounded-lg"
                   >
-                    <Clock size={16} className="mr-2" /> Reservar
+                    <Clock size={16} className="mr-2 icon-3d" /> Reservar
                   </Button>
                 </div>
               </CardContent>
