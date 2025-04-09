@@ -109,7 +109,7 @@ interface ChargingStation {
   position: [number, number]; // Latitude, Longitude
 }
 
-// Custom marker icon component
+// Custom marker icon component with 3D effect
 const createCustomIcon = (availability: string) => {
   let color = "";
   switch (availability) {
@@ -130,16 +130,18 @@ const createCustomIcon = (availability: string) => {
     className: "custom-icon",
     html: `
       <div style="
-        width: 32px; 
-        height: 32px; 
+        width: 36px; 
+        height: 36px; 
         background-color: #00FF99; 
         border-radius: 50%; 
         display: flex; 
         align-items: center; 
         justify-content: center; 
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), 0 0 0 2px rgba(255, 255, 255, 0.8);
+        transform: perspective(40px) rotateX(10deg);
+        transition: all 0.3s ease;
       ">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C1F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
           <circle cx="12" cy="10" r="3"/>
         </svg>
@@ -147,17 +149,18 @@ const createCustomIcon = (availability: string) => {
           position: absolute; 
           bottom: -2px; 
           right: -2px; 
-          width: 12px; 
-          height: 12px; 
+          width: 14px; 
+          height: 14px; 
           background-color: ${color}; 
           border-radius: 50%; 
           border: 2px solid white;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         "></div>
       </div>
     `,
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32], // Fix popup positioning
+    iconSize: [36, 36],
+    iconAnchor: [18, 36],
+    popupAnchor: [0, -36], // Fix popup positioning
   });
 };
 
@@ -188,8 +191,14 @@ const getAvailabilityText = (status: string) => {
   }
 };
 
-// Marker component without animations
-const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
+// Marker component with click handler for direct routing
+const AnimatedMarker = ({
+  station,
+  onMarkerClick,
+}: {
+  station: ChargingStation;
+  onMarkerClick: (station: ChargingStation) => void;
+}) => {
   const markerRef = useRef<L.Marker>(null);
 
   return (
@@ -197,6 +206,11 @@ const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
       position={station.position}
       icon={createCustomIcon(station.availability)}
       ref={markerRef}
+      eventHandlers={{
+        click: () => {
+          onMarkerClick(station);
+        },
+      }}
     >
       <Popup>
         <div className="p-2 min-w-[250px]">
@@ -238,6 +252,19 @@ const AnimatedMarker = ({ station }: { station: ChargingStation }) => {
               pontos turísticos, facilitando a mobilidade elétrica na região.
             </p>
           )}
+          <div className="mt-2">
+            <Button
+              size="sm"
+              className="w-full bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38] font-medium"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onMarkerClick(station);
+              }}
+            >
+              <Navigation size={14} className="mr-1" /> Traçar Rota
+            </Button>
+          </div>
         </div>
       </Popup>
     </Marker>
@@ -249,13 +276,14 @@ const MapCenterAnimator = ({
   center,
   zoom = 13,
   selectedStation,
+  routingControlRef,
 }: {
   center: [number, number];
   zoom?: number;
   selectedStation?: ChargingStation;
+  routingControlRef: React.MutableRefObject<L.Routing.Control | null>;
 }) => {
   const map = useMap();
-  const routingControlRef = useRef<L.Routing.Control | null>(null);
 
   useEffect(() => {
     map.flyTo(center, zoom, {
@@ -311,13 +339,6 @@ const MapCenterAnimator = ({
             draggableWaypoints: false, // Prevent users from dragging waypoints
           }).addTo(map);
 
-          // Show success toast for route calculation
-          toast({
-            title: "Rota calculada",
-            description: `Rota para ${selectedStation.name} calculada com sucesso.`,
-            variant: "default",
-          });
-
           // Track routing in Google Tag Manager
           if (window.dataLayer) {
             window.dataLayer.push({
@@ -332,23 +353,6 @@ const MapCenterAnimator = ({
           console.error("Error getting user location:", error);
           // If user location is not available, just center on the station
           map.flyTo(selectedStation.position, 14);
-
-          // Show error toast for geolocation error
-          toast({
-            title: "Erro de localização",
-            description:
-              "Não foi possível obter sua localização atual. Verifique as permissões do navegador.",
-            variant: "destructive",
-          });
-
-          // Track error in Google Tag Manager
-          if (window.dataLayer) {
-            window.dataLayer.push({
-              event: "routeError",
-              errorType: "geolocationError",
-              errorMessage: error.message,
-            });
-          }
         },
       );
     }
@@ -358,7 +362,7 @@ const MapCenterAnimator = ({
         map.removeControl(routingControlRef.current);
       }
     };
-  }, [selectedStation, map]);
+  }, [selectedStation, map, routingControlRef]);
 
   return null;
 };
@@ -445,6 +449,8 @@ const MapSection = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+  const mapSectionRef = useRef<HTMLDivElement>(null);
+  const routingControlRef = useRef<L.Routing.Control | null>(null);
   const { toast } = useToast();
   const [fullScreen, setFullScreen] = useState(isFullScreen);
 
@@ -512,6 +518,22 @@ const MapSection = ({
         from { transform: scale(1); opacity: 1; }
         to { transform: scale(0.95); opacity: 0.8; }
       }
+      .map-section-scrollable {
+        max-height: 100vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #00FF99 #f1f1f1;
+      }
+      .map-section-scrollable::-webkit-scrollbar {
+        width: 6px;
+      }
+      .map-section-scrollable::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .map-section-scrollable::-webkit-scrollbar-thumb {
+        background-color: #00FF99;
+        border-radius: 6px;
+      }
     `;
     document.head.appendChild(style);
     return () => {
@@ -573,6 +595,23 @@ const MapSection = ({
       }
     }
   }, []);
+
+  // Hide header when in fullscreen mode
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (header && fullScreen) {
+      header.style.display = "none";
+    } else if (header) {
+      header.style.display = "block";
+    }
+
+    return () => {
+      // Restore header visibility when component unmounts
+      if (header) {
+        header.style.display = "block";
+      }
+    };
+  }, [fullScreen]);
 
   const [activeTab, setActiveTab] = useState("map");
   const [priceRange, setPriceRange] = useState([0, 2]);
@@ -675,6 +714,7 @@ const MapSection = ({
 
   const handleStationSelect = (station: ChargingStation) => {
     setSelectedStation(station);
+    setActiveTab("map"); // Switch to map tab to show the route
   };
 
   const toggleFilter = (
@@ -834,13 +874,6 @@ const MapSection = ({
             window.dispatchEvent(event);
           }
         }, 100);
-
-        // Show success toast
-        toast({
-          title: "Busca realizada com sucesso",
-          description: `Encontrados ${filteredStations.length} pontos de recarga.`,
-          variant: "default",
-        });
       } else {
         // If we're in list view, switch to map view to show the result
         setActiveTab("map");
@@ -852,16 +885,9 @@ const MapSection = ({
             window.dispatchEvent(event);
           }
         }, 300);
-
-        // Show success toast
-        toast({
-          title: "Busca realizada com sucesso",
-          description: `Encontrados ${filteredStations.length} pontos de recarga.`,
-          variant: "default",
-        });
       }
     } else {
-      // No results found - use toast instead of alert
+      // No results found - show a message
       toast({
         title: "Nenhum resultado encontrado",
         description:
@@ -873,7 +899,8 @@ const MapSection = ({
 
   return (
     <div
-      className={`${fullScreen ? "fixed inset-0 z-50" : "w-full h-full"} bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-lg border border-gray-200 ${containerClassName} transition-all duration-500 ease-in-out ${fullScreen ? "fullscreen-enter" : "fullscreen-exit"}`}
+      ref={mapSectionRef}
+      className={`${fullScreen ? "fixed inset-0 z-50" : "w-full h-full"} bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-lg border border-gray-200 ${containerClassName} transition-all duration-500 ease-in-out ${fullScreen ? "fullscreen-enter map-section-scrollable" : "fullscreen-exit"}`}
       style={{
         backgroundColor: "white",
         position: fullScreen ? "fixed" : "relative",
@@ -882,9 +909,10 @@ const MapSection = ({
         boxShadow: fullScreen
           ? "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
           : "",
+        overflowY: "auto",
+        maxHeight: fullScreen ? "100vh" : "auto",
       }}
     >
-      <Toaster />
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38] flex items-center">
           <MapPin className="mr-2 h-6 w-6 text-[#00FF99] icon-3d icon-float" />
@@ -1028,11 +1056,16 @@ const MapSection = ({
                       center={selectedStation.position}
                       zoom={14}
                       selectedStation={selectedStation}
+                      routingControlRef={routingControlRef}
                     />
                   )}
 
                   {filteredStations.map((station) => (
-                    <AnimatedMarker key={station.id} station={station} />
+                    <AnimatedMarker
+                      key={station.id}
+                      station={station}
+                      onMarkerClick={handleStationSelect}
+                    />
                   ))}
 
                   <FixMapSize />
@@ -1228,19 +1261,6 @@ const MapSection = ({
                           });
                         }
                       }, 100);
-
-                      toast({
-                        title: "Filtros aplicados",
-                        description: `${filteredStations.length} estações encontradas com os filtros selecionados.`,
-                        variant: "default",
-                      });
-                    } else {
-                      toast({
-                        title: "Nenhum resultado",
-                        description:
-                          "Nenhuma estação encontrada com os filtros selecionados. Tente outros filtros.",
-                        variant: "destructive",
-                      });
                     }
                   }}
                 >
@@ -1259,13 +1279,6 @@ const MapSection = ({
                     setFiltersApplied(false);
                     setSelectedStation(null);
                     setSearchQuery("");
-
-                    // Show toast notification for cleared filters
-                    toast({
-                      title: "Filtros limpos",
-                      description: "Todos os filtros foram removidos.",
-                      variant: "default",
-                    });
                   }}
                 >
                   Limpar
