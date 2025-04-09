@@ -17,6 +17,8 @@ const AboutUs = lazy(() => import("./pages/AboutUs"));
 const MapStandalone = lazy(() => import("./pages/MapStandalone"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const AppPage = lazy(() => import("./pages/AppPage"));
 
 // Lazy load point types pages
 const Aeroportos = lazy(() => import("./pages/points/Aeroportos"));
@@ -42,7 +44,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/franchise" element={<FranchisePage />} />
-          <Route path="/white-label" element={<WhiteLabelPage />} />
+          <Route path="/whitelabel" element={<WhiteLabelPage />} />
           <Route path="/points" element={<PointsPage />} />
           <Route path="/points/Aeroportos" element={<Aeroportos />} />
           <Route path="/points/CentrosUrbanos" element={<CentrosUrbanos />} />
@@ -66,6 +68,8 @@ function App() {
           <Route path="/map-standalone" element={<MapStandalone />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<ArticlePage />} />
+          <Route path="/contato" element={<ContactPage />} />
+          <Route path="/app" element={<AppPage />} />
           {import.meta.env.VITE_TEMPO === "true" && (
             <Route path="/tempobook/*" />
           )}

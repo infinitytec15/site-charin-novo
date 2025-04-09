@@ -121,7 +121,7 @@ const FranchiseSection = () => {
             região. Use a barra de pesquisa para buscar por cidade ou estado e
             descubra pontos estratégicos para seu investimento.
           </p>
-          <div className="max-w-2xl mx-auto mb-8 bg-[#00FF99]/10 p-4 rounded-lg border border-[#00FF99]/30">
+          <div className="max-w-2xl mx-auto mb-8 bg-[#00A651]/10 p-4 rounded-lg border border-[#00A651]/30">
             <p className="text-center text-[#0C1F38] font-medium">
               <span className="font-bold">Dica:</span> Experimente buscar por
               "Franquia" ou por cidades como "Florianópolis", "Salvador",
@@ -161,8 +161,8 @@ const FranchiseSection = () => {
               <CardContent className="pt-6">
                 <div className="space-y-6">
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-[#00FF99] p-3 rounded-full">
-                      <TrendingUp className="h-6 w-6 text-[#0C1F38]" />
+                    <div className="flex-shrink-0 bg-[#00A651] p-3 rounded-full">
+                      <TrendingUp className="h-6 w-6 text-white" />
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold">
@@ -176,8 +176,8 @@ const FranchiseSection = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-[#00FF99] p-3 rounded-full">
-                      <MapPin className="h-6 w-6 text-[#0C1F38]" />
+                    <div className="flex-shrink-0 bg-[#00A651] p-3 rounded-full">
+                      <MapPin className="h-6 w-6 text-white" />
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold">
@@ -191,8 +191,8 @@ const FranchiseSection = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-[#00FF99] p-3 rounded-full">
-                      <DollarSign className="h-6 w-6 text-[#0C1F38]" />
+                    <div className="flex-shrink-0 bg-[#00A651] p-3 rounded-full">
+                      <DollarSign className="h-6 w-6 text-white" />
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold">
@@ -292,7 +292,7 @@ const FranchiseSection = () => {
                     </div>
 
                     <Button
-                      className="w-full mt-6 bg-[#00FF99] text-[#0C1F38] hover:bg-[#00CC7A]"
+                      className="w-full mt-6 bg-[#00A651] text-white hover:bg-[#00A651]/80"
                       onClick={calculateROI}
                     >
                       Calcular Retorno
@@ -316,14 +316,14 @@ const FranchiseSection = () => {
                           <Separator className="my-2" />
                           <div className="flex justify-between">
                             <span>Retorno Anual Estimado:</span>
-                            <span className="font-bold text-[#00CC7A]">
+                            <span className="font-bold text-[#00A651]">
                               R${" "}
                               {roiData.estimatedReturns.toLocaleString("pt-BR")}
                             </span>
                           </div>
                           <div className="flex justify-between mt-1">
                             <span>Percentual de Retorno:</span>
-                            <span className="font-bold text-[#00CC7A]">
+                            <span className="font-bold text-[#00A651]">
                               {(
                                 (roiData.estimatedReturns /
                                   (roiData.investmentAmount || 1)) *
@@ -439,7 +439,7 @@ const FranchiseSection = () => {
                         <Label htmlFor="message">Mensagem (opcional)</Label>
                         <textarea
                           id="message"
-                          className="w-full min-h-[100px] p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00FF99]"
+                          className="w-full min-h-[100px] p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A651]"
                           placeholder="Conte-nos mais sobre seu interesse e experiência"
                           value={formData.message}
                           onChange={(e) =>

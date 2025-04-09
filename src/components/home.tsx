@@ -24,62 +24,83 @@ const Home = () => {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-8 w-8 text-[#00A651]"
+            >
+              <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
+              <line x1="23" y1="13" x2="23" y2="11" />
+              <line x1="11" y1="6" x2="7" y2="18" />
+              <line x1="16" y1="6" x2="20" y2="18" />
+            </svg>
+            <span className="text-xl font-bold text-[#0C1F38]">Chargin</span>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
             <a
               href="/#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Mapa de Estações
             </a>
             <a
               href="/#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Simulador
             </a>
             <a
               href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Seja um Franqueado
             </a>
             <a
-              href="/white-label"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              href="/app"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
-              White Label
+              Aplicativo
             </a>
             <a
               href="/points"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Pontos de Recarga
             </a>
             <a
-              href="/#faq"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              href="/whitelabel"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
-              FAQ
+              White Label
             </a>
             <a
               href="/blog"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Blog
             </a>
             <a
               href="/sobre"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Sobre Nós
             </a>
+            <a
+              href="/contato"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+            >
+              Contato
+            </a>
           </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
+          <Button
+            className="bg-[#00A651] text-white hover:bg-[#00A651]/80"
+            onClick={() => (window.location.href = "/app")}
+          >
             Baixe o App
           </Button>
         </div>
@@ -105,6 +126,7 @@ const Home = () => {
               <Button
                 className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white px-6 py-6"
                 size="lg"
+                onClick={() => (window.location.href = "/#map")}
               >
                 <MapPin className="mr-2 h-5 w-5" /> Encontre um ponto de recarga
               </Button>
@@ -112,6 +134,7 @@ const Home = () => {
                 variant="outline"
                 className="border-[#0C1F38] text-[#0C1F38] hover:bg-[#0C1F38]/10 px-6 py-6"
                 size="lg"
+                onClick={() => (window.location.href = "/#simulator")}
               >
                 <Calculator className="mr-2 h-5 w-5" /> Simule sua recarga
               </Button>
@@ -124,13 +147,13 @@ const Home = () => {
             className="relative"
           >
             <img
-              src="https://images.unsplash.com/photo-1593941707882-a56bbc8df44c?w=800&q=80"
+              src="https://images.unsplash.com/photo-1647166545674-ce28ce93bdca?w=800&q=80"
               alt="Carro elétrico carregando"
               className="rounded-xl shadow-2xl w-full h-auto"
             />
-            <div className="absolute -bottom-5 -right-5 bg-[#00FF99] p-4 rounded-lg shadow-lg">
-              <p className="text-[#0C1F38] font-bold">+500 estações</p>
-              <p className="text-[#0C1F38] text-sm">em todo o Brasil</p>
+            <div className="absolute -bottom-5 -right-5 bg-[#00A651] p-4 rounded-lg shadow-lg">
+              <p className="text-white font-bold">+500 estações</p>
+              <p className="text-white text-sm">em todo o Brasil</p>
             </div>
           </motion.div>
         </div>
@@ -145,8 +168,8 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="border-none shadow-lg bg-white">
               <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4">
-                  <Zap className="h-8 w-8 text-[#00FF99]" />
+                <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
+                  <Zap className="h-8 w-8 text-[#00A651]" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
                   Recargas Ultrarrápidas
@@ -160,8 +183,8 @@ const Home = () => {
 
             <Card className="border-none shadow-lg bg-white">
               <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4">
-                  <Clock className="h-8 w-8 text-[#00FF99]" />
+                <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
+                  <Clock className="h-8 w-8 text-[#00A651]" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
                   Disponível 24h
@@ -175,8 +198,8 @@ const Home = () => {
 
             <Card className="border-none shadow-lg bg-white">
               <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4">
-                  <MapPin className="h-8 w-8 text-[#00FF99]" />
+                <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
+                  <MapPin className="h-8 w-8 text-[#00A651]" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
                   Ampla Cobertura
@@ -236,32 +259,32 @@ const Home = () => {
               </p>
               <ul className="space-y-3">
                 <li className="flex items-center">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
+                    <ArrowRight className="h-4 w-4 text-white" />
                   </div>
                   <span className="text-gray-700">
                     Selecione seu modelo de veículo
                   </span>
                 </li>
                 <li className="flex items-center">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
+                    <ArrowRight className="h-4 w-4 text-white" />
                   </div>
                   <span className="text-gray-700">
                     Informe o nível atual da bateria
                   </span>
                 </li>
                 <li className="flex items-center">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
+                    <ArrowRight className="h-4 w-4 text-white" />
                   </div>
                   <span className="text-gray-700">
                     Escolha o nível desejado de carga
                   </span>
                 </li>
                 <li className="flex items-center">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
+                    <ArrowRight className="h-4 w-4 text-white" />
                   </div>
                   <span className="text-gray-700">
                     Veja o tempo e custo estimados
@@ -305,8 +328,8 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <img
-                src="https://images.unsplash.com/photo-1581092921461-39b9d08a9b21?w=800&q=80"
-                alt="Equipe EletriCharge"
+                src="https://images.unsplash.com/photo-1558425281-b2e5c050e962?w=800&q=80"
+                alt="Equipe Chargin"
                 className="rounded-xl shadow-lg w-full h-auto"
               />
             </div>
@@ -341,7 +364,7 @@ const Home = () => {
               O que nossos clientes dizem
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Descubra como a EletriCharge está transformando a experiência de
+              Descubra como a Chargin está transformando a experiência de
               recarga para motoristas e empresas em todo o Brasil.
             </p>
           </div>
@@ -377,14 +400,16 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
-              className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80"
+              className="bg-[#00A651] text-white hover:bg-[#00A651]/80"
               size="lg"
+              onClick={() => (window.location.href = "/app")}
             >
               <Zap className="mr-2 h-5 w-5" /> Baixar para Android
             </Button>
             <Button
               className="bg-white text-[#0C1F38] hover:bg-white/90"
               size="lg"
+              onClick={() => (window.location.href = "/app")}
             >
               <Zap className="mr-2 h-5 w-5" /> Baixar para iOS
             </Button>
@@ -398,9 +423,9 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-6 w-6 text-[#00FF99]" />
+                <Zap className="h-6 w-6 text-[#00A651]" />
                 <span className="text-lg font-bold text-[#0C1F38]">
-                  EletriCharge
+                  Chargin
                 </span>
               </div>
               <p className="text-gray-600 text-sm">
@@ -414,7 +439,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/#map"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Mapa de Estações
                   </a>
@@ -422,7 +447,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/#simulator"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Simulador de Recarga
                   </a>
@@ -430,7 +455,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/franchise"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Seja um Franqueado
                   </a>
@@ -438,7 +463,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/sobre"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Sobre Nós
                   </a>
@@ -452,7 +477,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/codigoconduta"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Código de Conduta
                   </a>
@@ -460,7 +485,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/politicaprivacidade"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Política de Privacidade
                   </a>
@@ -468,7 +493,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/termosdeuso"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Termos de Uso
                   </a>
@@ -476,7 +501,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/politicaseguranca"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Política de Segurança
                   </a>
@@ -484,7 +509,7 @@ const Home = () => {
                 <li>
                   <a
                     href="/cancelamento"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Cancelamento e Reembolso
                   </a>
@@ -495,7 +520,7 @@ const Home = () => {
             <div>
               <h3 className="font-bold text-[#0C1F38] mb-4">Contato</h3>
               <ul className="space-y-2 text-sm">
-                <li className="text-gray-600">contato@eletricharge.com.br</li>
+                <li className="text-gray-600">suporte@chargin.io</li>
                 <li className="text-gray-600">+55 (11) 9999-9999</li>
                 <li className="text-gray-600">São Paulo, SP - Brasil</li>
               </ul>
@@ -504,7 +529,7 @@ const Home = () => {
             <div>
               <h3 className="font-bold text-[#0C1F38] mb-4">Redes Sociais</h3>
               <div className="flex space-x-4">
-                <a href="#" className="text-gray-600 hover:text-[#00FF99]">
+                <a href="#" className="text-gray-600 hover:text-[#00A651]">
                   <svg
                     className="h-6 w-6"
                     fill="currentColor"
@@ -518,7 +543,7 @@ const Home = () => {
                     />
                   </svg>
                 </a>
-                <a href="#" className="text-gray-600 hover:text-[#00FF99]">
+                <a href="#" className="text-gray-600 hover:text-[#00A651]">
                   <svg
                     className="h-6 w-6"
                     fill="currentColor"
@@ -532,7 +557,7 @@ const Home = () => {
                     />
                   </svg>
                 </a>
-                <a href="#" className="text-gray-600 hover:text-[#00FF99]">
+                <a href="#" className="text-gray-600 hover:text-[#00A651]">
                   <svg
                     className="h-6 w-6"
                     fill="currentColor"
@@ -548,7 +573,7 @@ const Home = () => {
 
           <div className="border-t border-gray-200 mt-8 pt-8 text-center">
             <p className="text-sm text-gray-600">
-              &copy; {new Date().getFullYear()} EletriCharge. Todos os direitos
+              &copy; {new Date().getFullYear()} Chargin. Todos os direitos
               reservados.
             </p>
           </div>

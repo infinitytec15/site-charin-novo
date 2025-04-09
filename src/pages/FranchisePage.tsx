@@ -16,80 +16,27 @@ import AcquisitionProcess from "@/components/franchise/AcquisitionProcess";
 import FAQComponent from "@/components/franchise/FAQComponent";
 import FinalCTAComponent from "@/components/franchise/FinalCTAComponent";
 import { useToast } from "@/components/ui/use-toast";
-// Mock data para estados e cidades do Brasil
-const mockStates = [
-  { code: "SP", name: "São Paulo" },
-  { code: "RJ", name: "Rio de Janeiro" },
-  { code: "MG", name: "Minas Gerais" },
-  { code: "RS", name: "Rio Grande do Sul" },
-  { code: "PR", name: "Paraná" },
-  { code: "BA", name: "Bahia" },
-  { code: "SC", name: "Santa Catarina" },
-  { code: "PE", name: "Pernambuco" },
-  { code: "CE", name: "Ceará" },
-  { code: "PA", name: "Pará" },
-  { code: "DF", name: "Distrito Federal" },
-  { code: "ES", name: "Espírito Santo" },
-  { code: "GO", name: "Goiás" },
-  { code: "AM", name: "Amazonas" },
-  { code: "PB", name: "Paraíba" },
-  { code: "RN", name: "Rio Grande do Norte" },
-  { code: "MT", name: "Mato Grosso" },
-  { code: "MS", name: "Mato Grosso do Sul" },
-  { code: "AL", name: "Alagoas" },
-  { code: "PI", name: "Piauí" },
-  { code: "SE", name: "Sergipe" },
-  { code: "RO", name: "Rondônia" },
-  { code: "TO", name: "Tocantins" },
-  { code: "AC", name: "Acre" },
-  { code: "AP", name: "Amapá" },
-  { code: "RR", name: "Roraima" },
-];
-
-const mockCities = {
-  SP: [
-    { code: "SP-1", name: "São Paulo" },
-    { code: "SP-2", name: "Campinas" },
-    { code: "SP-3", name: "Santos" },
-    { code: "SP-4", name: "Ribeirão Preto" },
-    { code: "SP-5", name: "São José dos Campos" },
-  ],
-  RJ: [
-    { code: "RJ-1", name: "Rio de Janeiro" },
-    { code: "RJ-2", name: "Niterói" },
-    { code: "RJ-3", name: "Petrópolis" },
-    { code: "RJ-4", name: "Volta Redonda" },
-    { code: "RJ-5", name: "Campos dos Goytacazes" },
-  ],
-  MG: [
-    { code: "MG-1", name: "Belo Horizonte" },
-    { code: "MG-2", name: "Uberlândia" },
-    { code: "MG-3", name: "Contagem" },
-    { code: "MG-4", name: "Juiz de Fora" },
-    { code: "MG-5", name: "Betim" },
-  ],
-  RS: [
-    { code: "RS-1", name: "Porto Alegre" },
-    { code: "RS-2", name: "Caxias do Sul" },
-    { code: "RS-3", name: "Pelotas" },
-    { code: "RS-4", name: "Canoas" },
-    { code: "RS-5", name: "Santa Maria" },
-  ],
-  PR: [
-    { code: "PR-1", name: "Curitiba" },
-    { code: "PR-2", name: "Londrina" },
-    { code: "PR-3", name: "Maringá" },
-    { code: "PR-4", name: "Ponta Grossa" },
-    { code: "PR-5", name: "Cascavel" },
-  ],
-};
+// Importando a biblioteca de estados e cidades do Brasil
+import {
+  getAllStates,
+  getCitiesByState as getStatesCities,
+} from "brazil-geo-lookup";
 
 // Função para obter todos os estados
-const getStates = () => mockStates;
+const getStates = () => {
+  return getAllStates().map((estado) => ({
+    code: estado.id,
+    name: estado.name,
+  }));
+};
 
 // Função para obter cidades por estado
 const getCitiesByState = (stateCode) => {
-  return mockCities[stateCode] || mockCities["SP"].slice(0, 3);
+  const citiesForState = getStatesCities(stateCode);
+  return citiesForState.map((cidade, index) => ({
+    code: `${stateCode}-${index}`,
+    name: cidade.name,
+  }));
 };
 
 const FranchisePage = () => {
@@ -184,7 +131,7 @@ const FranchisePage = () => {
     // Send email using a service like EmailJS or a backend API
     // For now, we'll simulate the API call
     const emailData = {
-      to_email: "gilberto@chargin.io",
+      to_email: "suporte@chargin.io",
       from_name: formData.name,
       from_email: formData.email,
       subject: "Novo interesse em franquia EletriCharge",
@@ -199,7 +146,7 @@ const FranchisePage = () => {
       `,
     };
 
-    console.log("Sending email to gilberto@chargin.io with data:", emailData);
+    console.log("Sending email to suporte@chargin.io with data:", emailData);
 
     // Simulate API call
     setTimeout(() => {
@@ -231,10 +178,22 @@ const FranchisePage = () => {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-8 w-8 text-[#00FF99]"
+            >
+              <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
+              <line x1="23" y1="13" x2="23" y2="11" />
+              <line x1="11" y1="6" x2="7" y2="18" />
+              <line x1="16" y1="6" x2="20" y2="18" />
+            </svg>
+            <span className="text-xl font-bold text-[#0C1F38]">Chargin</span>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
             <a
@@ -262,7 +221,10 @@ const FranchisePage = () => {
               Sobre Nós
             </a>
           </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
+          <Button
+            className="bg-[#00A651] text-white hover:bg-[#00A651]/80"
+            onClick={() => (window.location.href = "/app")}
+          >
             Baixe o App
           </Button>
         </div>
@@ -306,7 +268,7 @@ const FranchisePage = () => {
             >
               <Button
                 onClick={scrollToForm}
-                className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/90 text-lg px-8 py-6 rounded-xl"
+                className="bg-[#00A651] text-white hover:bg-[#00A651]/90 text-lg px-8 py-6 rounded-xl"
                 size="lg"
               >
                 QUERO SER UM FRANQUEADO
@@ -492,7 +454,7 @@ const FranchisePage = () => {
 
           <div className="relative h-[500px] rounded-xl overflow-hidden shadow-lg">
             <img
-              src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=1200&q=80"
+              src="https://images.unsplash.com/photo-1562077981-4d7eafd44932?w=1200&q=80"
               alt="Mapa do Brasil com franquias"
               className="w-full h-full object-cover"
             />
@@ -517,7 +479,7 @@ const FranchisePage = () => {
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="h-6 w-6 text-[#00FF99]" />
                 <span className="text-lg font-bold text-[#0C1F38]">
-                  EletriCharge
+                  Chargin
                 </span>
               </div>
               <p className="text-gray-600 text-sm">
@@ -604,7 +566,7 @@ const FranchisePage = () => {
             <div>
               <h3 className="font-bold text-[#0C1F38] mb-4">Contato</h3>
               <ul className="space-y-2 text-sm">
-                <li className="text-gray-600">contato@eletricharge.com.br</li>
+                <li className="text-gray-600">suporte@chargin.io</li>
                 <li className="text-gray-600">+55 (11) 9999-9999</li>
                 <li className="text-gray-600">São Paulo, SP - Brasil</li>
               </ul>
@@ -657,7 +619,7 @@ const FranchisePage = () => {
 
           <div className="border-t border-gray-200 mt-8 pt-8 text-center">
             <p className="text-sm text-gray-600">
-              &copy; {new Date().getFullYear()} EletriCharge. Todos os direitos
+              &copy; {new Date().getFullYear()} Chargin. Todos os direitos
               reservados.
             </p>
           </div>

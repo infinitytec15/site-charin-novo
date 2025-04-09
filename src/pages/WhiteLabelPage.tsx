@@ -20,6 +20,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
+import MaintenanceModule from "@/components/MaintenanceModule";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -770,6 +771,9 @@ const WhiteLabelPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Maintenance Module Section */}
+      <MaintenanceModule />
 
       {/* FAQ Section */}
       <section className="py-20 bg-gray-50">

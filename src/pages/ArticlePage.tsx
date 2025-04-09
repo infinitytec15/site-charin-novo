@@ -86,9 +86,9 @@ export default function ArticlePage() {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>{article.title} | EletriCharge</title>
+        <title>{article.title} | Chargin</title>
         <meta name="description" content={article.summary} />
-        <meta property="og:title" content={`${article.title} | EletriCharge`} />
+        <meta property="og:title" content={`${article.title} | Chargin`} />
         <meta property="og:description" content={article.summary} />
         <meta property="og:type" content="article" />
         <meta property="og:image" content={article.thumbnail} />

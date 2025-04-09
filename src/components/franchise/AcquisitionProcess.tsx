@@ -12,96 +12,105 @@ import { Card, CardContent } from "@/components/ui/card";
 const AcquisitionProcess = () => {
   const steps = [
     {
-      number: 1,
-      icon: <MessageSquare className="h-8 w-8 text-[#0C1F38]" />,
-      title: "Envie seu interesse",
+      icon: <MessageSquare className="h-8 w-8 text-primary" />,
+      title: "Contato Inicial",
       description:
-        "Preencha o formulário com seus dados e informações de contato.",
+        "Entre em contato conosco para expressar seu interesse e receber informações detalhadas sobre nossa franquia.",
     },
     {
-      number: 2,
-      icon: <FileText className="h-8 w-8 text-[#0C1F38]" />,
-      title: "Receba nosso material",
+      icon: <FileText className="h-8 w-8 text-primary" />,
+      title: "Análise de Documentos",
       description:
-        "Você receberá o material completo com todas as informações sobre a franquia.",
+        "Envie os documentos necessários para que possamos avaliar sua elegibilidade como franqueado.",
     },
     {
-      number: 3,
-      icon: <Users className="h-8 w-8 text-[#0C1F38]" />,
-      title: "Reunião com nosso time",
+      icon: <Users className="h-8 w-8 text-primary" />,
+      title: "Entrevista",
       description:
-        "Agende uma reunião para tirar todas as suas dúvidas sobre o modelo de negócio.",
+        "Participe de uma entrevista com nossa equipe para discutirmos suas expectativas e objetivos.",
     },
     {
-      number: 4,
-      icon: <CheckCircle className="h-8 w-8 text-[#0C1F38]" />,
-      title: "Assinatura e implantação",
+      icon: <MapPin className="h-8 w-8 text-primary" />,
+      title: "Análise de Localização",
       description:
-        "Assinatura do contrato e início do processo de implantação da sua estação.",
+        "Realizamos um estudo detalhado da localização proposta para garantir viabilidade comercial.",
     },
     {
-      number: 5,
-      icon: <MapPin className="h-8 w-8 text-[#0C1F38]" />,
-      title: "Você no nosso mapa! 🚀",
+      icon: <CheckCircle className="h-8 w-8 text-primary" />,
+      title: "Aprovação e Contrato",
       description:
-        "Sua franquia passa a fazer parte da nossa rede oficial de pontos de recarga.",
+        "Após aprovação, assinamos o contrato e iniciamos o processo de implementação da sua franquia.",
     },
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-            Como Funciona a Aquisição
+    <div className="py-12 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Processo de Aquisição
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Conheça o passo a passo para se tornar um franqueado EletriCharge
+          <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+            Conheça as etapas para se tornar um franqueado e fazer parte da
+            nossa rede de carregamento de veículos elétricos.
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto">
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-[#00FF99]/30 -translate-x-1/2 hidden md:block"></div>
-
-            {/* Steps */}
-            <div className="space-y-12">
-              {steps.map((step, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className={`flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} items-center gap-8`}
-                >
-                  <div className="md:w-1/2 flex justify-center">
-                    <Card className="w-full max-w-md border-none shadow-lg relative">
-                      <div className="absolute -top-4 -left-4 bg-[#00FF99] text-[#0C1F38] font-bold text-xl w-10 h-10 rounded-full flex items-center justify-center shadow-md">
-                        {step.number}
+        <div className="mt-16">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {steps.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full">
+                  <CardContent className="pt-6">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="mb-4 p-2 bg-primary/10 rounded-full">
+                        {step.icon}
                       </div>
-                      <CardContent className="p-6 pt-8">
-                        <div className="flex flex-col items-center text-center">
-                          <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4">
-                            {step.icon}
-                          </div>
-                          <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                            {step.title}
-                          </h3>
-                          <p className="text-gray-600">{step.description}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                  <div className="md:w-1/2 hidden md:block"></div>
-                </motion.div>
-              ))}
-            </div>
+                      <h3 className="text-lg font-medium text-gray-900">
+                        {step.title}
+                      </h3>
+                      <p className="mt-2 text-base text-gray-500">
+                        {step.description}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
         </div>
+
+        <div className="mt-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-lg text-gray-500 max-w-3xl mx-auto">
+              Todo o processo de aquisição de franquia é acompanhado por nossa
+              equipe especializada, garantindo suporte em cada etapa e
+              preparando você para o sucesso no mercado de carregamento de
+              veículos elétricos.
+            </p>
+            <div className="mt-8">
+              <a
+                href="#contato"
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              >
+                Quero ser um franqueado
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 

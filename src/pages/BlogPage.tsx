@@ -5,85 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Mock data for blog articles
-export const mockArticles = [
-  {
-    id: 1,
-    slug: "diferenca-entre-recarga-ac-e-dc",
-    title:
-      "Entenda a diferença entre recarga AC e DC para seu veículo elétrico",
-    summary:
-      "Saiba qual tipo de recarga é mais adequado para suas necessidades e como cada um afeta a bateria do seu carro.",
-    category: "Dicas",
-    author: "Maria Silva",
-    date: "12 Jun 2023",
-    thumbnail:
-      "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
-  },
-  {
-    id: 2,
-    slug: "5-mitos-sobre-carros-eletricos",
-    title: "5 mitos sobre carros elétricos que você precisa parar de acreditar",
-    summary:
-      "Descubra a verdade por trás das crenças mais comuns sobre veículos elétricos e sua utilização no dia a dia.",
-    category: "Tendências",
-    author: "Carlos Mendes",
-    date: "05 Jun 2023",
-    thumbnail:
-      "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
-  },
-  {
-    id: 3,
-    slug: "futuro-da-mobilidade-eletrica",
-    title: "O futuro da mobilidade elétrica no Brasil: perspectivas para 2024",
-    summary:
-      "Análise das tendências e desafios para a expansão da infraestrutura de recarga no território nacional.",
-    category: "Tendências",
-    author: "Ana Costa",
-    date: "28 Mai 2023",
-    thumbnail:
-      "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
-  },
-  {
-    id: 4,
-    slug: "comparativo-carregadores-rapidos",
-    title:
-      "Comparativo: os melhores carregadores rápidos disponíveis no mercado",
-    summary:
-      "Avaliamos os principais modelos de carregadores rápidos e suas vantagens para diferentes perfis de usuários.",
-    category: "Comparativos",
-    author: "Roberto Alves",
-    date: "20 Mai 2023",
-    thumbnail:
-      "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
-  },
-  {
-    id: 5,
-    slug: "impacto-ambiental-mobilidade-eletrica",
-    title:
-      "O impacto ambiental positivo da mobilidade elétrica nas grandes cidades",
-    summary:
-      "Estudo revela como a adoção de veículos elétricos pode reduzir significativamente a poluição urbana.",
-    category: "Sustentabilidade",
-    author: "Juliana Martins",
-    date: "15 Mai 2023",
-    thumbnail:
-      "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
-  },
-  {
-    id: 6,
-    slug: "nova-tecnologia-baterias",
-    title: "Nova tecnologia de baterias promete revolucionar o mercado de EVs",
-    summary:
-      "Conheça a inovação que pode aumentar a autonomia dos veículos elétricos em até 40% nos próximos anos.",
-    category: "Tecnologia",
-    author: "Pedro Santos",
-    date: "10 Mai 2023",
-    thumbnail:
-      "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
-  },
-];
-
 // Available categories for filtering
 const categories = [
   "Todos",
@@ -95,9 +16,94 @@ const categories = [
   "Tecnologia",
 ];
 
+// Mock data for blog articles
+// To avoid Fast Refresh issues, we'll include this in the default export
+
 export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Todos");
+
+  // Mock data for blog articles - moved inside the component to avoid Fast Refresh issues
+  const mockArticles = [
+    {
+      id: 1,
+      slug: "diferenca-entre-recarga-ac-e-dc",
+      title:
+        "Entenda a diferença entre recarga AC e DC para seu veículo elétrico",
+      summary:
+        "Saiba qual tipo de recarga é mais adequado para suas necessidades e como cada um afeta a bateria do seu carro.",
+      category: "Dicas",
+      author: "Maria Silva",
+      date: "12 Jun 2023",
+      thumbnail:
+        "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
+    },
+    {
+      id: 2,
+      slug: "5-mitos-sobre-carros-eletricos",
+      title:
+        "5 mitos sobre carros elétricos que você precisa parar de acreditar",
+      summary:
+        "Descubra a verdade por trás das crenças mais comuns sobre veículos elétricos e sua utilização no dia a dia.",
+      category: "Tendências",
+      author: "Carlos Mendes",
+      date: "05 Jun 2023",
+      thumbnail:
+        "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
+    },
+    {
+      id: 3,
+      slug: "futuro-da-mobilidade-eletrica",
+      title:
+        "O futuro da mobilidade elétrica no Brasil: perspectivas para 2024",
+      summary:
+        "Análise das tendências e desafios para a expansão da infraestrutura de recarga no território nacional.",
+      category: "Tendências",
+      author: "Ana Costa",
+      date: "28 Mai 2023",
+      thumbnail:
+        "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
+    },
+    {
+      id: 4,
+      slug: "comparativo-carregadores-rapidos",
+      title:
+        "Comparativo: os melhores carregadores rápidos disponíveis no mercado",
+      summary:
+        "Avaliamos os principais modelos de carregadores rápidos e suas vantagens para diferentes perfis de usuários.",
+      category: "Comparativos",
+      author: "Roberto Alves",
+      date: "20 Mai 2023",
+      thumbnail:
+        "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
+    },
+    {
+      id: 5,
+      slug: "impacto-ambiental-mobilidade-eletrica",
+      title:
+        "O impacto ambiental positivo da mobilidade elétrica nas grandes cidades",
+      summary:
+        "Estudo revela como a adoção de veículos elétricos pode reduzir significativamente a poluição urbana.",
+      category: "Sustentabilidade",
+      author: "Juliana Martins",
+      date: "15 Mai 2023",
+      thumbnail:
+        "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
+    },
+    {
+      id: 6,
+      slug: "nova-tecnologia-baterias",
+      title:
+        "Nova tecnologia de baterias promete revolucionar o mercado de EVs",
+      summary:
+        "Conheça a inovação que pode aumentar a autonomia dos veículos elétricos em até 40% nos próximos anos.",
+      category: "Tecnologia",
+      author: "Pedro Santos",
+      date: "10 Mai 2023",
+      thumbnail:
+        "https://images.unsplash.com/photo-1593941707882-a56bbc8427f4?w=800&q=80",
+    },
+  ];
 
   // Filter articles based on search query and active category
   const filteredArticles = mockArticles.filter((article) => {
@@ -115,16 +121,14 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>
-          Blog | Fique por dentro da mobilidade elétrica | EletriCharge
-        </title>
+        <title>Blog | Fique por dentro da mobilidade elétrica | Chargin</title>
         <meta
           name="description"
           content="Dicas, notícias, análises e tendências sobre carros elétricos, tecnologia e sustentabilidade."
         />
         <meta
           property="og:title"
-          content="Blog | Fique por dentro da mobilidade elétrica | EletriCharge"
+          content="Blog | Fique por dentro da mobilidade elétrica | Chargin"
         />
         <meta
           property="og:description"
@@ -139,10 +143,16 @@ export default function BlogPage() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Fique por dentro da mobilidade elétrica
           </h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-6">
             Dicas, notícias, análises e tendências sobre carros elétricos,
             tecnologia e sustentabilidade.
           </p>
+          <Button
+            onClick={() => (window.location.href = "/")}
+            className="bg-[#00A651] hover:bg-[#00A651]/90 text-white"
+          >
+            Voltar para Home
+          </Button>
         </div>
       </section>
 

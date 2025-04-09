@@ -59,7 +59,7 @@ const BenefitsSection = () => {
               viewport={{ once: true }}
               className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow"
             >
-              <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4 flex items-center justify-center">
+              <div className="bg-[#00A651]/20 p-4 rounded-full mb-4 flex items-center justify-center">
                 {benefit.icon}
               </div>
               <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">

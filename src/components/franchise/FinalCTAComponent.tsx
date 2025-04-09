@@ -27,7 +27,7 @@ const FinalCTAComponent = ({ onScrollToForm }: FinalCTAComponentProps) => {
           </p>
           <Button
             onClick={onScrollToForm}
-            className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/90 text-lg px-8 py-6 rounded-xl"
+            className="bg-[#00A651] text-white hover:bg-[#00A651]/90 text-lg px-8 py-6 rounded-xl"
             size="lg"
           >
             ENTRAR PARA A REDE DE FRANQUEADOS
@@ -36,15 +36,15 @@ const FinalCTAComponent = ({ onScrollToForm }: FinalCTAComponentProps) => {
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-[#00FF99] mb-2">500+</div>
+              <div className="text-4xl font-bold text-[#00A651] mb-2">500+</div>
               <div className="text-gray-200">Estações em operação</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-[#00FF99] mb-2">24/7</div>
+              <div className="text-4xl font-bold text-[#00A651] mb-2">24/7</div>
               <div className="text-gray-200">Suporte técnico</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-[#00FF99] mb-2">100%</div>
+              <div className="text-4xl font-bold text-[#00A651] mb-2">100%</div>
               <div className="text-gray-200">Energia limpa</div>
             </div>
           </div>

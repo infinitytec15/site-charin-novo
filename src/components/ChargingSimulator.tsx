@@ -367,7 +367,7 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
         <div className="pt-2">
           <Button
             onClick={calculateSimulation}
-            className="w-full bg-[#00FF99] hover:bg-[#00CC77] text-[#0C1F38] font-bold"
+            className="w-full bg-[#00A651] hover:bg-[#00A651]/80 text-white font-bold"
             disabled={!selectedCar}
           >
             <BatteryMedium className="mr-2 h-4 w-4" />
@@ -427,7 +427,7 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
           <Button
             onClick={handleSaveSimulation}
             variant="secondary"
-            className="bg-[#0C1F38]/10 hover:bg-[#0C1F38]/20 text-[#0C1F38]"
+            className="bg-[#00A651]/10 hover:bg-[#00A651]/20 text-[#0C1F38]"
           >
             <Save className="mr-2 h-4 w-4" />
             Salvar Simulação
