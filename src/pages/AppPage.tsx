@@ -540,6 +540,14 @@ const AppPage = () => {
                       +150 pontos esta semana
                     </div>
                   </div>
+                  <ProgressBadge
+                    label="Progresso para Prata"
+                    value={1250}
+                    max={2000}
+                    variant="points"
+                    className="w-full mb-3"
+                    animated={true}
+                  />
                   <Badge
                     variant="outline"
                     className="bg-gradient-to-r from-amber-400 to-amber-600 text-white font-semibold shadow-md px-3 py-1 transform hover:scale-105 transition-all duration-300"

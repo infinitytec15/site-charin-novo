@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import { MapPin, Phone, Mail, MessageSquare, Send } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  MessageSquare,
+  Send,
+  Award,
+  Trophy,
+  Star,
+  Zap,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +23,9 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
+import { ProgressBadge } from "@/components/ui/progress-badge";
+import { AchievementBadge } from "@/components/ui/achievement-badge";
+import { Badge } from "@/components/ui/badge";
 
 const ContactPage = () => {
   const { toast } = useToast();
@@ -24,9 +37,20 @@ const ContactPage = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showReward, setShowReward] = useState(false);
+  const [formProgress, setFormProgress] = useState(0);
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => {
+      const newData = { ...prev, [field]: value };
+      // Calculate form progress
+      const totalFields = Object.keys(formData).length;
+      const filledFields = Object.values(newData).filter(
+        (val) => val.trim() !== "",
+      ).length;
+      setFormProgress(Math.round((filledFields / totalFields) * 100));
+      return newData;
+    });
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -76,6 +100,7 @@ const ContactPage = () => {
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
+      setShowReward(true);
 
       // Success notification
       toast({
@@ -93,6 +118,14 @@ const ContactPage = () => {
         subject: "",
         message: "",
       });
+
+      // Hide reward after 5 seconds
+      setTimeout(() => {
+        setShowReward(false);
+      }, 5000);
+
+      // Reset progress
+      setFormProgress(0);
     }, 1500);
   };
 
@@ -118,7 +151,7 @@ const ContactPage = () => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-8 w-8 text-[#00FF99]"
+              className="h-8 w-8 text-[#00A651]"
             >
               <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
               <line x1="23" y1="13" x2="23" y2="11" />
@@ -130,48 +163,48 @@ const ContactPage = () => {
           <nav className="hidden md:flex items-center space-x-6">
             <a
               href="/"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Início
             </a>
             <a
               href="/#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Mapa de Estações
             </a>
             <a
               href="/#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Simulador
             </a>
             <a
               href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Seja um Franqueado
             </a>
             <a
               href="/app"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Aplicativo
             </a>
             <a
               href="/blog"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Blog
             </a>
             <a
               href="/contato"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Contato
             </a>
           </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
+          <Button className="bg-[#00A651] text-white hover:bg-[#00A651]/80">
             Baixe o App
           </Button>
         </div>
@@ -185,10 +218,34 @@ const ContactPage = () => {
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
                 Fale com a gente, estamos aqui para você ⚡
               </h1>
-              <p className="text-lg text-gray-200">
+              <p className="text-lg text-gray-200 mb-6">
                 Tem dúvidas, sugestões ou quer se conectar com nosso time?
                 Preencha o formulário ou use um dos nossos canais diretos.
               </p>
+
+              {/* Gamification element */}
+              <div className="flex gap-4 mb-4">
+                <AchievementBadge
+                  icon={MessageSquare}
+                  label="Comunicador"
+                  description="Entre em contato com nossa equipe"
+                  unlocked={true}
+                  level={1}
+                  maxLevel={3}
+                  variant="star"
+                  size="md"
+                />
+                <AchievementBadge
+                  icon={Zap}
+                  label="Resposta Rápida"
+                  description="Receba resposta em menos de 24h"
+                  unlocked={false}
+                  level={0}
+                  maxLevel={3}
+                  variant="zap"
+                  size="md"
+                />
+              </div>
             </div>
             <div className="hidden md:block">
               <img
@@ -207,10 +264,36 @@ const ContactPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <div className="bg-white p-8 rounded-xl shadow-lg">
-                <h2 className="text-2xl font-bold text-[#0C1F38] mb-6">
+              <div className="bg-white p-8 rounded-xl shadow-lg relative">
+                {/* Reward popup */}
+                {showReward && (
+                  <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-3 rounded-lg shadow-lg animate-bounce z-20">
+                    <div className="flex items-center gap-2">
+                      <Award className="h-5 w-5" />
+                      <div>
+                        <p className="font-bold">+50 pontos!</p>
+                        <p className="text-xs">Conquista desbloqueada</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <h2 className="text-2xl font-bold text-[#0C1F38] mb-4">
                   Envie sua mensagem
                 </h2>
+
+                {/* Gamification progress */}
+                <div className="mb-6">
+                  <ProgressBadge
+                    label="Progresso do formulário"
+                    value={formProgress}
+                    max={100}
+                    variant="success"
+                    className="w-full"
+                    animated={formProgress > 0}
+                  />
+                </div>
+
                 <form className="space-y-6" onSubmit={handleFormSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -280,7 +363,7 @@ const ContactPage = () => {
                     <Label htmlFor="message">Mensagem*</Label>
                     <textarea
                       id="message"
-                      className="w-full min-h-[150px] p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00FF99]"
+                      className="w-full min-h-[150px] p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A651]"
                       placeholder="Digite sua mensagem aqui (máximo 500 caracteres)"
                       maxLength={500}
                       value={formData.message}
@@ -296,7 +379,7 @@ const ContactPage = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white py-6"
+                    className="w-full bg-gradient-to-r from-[#00A651] to-[#008C45] hover:from-[#00A651]/90 hover:to-[#008C45]/90 text-white py-6 shadow-md transform hover:scale-[1.02] transition-all duration-300"
                     size="lg"
                     disabled={isSubmitting}
                   >
@@ -340,20 +423,22 @@ const ContactPage = () => {
                 Contato Direto
               </h2>
               <div className="space-y-4">
-                <Card className="border-none shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+                <Card className="border-none shadow-md hover:shadow-lg transition-shadow cursor-pointer transform hover:-translate-y-1 hover:scale-[1.02] duration-300">
                   <CardContent className="p-6">
                     <div className="flex items-center">
-                      <div className="bg-[#00FF99]/20 p-3 rounded-full mr-4">
+                      <div className="bg-gradient-to-br from-blue-400 to-blue-600 p-3 rounded-full mr-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                        <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-blue-400 to-blue-600 -z-10 opacity-60"></div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
                           height="24"
                           viewBox="0 0 24 24"
                           fill="none"
-                          stroke="#00FF99"
+                          stroke="white"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          className="drop-shadow-md"
                         >
                           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                         </svg>
@@ -371,11 +456,12 @@ const ContactPage = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border-none shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+                <Card className="border-none shadow-md hover:shadow-lg transition-shadow cursor-pointer transform hover:-translate-y-1 hover:scale-[1.02] duration-300">
                   <CardContent className="p-6">
                     <div className="flex items-center">
-                      <div className="bg-[#00FF99]/20 p-3 rounded-full mr-4">
-                        <Mail className="h-6 w-6 text-[#00FF99]" />
+                      <div className="bg-gradient-to-br from-purple-400 to-indigo-600 p-3 rounded-full mr-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                        <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-purple-400 to-indigo-600 -z-10 opacity-60"></div>
+                        <Mail className="h-6 w-6 text-white drop-shadow-md" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-[#0C1F38]">E-mail</h3>
@@ -385,11 +471,12 @@ const ContactPage = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border-none shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+                <Card className="border-none shadow-md hover:shadow-lg transition-shadow cursor-pointer transform hover:-translate-y-1 hover:scale-[1.02] duration-300">
                   <CardContent className="p-6">
                     <div className="flex items-center">
-                      <div className="bg-[#00FF99]/20 p-3 rounded-full mr-4">
-                        <Phone className="h-6 w-6 text-[#00FF99]" />
+                      <div className="bg-gradient-to-br from-emerald-400 to-[#00A651] p-3 rounded-full mr-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                        <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-emerald-400 to-[#00A651] -z-10 opacity-60"></div>
+                        <Phone className="h-6 w-6 text-white drop-shadow-md" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-[#0C1F38]">
@@ -404,20 +491,22 @@ const ContactPage = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border-none shadow-md">
+                <Card className="border-none shadow-md transform hover:-translate-y-1 hover:scale-[1.02] duration-300">
                   <CardContent className="p-6">
                     <div className="flex items-center">
-                      <div className="bg-[#00FF99]/20 p-3 rounded-full mr-4">
+                      <div className="bg-gradient-to-br from-amber-400 to-amber-600 p-3 rounded-full mr-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                        <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-amber-400 to-amber-600 -z-10 opacity-60"></div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
                           height="24"
                           viewBox="0 0 24 24"
                           fill="none"
-                          stroke="#00FF99"
+                          stroke="white"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          className="drop-shadow-md"
                         >
                           <circle cx="12" cy="12" r="10"></circle>
                           <polyline points="12 6 12 12 16 14"></polyline>
@@ -433,6 +522,37 @@ const ContactPage = () => {
                       </div>
                     </div>
                   </CardContent>
+                </Card>
+
+                {/* Gamification element */}
+                <Card className="border-none shadow-md bg-white/95 backdrop-blur-sm p-4 border border-gray-100 relative overflow-hidden transform hover:-translate-y-1 hover:scale-[1.02] duration-300">
+                  <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-blue-500/10 blur-xl"></div>
+                  <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-blue-500/10 blur-xl"></div>
+
+                  <h3 className="text-lg font-semibold text-[#0C1F38] mb-3 flex items-center">
+                    <Trophy className="h-5 w-5 text-amber-500 mr-2" />
+                    Benefícios de Contato
+                  </h3>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2 text-sm">
+                      <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
+                        ✓
+                      </div>
+                      <span>Ganhe 50 pontos ao enviar uma mensagem</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-sm">
+                      <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
+                        ✓
+                      </div>
+                      <span>Desbloqueie a conquista "Comunicador"</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-sm">
+                      <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
+                        ✓
+                      </div>
+                      <span>Receba atendimento prioritário</span>
+                    </li>
+                  </ul>
                 </Card>
               </div>
             </div>
@@ -461,7 +581,7 @@ const ContactPage = () => {
             </div>
             <div className="absolute bottom-4 left-4 bg-white p-4 rounded-lg shadow-md">
               <div className="flex items-center">
-                <MapPin className="h-5 w-5 text-[#00FF99] mr-2" />
+                <MapPin className="h-5 w-5 text-[#00A651] mr-2" />
                 <p className="font-medium text-[#0C1F38]">
                   Estamos aqui: Sorocaba/SP
                 </p>
@@ -482,7 +602,7 @@ const ContactPage = () => {
           </p>
           <Button
             onClick={() => (window.location.href = "/")}
-            className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 px-8 py-6"
+            className="bg-gradient-to-r from-[#00A651] to-[#008C45] hover:from-[#00A651]/90 hover:to-[#008C45]/90 text-white px-8 py-6 shadow-md transform hover:scale-105 transition-all duration-300"
             size="lg"
           >
             Voltar para Home
@@ -504,7 +624,7 @@ const ContactPage = () => {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="h-6 w-6 text-[#00FF99]"
+                  className="h-6 w-6 text-[#00A651]"
                 >
                   <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
                   <line x1="23" y1="13" x2="23" y2="11" />
@@ -526,7 +646,7 @@ const ContactPage = () => {
                 <li>
                   <a
                     href="/#map"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Mapa de Estações
                   </a>
@@ -534,7 +654,7 @@ const ContactPage = () => {
                 <li>
                   <a
                     href="/#simulator"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Simulador de Recarga
                   </a>
@@ -542,13 +662,13 @@ const ContactPage = () => {
                 <li>
                   <a
                     href="/franchise"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Seja um Franqueado
                   </a>
                 </li>
                 <li>
-                  <a href="/app" className="text-gray-600 hover:text-[#00FF99]">
+                  <a href="/app" className="text-gray-600 hover:text-[#00A651]">
                     Aplicativo
                   </a>
                 </li>
@@ -561,7 +681,7 @@ const ContactPage = () => {
                 <li>
                   <a
                     href="/codigoconduta"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Código de Conduta
                   </a>
@@ -569,7 +689,7 @@ const ContactPage = () => {
                 <li>
                   <a
                     href="/politicaprivacidade"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Política de Privacidade
                   </a>
@@ -577,7 +697,7 @@ const ContactPage = () => {
                 <li>
                   <a
                     href="/termosdeuso"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Termos de Uso
                   </a>
