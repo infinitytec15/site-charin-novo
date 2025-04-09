@@ -1,6 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Zap, Leaf, Users, Award, ArrowRight } from "lucide-react";
+import {
+  Zap,
+  Leaf,
+  Users,
+  Award,
+  ArrowRight,
+  Code,
+  Rocket,
+  Globe,
+  Lightbulb,
+} from "lucide-react";
+import Timeline from "@/components/timeline/Timeline";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -235,110 +246,9 @@ const AboutUs = () => {
       </section>
 
       {/* Nossa História / Timeline */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white overflow-hidden">
         <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-              Nossa História
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Uma jornada de inovação e crescimento no setor de mobilidade
-              elétrica.
-            </p>
-          </div>
-
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-[#00A651]/30 rounded-full" />
-
-            {/* Timeline items */}
-            <div className="space-y-12">
-              <div className="flex flex-col md:flex-row items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right">
-                  <h3 className="text-xl font-bold text-[#0C1F38] mb-2">
-                    2021
-                  </h3>
-                  <p className="text-gray-600">Fundação da Chargin</p>
-                </div>
-                <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
-                  </div>
-                </div>
-                <div className="md:w-1/2 md:pl-12 md:text-left">
-                  <p className="text-gray-600">
-                    Nascemos com a missão de transformar a mobilidade elétrica
-                    no Brasil.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right">
-                  <p className="text-gray-600">
-                    Alcançamos a marca de 50 estações ativas em 5 estados
-                    brasileiros.
-                  </p>
-                </div>
-                <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
-                  </div>
-                </div>
-                <div className="md:w-1/2 md:pl-12 md:text-left">
-                  <h3 className="text-xl font-bold text-[#0C1F38] mb-2">
-                    2022
-                  </h3>
-                  <p className="text-gray-600">Primeiras 50 estações ativas</p>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right">
-                  <h3 className="text-xl font-bold text-[#0C1F38] mb-2">
-                    2023
-                  </h3>
-                  <p className="text-gray-600">
-                    Lançamento do app e expansão nacional
-                  </p>
-                </div>
-                <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
-                  </div>
-                </div>
-                <div className="md:w-1/2 md:pl-12 md:text-left">
-                  <p className="text-gray-600">
-                    Nosso aplicativo revolucionou a experiência de recarga,
-                    permitindo localização, pagamento e monitoramento em tempo
-                    real.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row items-center">
-                <div className="md:w-1/2 md:pr-12 md:text-right">
-                  <p className="text-gray-600">
-                    Estabelecemos parcerias estratégicas e lançamos nossa
-                    solução white label para empresas.
-                  </p>
-                </div>
-                <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
-                  </div>
-                </div>
-                <div className="md:w-1/2 md:pl-12 md:text-left">
-                  <h3 className="text-xl font-bold text-[#0C1F38] mb-2">
-                    2024
-                  </h3>
-                  <p className="text-gray-600">
-                    Parcerias com grandes redes e lançamento do white label
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Timeline />
         </div>
       </section>
 

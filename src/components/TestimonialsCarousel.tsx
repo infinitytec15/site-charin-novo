@@ -77,7 +77,7 @@ const TestimonialsCarousel = ({
   // Update items per page based on screen size
   useEffect(() => {
     const updateItemsPerPage = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 1280) {
         setItemsPerPage(3);
       } else if (window.innerWidth >= 768) {
         setItemsPerPage(2);
@@ -132,37 +132,49 @@ const TestimonialsCarousel = ({
     currentIndex + itemsPerPage,
   );
 
+  // Fixed height container to prevent layout shifts
+  const getContainerHeight = () => {
+    // Set a fixed height based on screen size
+    if (window.innerWidth < 768) {
+      return "min-h-[480px]"; // Mobile height
+    } else {
+      return "min-h-[420px]"; // Desktop height
+    }
+  };
+
   const variants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 300 : -300,
       opacity: 0,
-      scale: 0.9,
     }),
     center: {
       x: 0,
       opacity: 1,
-      scale: 1,
+      transition: {
+        x: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 },
+      },
     },
     exit: (direction: number) => ({
       x: direction < 0 ? 300 : -300,
       opacity: 0,
-      scale: 0.9,
     }),
   };
 
   return (
     <div
-      className="relative w-full overflow-hidden py-8"
+      className="relative w-full overflow-hidden py-8 bg-white/5 backdrop-blur-sm rounded-xl"
       onMouseEnter={() => setAutoplay(false)}
       onMouseLeave={() => setAutoplay(true)}
       ref={containerRef}
     >
+      {/* Navigation buttons */}
       <div className="flex justify-between absolute top-1/2 transform -translate-y-1/2 z-10 w-full px-4">
         <Button
           onClick={prevSlide}
           variant="outline"
           size="icon"
-          className="bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-10 w-10 shadow-md"
+          className="bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-10 w-10 shadow-md border-none"
         >
           <ChevronLeft className="h-6 w-6 text-[#0C1F38]" />
         </Button>
@@ -170,13 +182,14 @@ const TestimonialsCarousel = ({
           onClick={nextSlide}
           variant="outline"
           size="icon"
-          className="bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-10 w-10 shadow-md"
+          className="bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-10 w-10 shadow-md border-none"
         >
           <ChevronRight className="h-6 w-6 text-[#0C1F38]" />
         </Button>
       </div>
 
-      <div className="overflow-hidden px-4">
+      {/* Carousel content with fixed height */}
+      <div className={`overflow-hidden px-4 ${getContainerHeight()}`}>
         <AnimatePresence custom={direction} initial={false} mode="wait">
           <motion.div
             key={currentIndex}
@@ -185,15 +198,14 @@ const TestimonialsCarousel = ({
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`grid grid-cols-${itemsPerPage} gap-6`}
+            className="grid gap-6 h-full"
             style={{
               display: "grid",
               gridTemplateColumns: `repeat(${itemsPerPage}, minmax(0, 1fr))`,
             }}
           >
             {visibleTestimonials.map((testimonial) => (
-              <div key={testimonial.id} className="h-full">
+              <div key={testimonial.id} className="h-full flex">
                 <ModernTestimonialCard
                   image={testimonial.image}
                   name={testimonial.name}
@@ -207,7 +219,8 @@ const TestimonialsCarousel = ({
         </AnimatePresence>
       </div>
 
-      <div className="flex justify-center mt-6 space-x-2">
+      {/* Pagination dots */}
+      <div className="flex justify-center mt-4 space-x-2">
         {Array.from(
           { length: testimonials.length - itemsPerPage + 1 },
           (_, i) => i,
@@ -219,6 +232,7 @@ const TestimonialsCarousel = ({
               setCurrentIndex(i);
             }}
             className={`h-2 rounded-full transition-all ${i === currentIndex ? "w-6 bg-[#00A651]" : "w-2 bg-gray-300"}`}
+            aria-label={`Go to slide ${i + 1}`}
           />
         ))}
       </div>
