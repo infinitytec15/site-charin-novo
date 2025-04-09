@@ -4,6 +4,9 @@ import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
+// Import Leaflet CSS directly
+import "leaflet/dist/leaflet.css";
+
 import { TempoDevtools } from "tempo-devtools";
 TempoDevtools.init();
 

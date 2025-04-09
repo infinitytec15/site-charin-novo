@@ -47,6 +47,29 @@ if (typeof window !== "undefined") {
     .leaflet-container {
       background-color: #f0f0f0 !important;
       z-index: 1;
+      width: 100% !important;
+      height: 100% !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+    }
+    .leaflet-pane {
+      z-index: 1 !important;
+    }
+    .leaflet-tile-pane {
+      z-index: 1 !important;
+    }
+    .leaflet-overlay-pane {
+      z-index: 2 !important;
+    }
+    .leaflet-marker-pane {
+      z-index: 3 !important;
+    }
+    .leaflet-popup-pane {
+      z-index: 4 !important;
+    }
+    .leaflet-control {
+      z-index: 5 !important;
     }
   `;
   document.head.appendChild(style);
@@ -227,14 +250,31 @@ const FixMapSize = () => {
       }, 100);
     };
 
-    // Initial resize
+    // Initial resize with multiple attempts to ensure it works
+    setTimeout(resizeMap, 100);
     setTimeout(resizeMap, 300);
+    setTimeout(resizeMap, 500);
+    setTimeout(resizeMap, 1000);
 
     // Add resize listener
     window.addEventListener("resize", resizeMap);
 
+    // Create an observer to detect DOM changes that might affect the map container
+    const observer = new MutationObserver(resizeMap);
+    const mapContainer = map.getContainer();
+    if (mapContainer && mapContainer.parentElement) {
+      observer.observe(mapContainer.parentElement, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+      });
+    }
+
     // Cleanup
-    return () => window.removeEventListener("resize", resizeMap);
+    return () => {
+      window.removeEventListener("resize", resizeMap);
+      observer.disconnect();
+    };
   }, [map]);
 
   return null;
@@ -601,6 +641,7 @@ const MapSection = () => {
                   backgroundColor: "#f0f0f0",
                   position: "relative",
                   zIndex: 1,
+                  display: "block",
                 }}
               >
                 <MapContainer
@@ -610,10 +651,13 @@ const MapSection = () => {
                     height: "100%",
                     width: "100%",
                     backgroundColor: "#f0f0f0",
-                    position: "relative",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
                     zIndex: 1,
                   }}
                   className="leaflet-container-fix"
+                  key="map-container"
                 >
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

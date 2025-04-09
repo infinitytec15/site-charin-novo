@@ -184,9 +184,18 @@ const Home = () => {
           </div>
           <div
             className="w-full border border-gray-200 rounded-xl shadow-md overflow-hidden bg-white"
-            style={{ height: "800px", position: "relative", zIndex: 1 }}
+            style={{
+              height: "800px",
+              position: "relative",
+              zIndex: 1,
+              display: "block",
+            }}
           >
-            <MapSection />
+            <div
+              style={{ width: "100%", height: "100%", position: "relative" }}
+            >
+              <MapSection />
+            </div>
           </div>
         </div>
       </section>

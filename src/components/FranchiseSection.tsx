@@ -131,9 +131,18 @@ const FranchiseSection = () => {
           </div>
           <div
             className="w-full border border-gray-200 rounded-xl shadow-md overflow-hidden bg-white"
-            style={{ height: "600px", position: "relative", zIndex: 1 }}
+            style={{
+              height: "600px",
+              position: "relative",
+              zIndex: 1,
+              display: "block",
+            }}
           >
-            <MapSection />
+            <div
+              style={{ width: "100%", height: "100%", position: "relative" }}
+            >
+              <MapSection />
+            </div>
           </div>
         </div>
 
