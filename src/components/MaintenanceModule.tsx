@@ -168,8 +168,11 @@ const MaintenanceModule = () => {
             viewport={{ once: true }}
             className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow"
           >
-            <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4 flex items-center justify-center">
-              <Smartphone className="h-8 w-8 text-[#0C1F38]" />
+            <div className="bg-gradient-to-br from-[#00FF99]/20 to-[#00A651]/20 p-4 rounded-full mb-4 flex items-center justify-center relative">
+              <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-[#00FF99]/40 to-[#00A651]/40 -z-10 opacity-60"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20 z-10"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10 z-10"></div>
+              <Smartphone className="h-8 w-8 text-[#0C1F38] drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-20" />
             </div>
             <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
               Funcionalidades do App Técnico
@@ -239,35 +242,68 @@ const MaintenanceModule = () => {
             viewport={{ once: true }}
             className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow"
           >
-            <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4 flex items-center justify-center">
-              <Server className="h-8 w-8 text-[#0C1F38]" />
+            <div className="bg-gradient-to-br from-[#00FF99]/20 to-[#00A651]/20 p-4 rounded-full mb-4 flex items-center justify-center relative">
+              <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-[#00FF99]/40 to-[#00A651]/40 -z-10 opacity-60"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20 z-10"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10 z-10"></div>
+              <Server className="h-8 w-8 text-[#0C1F38] drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-20" />
             </div>
             <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
               Painel Administrativo
             </h3>
             <ul className="text-gray-600 text-left space-y-2">
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Abertura e gestão de chamados</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Acompanhamento de status</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Atribuição de técnicos</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Aprovação da execução</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Controle financeiro</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Relatórios técnicos</span>
               </li>
             </ul>
@@ -280,31 +316,59 @@ const MaintenanceModule = () => {
             viewport={{ once: true }}
             className="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition-shadow"
           >
-            <div className="bg-[#00FF99]/20 p-4 rounded-full mb-4 flex items-center justify-center">
-              <CreditCard className="h-8 w-8 text-[#0C1F38]" />
+            <div className="bg-gradient-to-br from-[#00FF99]/20 to-[#00A651]/20 p-4 rounded-full mb-4 flex items-center justify-center relative">
+              <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-[#00FF99]/40 to-[#00A651]/40 -z-10 opacity-60"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20 z-10"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10 z-10"></div>
+              <CreditCard className="h-8 w-8 text-[#0C1F38] drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-20" />
             </div>
             <h3 className="text-xl font-bold mb-3 text-[#0C1F38]">
               Carteira Técnica Integrada
             </h3>
             <ul className="text-gray-600 text-left space-y-2">
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Valores por serviço finalizado</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Visualização do extrato</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Solicitação de saque via Pix</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Controle transparente</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Valores por tipo de chamado</span>
               </li>
             </ul>
@@ -316,42 +380,71 @@ const MaintenanceModule = () => {
           <h3 className="text-2xl font-bold mb-6 text-center text-[#0C1F38]">
             Galeria de Imagens
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="overflow-hidden rounded-xl shadow-md">
-              <img
-                src="https://images.unsplash.com/photo-1593941707882-a5bfcf2dd8b4?w=800&q=80"
-                alt="Estação de recarga com técnico"
-                className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-              />
-              <div className="p-3 bg-white">
-                <p className="text-sm text-gray-600">
-                  Manutenção preventiva em estação
-                </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="relative">
+              <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[36px] shadow-xl overflow-hidden border-[14px] border-black">
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-[30px] bg-black rounded-b-[16px] z-10">
+                  <div className="absolute top-[10px] left-1/2 transform -translate-x-1/2 w-16 h-2 bg-gray-800 rounded-full"></div>
+                </div>
+                <div className="absolute top-0 right-[10px] w-2 h-[60px] bg-gray-800 rounded-b-lg"></div>
+                <div className="absolute top-[100px] left-[-14px] w-2 h-[60px] bg-gray-800 rounded-r-lg"></div>
+                <div className="absolute top-[180px] left-[-14px] w-2 h-[60px] bg-gray-800 rounded-r-lg"></div>
+                <div className="h-full w-full rounded-[22px] overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1593941707882-a5bfcf2dd8b4?w=800&q=80"
+                    alt="Manutenção preventiva em estação"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-gray-800 rounded-full"></div>
               </div>
+              <p className="text-center mt-4 text-gray-700 font-medium">
+                Manutenção preventiva em estação
+              </p>
             </div>
-            <div className="overflow-hidden rounded-xl shadow-md">
-              <img
-                src="https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=800&q=80"
-                alt="App de manutenção em uso"
-                className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-              />
-              <div className="p-3 bg-white">
-                <p className="text-sm text-gray-600">
-                  Interface do app de manutenção
-                </p>
+
+            <div className="relative">
+              <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[36px] shadow-xl overflow-hidden border-[14px] border-black">
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-[30px] bg-black rounded-b-[16px] z-10">
+                  <div className="absolute top-[10px] left-1/2 transform -translate-x-1/2 w-16 h-2 bg-gray-800 rounded-full"></div>
+                </div>
+                <div className="absolute top-0 right-[10px] w-2 h-[60px] bg-gray-800 rounded-b-lg"></div>
+                <div className="absolute top-[100px] left-[-14px] w-2 h-[60px] bg-gray-800 rounded-r-lg"></div>
+                <div className="absolute top-[180px] left-[-14px] w-2 h-[60px] bg-gray-800 rounded-r-lg"></div>
+                <div className="h-full w-full rounded-[22px] overflow-hidden bg-[#0C1F38]">
+                  <img
+                    src="https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=800&q=80"
+                    alt="Interface do app de manutenção"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-gray-800 rounded-full"></div>
               </div>
+              <p className="text-center mt-4 text-gray-700 font-medium">
+                Interface do app de manutenção
+              </p>
             </div>
-            <div className="overflow-hidden rounded-xl shadow-md">
-              <img
-                src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80"
-                alt="Dashboard de gestão"
-                className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-              />
-              <div className="p-3 bg-white">
-                <p className="text-sm text-gray-600">
-                  Dashboard de gestão de chamados
-                </p>
+
+            <div className="relative">
+              <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[36px] shadow-xl overflow-hidden border-[14px] border-black">
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-[30px] bg-black rounded-b-[16px] z-10">
+                  <div className="absolute top-[10px] left-1/2 transform -translate-x-1/2 w-16 h-2 bg-gray-800 rounded-full"></div>
+                </div>
+                <div className="absolute top-0 right-[10px] w-2 h-[60px] bg-gray-800 rounded-b-lg"></div>
+                <div className="absolute top-[100px] left-[-14px] w-2 h-[60px] bg-gray-800 rounded-r-lg"></div>
+                <div className="absolute top-[180px] left-[-14px] w-2 h-[60px] bg-gray-800 rounded-r-lg"></div>
+                <div className="h-full w-full rounded-[22px] overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80"
+                    alt="Dashboard de gestão de chamados"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-1/3 h-1 bg-gray-800 rounded-full"></div>
               </div>
+              <p className="text-center mt-4 text-gray-700 font-medium">
+                Dashboard de gestão de chamados
+              </p>
             </div>
           </div>
         </div>
@@ -365,7 +458,11 @@ const MaintenanceModule = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
             <div>
               <div className="flex items-start mb-4">
-                <Smartphone className="h-6 w-6 text-[#00FF99] mr-3 mt-1" />
+                <div className="bg-gradient-to-br from-[#00FF99]/40 to-[#00A651] p-3 rounded-full mr-3 mt-1 shadow-lg relative overflow-hidden">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                  <Smartphone className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                </div>
                 <div>
                   <h4 className="font-bold mb-2">Aplicativo técnico</h4>
                   <p className="text-gray-300">
@@ -376,7 +473,11 @@ const MaintenanceModule = () => {
               </div>
 
               <div className="flex items-start mb-4">
-                <Server className="h-6 w-6 text-[#00FF99] mr-3 mt-1" />
+                <div className="bg-gradient-to-br from-[#00FF99]/40 to-[#00A651] p-3 rounded-full mr-3 mt-1 shadow-lg relative overflow-hidden">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                  <Server className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                </div>
                 <div>
                   <h4 className="font-bold mb-2">Backend robusto</h4>
                   <p className="text-gray-300">
@@ -389,7 +490,11 @@ const MaintenanceModule = () => {
 
             <div>
               <div className="flex items-start mb-4">
-                <Wrench className="h-6 w-6 text-[#00FF99] mr-3 mt-1" />
+                <div className="bg-gradient-to-br from-[#00FF99]/40 to-[#00A651] p-3 rounded-full mr-3 mt-1 shadow-lg relative overflow-hidden">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                  <Wrench className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                </div>
                 <div>
                   <h4 className="font-bold mb-2">Painel administrativo</h4>
                   <p className="text-gray-300">
@@ -400,7 +505,11 @@ const MaintenanceModule = () => {
               </div>
 
               <div className="flex items-start">
-                <Shield className="h-6 w-6 text-[#00FF99] mr-3 mt-1" />
+                <div className="bg-gradient-to-br from-[#00FF99]/40 to-[#00A651] p-3 rounded-full mr-3 mt-1 shadow-lg relative overflow-hidden">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                  <Shield className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                </div>
                 <div>
                   <h4 className="font-bold mb-2">
                     Banco de dados e armazenamento

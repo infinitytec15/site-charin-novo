@@ -48,6 +48,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 
 const WhiteLabelPage = () => {
   const scrollToForm = () => {
@@ -176,25 +177,25 @@ const WhiteLabelPage = () => {
 
   const features = [
     {
-      icon: <Palette className="h-8 w-8 text-[#0C1F38]" />,
+      icon: <Palette className="h-8 w-8 text-white" />,
       title: "Customização de marca",
       description: "Logo, cores, app e sistema com sua identidade visual.",
       gradient: "from-blue-400 to-blue-600",
     },
     {
-      icon: <Server className="h-8 w-8 text-[#0C1F38]" />,
+      icon: <Server className="h-8 w-8 text-white" />,
       title: "Infraestrutura de recarga",
       description: "Equipamentos homologados e suporte técnico completo.",
       gradient: "from-purple-400 to-indigo-600",
     },
     {
-      icon: <BarChart3 className="h-8 w-8 text-[#0C1F38]" />,
+      icon: <BarChart3 className="h-8 w-8 text-white" />,
       title: "Dashboard completo",
       description: "Gestão de recargas, relatórios, usuários e faturamento.",
       gradient: "from-emerald-400 to-[#00A651]",
     },
     {
-      icon: <Headset className="h-8 w-8 text-[#0C1F38]" />,
+      icon: <Headset className="h-8 w-8 text-white" />,
       title: "Atendimento técnico e comercial",
       description: "Atendimento especializado no seu nome ou em parceria.",
       gradient: "from-amber-400 to-amber-600",
@@ -408,12 +409,15 @@ const WhiteLabelPage = () => {
 
                 <CardContent className="p-6 relative z-10">
                   <div
-                    className={`bg-gradient-to-br ${feature.gradient} p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20`}
+                    className={`bg-gradient-to-br ${feature.gradient} p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative`}
                   >
                     {/* Glow effect */}
                     <div
                       className={`absolute inset-0 rounded-full blur-sm bg-gradient-to-br ${feature.gradient} -z-10 opacity-60`}
                     ></div>
+                    {/* 3D effect with shadows and highlights */}
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20 z-10"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10 z-10"></div>
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
@@ -469,6 +473,28 @@ const WhiteLabelPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
+              O que nossos parceiros dizem
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Veja o que nossos parceiros white label estão falando sobre nossa
+              solução
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-br from-[#0C1F38]/5 to-[#00A651]/5 p-8 rounded-2xl shadow-lg">
+            <TestimonialsCarousel />
+          </div>
+        </div>
+      </section>
+
+      {/* Maintenance Module Section */}
+      <MaintenanceModule />
 
       {/* Demo Form Section */}
       <section id="demo-form" className="py-16 bg-white">

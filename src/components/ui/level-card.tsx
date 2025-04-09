@@ -92,7 +92,7 @@ export function LevelCard({
       )}
     >
       <CardContent className="p-6 relative">
-        {/* Decorative elements */}
+        {/* Enhanced decorative elements */}
         <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-gradient-to-br from-white/5 to-white/10 blur-xl"></div>
         <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-gradient-to-br from-white/5 to-white/10 blur-xl"></div>
 
@@ -105,13 +105,24 @@ export function LevelCard({
               "shadow-lg hover:shadow-xl",
               "border border-white/20",
               "relative z-10",
+              "overflow-hidden", // Added for inner highlight containment
             )}
           >
+            {/* Enhanced 3D effects */}
+            {/* Inner highlight effect */}
+            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30 opacity-70"></div>
+
             {/* Glow effect behind icon */}
             <div
               className={`absolute inset-0 rounded-full blur-sm ${colors.icon} -z-10 opacity-60`}
             ></div>
-            <Icon className={cn("h-8 w-8 text-white drop-shadow-md")} />
+
+            {/* Subtle radial gradient for depth */}
+            <div className="absolute inset-0 bg-radial-gradient from-white/20 to-transparent opacity-60"></div>
+
+            <Icon
+              className={cn("h-8 w-8 text-white drop-shadow-md relative z-10")}
+            />
           </div>
           <div>
             <h3 className="text-xl font-bold text-[#0C1F38]">{title}</h3>
@@ -124,7 +135,7 @@ export function LevelCard({
                   className={cn(
                     "text-xs py-0.5 px-2 rounded-full font-medium",
                     colors.badge,
-                    "shadow-sm",
+                    "shadow-sm border border-white/30", // Added subtle border
                   )}
                 >
                   {level === maxLevel ? "MAX" : `Nível ${level}`}
@@ -159,9 +170,10 @@ export function LevelCard({
               )}
               style={{ width: `${isMaxLevel ? 100 : progress}%` }}
             >
-              {/* Shine effect */}
+              {/* Enhanced shine effect */}
               <div className="absolute inset-0 w-full h-full">
-                <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-transparent via-white to-transparent"></div>
+                <div className="absolute inset-0 opacity-30 bg-gradient-to-r from-transparent via-white to-transparent animate-shine"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
               </div>
             </div>
           </div>
@@ -186,9 +198,12 @@ export function LevelCard({
                       "mt-0.5 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center",
                       "text-white text-xs font-bold shadow-sm",
                       "group-hover:scale-110 transition-transform duration-300",
+                      "border border-white/30 overflow-hidden", // Added for 3D effect
                     )}
                   >
-                    ✓
+                    {/* Inner highlight for checkmark */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <span className="relative z-10">✓</span>
                   </span>
                   <span className="group-hover:text-gray-800 transition-colors duration-300">
                     {benefit}

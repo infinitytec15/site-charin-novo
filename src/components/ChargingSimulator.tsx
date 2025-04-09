@@ -31,9 +31,6 @@ import {
   RotateCcw,
   Car,
   Zap,
-  Trophy,
-  Star,
-  Award,
 } from "lucide-react";
 import {
   carBrands,
@@ -45,7 +42,6 @@ import {
 
 interface ChargingSimulatorProps {
   onSaveSimulation?: (data: SimulationResult) => void;
-  showGameElements?: boolean;
 }
 
 interface SimulationResult {
@@ -58,7 +54,6 @@ interface SimulationResult {
 
 const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   onSaveSimulation = () => {},
-  showGameElements = true,
 }) => {
   const { toast } = useToast();
   const [selectedBrand, setSelectedBrand] = useState<string>("");
@@ -69,9 +64,6 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   const [simulationResult, setSimulationResult] =
     useState<SimulationResult | null>(null);
   const [selectedCar, setSelectedCar] = useState<CarModel | null>(null);
-  const [simulationCount, setSimulationCount] = useState<number>(0);
-  const [pointsEarned, setPointsEarned] = useState<number>(0);
-  const [showReward, setShowReward] = useState<boolean>(false);
 
   // Initialize with Tesla as default brand
   useEffect(() => {
@@ -163,24 +155,6 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
 
     setSimulationResult(result);
 
-    // Increment simulation count and add points for gamification
-    if (showGameElements) {
-      setSimulationCount((prev) => prev + 1);
-
-      // Calculate points based on battery difference and car type
-      const basePoints = Math.round(batteryDifference / 2);
-      const carTypeBonus = selectedCar.type === "electric" ? 10 : 5;
-      const newPoints = basePoints + carTypeBonus;
-
-      setPointsEarned(newPoints);
-      setShowReward(true);
-
-      // Hide reward after 5 seconds
-      setTimeout(() => {
-        setShowReward(false);
-      }, 5000);
-    }
-
     toast({
       title: "Simulação concluída",
       description: `Tempo estimado: ${Math.floor(timeInMinutes / 60)}h ${Math.round(timeInMinutes % 60)}min | Custo: R$ ${estimatedCost.toFixed(2)}`,
@@ -252,19 +226,6 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
       </CardHeader>
 
       <CardContent className="pt-6 space-y-6">
-        {showGameElements && (
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-2">
-              <Trophy className="h-5 w-5 text-[#00A651]" />
-              <span className="text-sm font-medium">
-                Simulações: {simulationCount}
-              </span>
-            </div>
-            <Badge variant="outline" className="bg-[#00A651]/10 text-[#00A651]">
-              <Star className="h-3 w-3 mr-1" /> Nível Explorador
-            </Badge>
-          </div>
-        )}
         <div className="space-y-2">
           <label className="text-sm font-medium">Marca do Veículo</label>
           <Select value={selectedBrand} onValueChange={setSelectedBrand}>
@@ -453,38 +414,7 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
                   <span>{targetBattery}%</span>
                 </div>
               </div>
-
-              {showGameElements && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <Trophy className="h-5 w-5 text-[#00A651] mr-2" />
-                      <span className="text-sm">Pontos ganhos:</span>
-                    </div>
-                    <span className="font-bold text-[#00A651]">
-                      +{pointsEarned} pts
-                    </span>
-                  </div>
-
-                  <ProgressBadge
-                    label="Próxima conquista"
-                    value={simulationCount}
-                    max={10}
-                    variant="success"
-                    className="w-full mt-3"
-                  />
-                </div>
-              )}
             </div>
-
-            {showGameElements && showReward && (
-              <div className="absolute -top-4 -right-4 bg-[#00A651] text-white px-3 py-2 rounded-lg shadow-lg animate-bounce">
-                <div className="flex items-center gap-2">
-                  <Award className="h-5 w-5" />
-                  <span className="font-bold">+{pointsEarned} pontos!</span>
-                </div>
-              </div>
-            )}
           </div>
         )}
       </CardContent>

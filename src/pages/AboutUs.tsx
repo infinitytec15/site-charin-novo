@@ -11,50 +11,51 @@ const AboutUs = () => {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full blur-sm bg-[#00A651]/30 -z-10"></div>
+              <Zap className="h-8 w-8 text-[#00A651] drop-shadow-md" />
+            </div>
+            <span className="text-xl font-bold text-[#0C1F38]">Chargin</span>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
             <a
               href="/#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Mapa de Estações
             </a>
             <a
               href="/#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Simulador
             </a>
             <a
               href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Seja um Franqueado
             </a>
             <a
               href="/white-label"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               White Label
             </a>
             <a
               href="/points"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
+              className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
               Pontos de Recarga
             </a>
             <a
               href="/sobre"
-              className="text-sm font-medium text-[#00FF99] transition-colors"
+              className="text-sm font-medium text-[#00A651] transition-colors"
             >
               Sobre Nós
             </a>
           </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
+          <Button className="bg-[#00A651] text-white hover:bg-[#00A651]/80">
             Baixe o App
           </Button>
         </div>
@@ -79,7 +80,7 @@ const AboutUs = () => {
               Somos mais que uma rede de recarga. Somos agentes da transformação
               energética que o mundo precisa.
             </p>
-            <div className="inline-block bg-[#00FF99] text-[#0C1F38] px-6 py-2 rounded-full font-bold">
+            <div className="inline-block bg-[#00A651] text-white px-6 py-2 rounded-full font-bold shadow-lg">
               Desde 2021 impulsionando a mobilidade elétrica no Brasil
             </div>
           </motion.div>
@@ -98,7 +99,7 @@ const AboutUs = () => {
             >
               <img
                 src="https://images.unsplash.com/photo-1581092921461-39b9d08a9b21?w=800&q=80"
-                alt="Equipe EletriCharge"
+                alt="Equipe Chargin"
                 className="rounded-xl shadow-lg w-full h-auto"
               />
             </motion.div>
@@ -113,15 +114,16 @@ const AboutUs = () => {
                 Quem Somos
               </h2>
               <p className="text-gray-600 text-lg">
-                A EletriCharge nasceu com o propósito de impulsionar a
-                mobilidade elétrica no Brasil, tornando-a acessível, prática e
-                eficiente. Somos uma empresa de tecnologia e energia que
-                acredita na sustentabilidade como caminho para um futuro melhor.
+                A Chargin nasceu com o propósito de impulsionar a mobilidade
+                elétrica no Brasil, tornando-a acessível, prática e eficiente.
+                Somos uma empresa de tecnologia e energia que acredita na
+                sustentabilidade como caminho para um futuro melhor.
               </p>
               <div className="grid grid-cols-2 gap-4 mt-8">
                 <div className="flex items-center space-x-3">
-                  <div className="bg-[#00FF99]/20 p-3 rounded-full">
-                    <Zap className="h-6 w-6 text-[#00FF99]" />
+                  <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 p-3 rounded-full shadow-md relative overflow-hidden transform hover:scale-105 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <Zap className="h-6 w-6 text-[#00A651] drop-shadow-md relative z-10" />
                   </div>
                   <div>
                     <p className="font-bold text-[#0C1F38]">+100 mil</p>
@@ -129,8 +131,9 @@ const AboutUs = () => {
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="bg-[#00FF99]/20 p-3 rounded-full">
-                    <Users className="h-6 w-6 text-[#00FF99]" />
+                  <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 p-3 rounded-full shadow-md relative overflow-hidden transform hover:scale-105 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <Users className="h-6 w-6 text-[#00A651] drop-shadow-md relative z-10" />
                   </div>
                   <div>
                     <p className="font-bold text-[#0C1F38]">+20 estados</p>
@@ -138,8 +141,9 @@ const AboutUs = () => {
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="bg-[#00FF99]/20 p-3 rounded-full">
-                    <Award className="h-6 w-6 text-[#00FF99]" />
+                  <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 p-3 rounded-full shadow-md relative overflow-hidden transform hover:scale-105 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <Award className="h-6 w-6 text-[#00A651] drop-shadow-md relative z-10" />
                   </div>
                   <div>
                     <p className="font-bold text-[#0C1F38]">Equipamentos</p>
@@ -147,8 +151,9 @@ const AboutUs = () => {
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <div className="bg-[#00FF99]/20 p-3 rounded-full">
-                    <Leaf className="h-6 w-6 text-[#00FF99]" />
+                  <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 p-3 rounded-full shadow-md relative overflow-hidden transform hover:scale-105 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <Leaf className="h-6 w-6 text-[#00A651] drop-shadow-md relative z-10" />
                   </div>
                   <div>
                     <p className="font-bold text-[#0C1F38]">Compromisso</p>
@@ -174,10 +179,12 @@ const AboutUs = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border-none shadow-lg bg-white h-full">
+            <Card className="border-none shadow-lg bg-white h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
-                <div className="bg-[#00FF99]/20 p-4 rounded-full mb-6">
-                  <Zap className="h-8 w-8 text-[#00FF99]" />
+                <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 p-4 rounded-full mb-6 shadow-lg relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                  <div className="absolute inset-0 rounded-full blur-sm bg-[#00A651]/20 -z-10"></div>
+                  <Zap className="h-8 w-8 text-[#00A651] drop-shadow-md relative z-10" />
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-[#0C1F38]">
                   Missão
@@ -189,10 +196,12 @@ const AboutUs = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-lg bg-white h-full">
+            <Card className="border-none shadow-lg bg-white h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
-                <div className="bg-[#00FF99]/20 p-4 rounded-full mb-6">
-                  <Users className="h-8 w-8 text-[#00FF99]" />
+                <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 p-4 rounded-full mb-6 shadow-lg relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                  <div className="absolute inset-0 rounded-full blur-sm bg-[#00A651]/20 -z-10"></div>
+                  <Users className="h-8 w-8 text-[#00A651] drop-shadow-md relative z-10" />
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-[#0C1F38]">Visão</h3>
                 <p className="text-gray-600">
@@ -202,10 +211,12 @@ const AboutUs = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-lg bg-white h-full">
+            <Card className="border-none shadow-lg bg-white h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
-                <div className="bg-[#00FF99]/20 p-4 rounded-full mb-6">
-                  <Award className="h-8 w-8 text-[#00FF99]" />
+                <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 p-4 rounded-full mb-6 shadow-lg relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                  <div className="absolute inset-0 rounded-full blur-sm bg-[#00A651]/20 -z-10"></div>
+                  <Award className="h-8 w-8 text-[#00A651] drop-shadow-md relative z-10" />
                 </div>
                 <h3 className="text-xl font-bold mb-4 text-[#0C1F38]">
                   Valores
@@ -238,7 +249,7 @@ const AboutUs = () => {
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-[#00FF99]/30 rounded-full" />
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-[#00A651]/30 rounded-full" />
 
             {/* Timeline items */}
             <div className="space-y-12">
@@ -247,10 +258,12 @@ const AboutUs = () => {
                   <h3 className="text-xl font-bold text-[#0C1F38] mb-2">
                     2021
                   </h3>
-                  <p className="text-gray-600">Fundação da EletriCharge</p>
+                  <p className="text-gray-600">Fundação da Chargin</p>
                 </div>
                 <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-[#00FF99] h-6 w-6 rounded-full border-4 border-white shadow-lg z-10" />
+                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
+                  </div>
                 </div>
                 <div className="md:w-1/2 md:pl-12 md:text-left">
                   <p className="text-gray-600">
@@ -268,7 +281,9 @@ const AboutUs = () => {
                   </p>
                 </div>
                 <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-[#00FF99] h-6 w-6 rounded-full border-4 border-white shadow-lg z-10" />
+                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
+                  </div>
                 </div>
                 <div className="md:w-1/2 md:pl-12 md:text-left">
                   <h3 className="text-xl font-bold text-[#0C1F38] mb-2">
@@ -288,7 +303,9 @@ const AboutUs = () => {
                   </p>
                 </div>
                 <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-[#00FF99] h-6 w-6 rounded-full border-4 border-white shadow-lg z-10" />
+                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
+                  </div>
                 </div>
                 <div className="md:w-1/2 md:pl-12 md:text-left">
                   <p className="text-gray-600">
@@ -307,7 +324,9 @@ const AboutUs = () => {
                   </p>
                 </div>
                 <div className="md:w-0 w-full py-4 md:py-0 flex justify-center">
-                  <div className="bg-[#00FF99] h-6 w-6 rounded-full border-4 border-white shadow-lg z-10" />
+                  <div className="bg-gradient-to-br from-[#00A651] to-[#00A651]/80 h-6 w-6 rounded-full border-4 border-white shadow-lg z-10 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30"></div>
+                  </div>
                 </div>
                 <div className="md:w-1/2 md:pl-12 md:text-left">
                   <h3 className="text-xl font-bold text-[#0C1F38] mb-2">
@@ -338,38 +357,41 @@ const AboutUs = () => {
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 rounded-full p-1 mr-3 shadow-sm relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <ArrowRight className="h-4 w-4 text-[#00A651] drop-shadow-sm relative z-10" />
                   </div>
                   <span className="text-gray-700">
                     Recarga 100% limpa com origem renovável
                   </span>
                 </li>
                 <li className="flex items-center">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 rounded-full p-1 mr-3 shadow-sm relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <ArrowRight className="h-4 w-4 text-[#00A651] drop-shadow-sm relative z-10" />
                   </div>
                   <span className="text-gray-700">
                     Redução de emissões com base em dados reais
                   </span>
                 </li>
                 <li className="flex items-center">
-                  <div className="bg-[#00FF99] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-[#0C1F38]" />
+                  <div className="bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 rounded-full p-1 mr-3 shadow-sm relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-white/20"></div>
+                    <ArrowRight className="h-4 w-4 text-[#00A651] drop-shadow-sm relative z-10" />
                   </div>
                   <span className="text-gray-700">
                     Parcerias com empresas do setor de energia limpa
                   </span>
                 </li>
               </ul>
-              <Button className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white mt-4">
+              <Button className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white mt-4 shadow-md">
                 Conheça nossas iniciativas
               </Button>
             </div>
             <div className="order-1 md:order-2">
               <img
                 src="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=800&q=80"
-                alt="Sustentabilidade EletriCharge"
+                alt="Sustentabilidade Chargin"
                 className="rounded-xl shadow-lg w-full h-auto"
               />
             </div>
@@ -389,11 +411,14 @@ const AboutUs = () => {
           </p>
           <Button
             onClick={() => (window.location.href = "/points")}
-            className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 px-6 py-6"
+            className="bg-[#00A651] text-white hover:bg-[#00A651]/80 px-6 py-6 shadow-lg transform hover:scale-105 transition-all duration-300"
             size="lg"
           >
             Conheça nossos pontos de recarga
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <div className="relative ml-2">
+              <div className="absolute inset-0 rounded-full blur-sm bg-white/30 -z-10"></div>
+              <ArrowRight className="h-5 w-5 relative z-10" />
+            </div>
           </Button>
         </div>
       </section>
@@ -404,9 +429,12 @@ const AboutUs = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-6 w-6 text-[#00FF99]" />
+                <div className="relative">
+                  <div className="absolute inset-0 rounded-full blur-sm bg-[#00A651]/30 -z-10"></div>
+                  <Zap className="h-6 w-6 text-[#00A651] drop-shadow-md" />
+                </div>
                 <span className="text-lg font-bold text-[#0C1F38]">
-                  EletriCharge
+                  Chargin
                 </span>
               </div>
               <p className="text-gray-600 text-sm">
@@ -420,7 +448,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/#map"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Mapa de Estações
                   </a>
@@ -428,7 +456,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/#simulator"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Simulador de Recarga
                   </a>
@@ -436,7 +464,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/franchise"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Seja um Franqueado
                   </a>
@@ -444,7 +472,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/sobre"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Sobre Nós
                   </a>
@@ -458,7 +486,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/codigoconduta"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Código de Conduta
                   </a>
@@ -466,7 +494,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/politicaprivacidade"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Política de Privacidade
                   </a>
@@ -474,7 +502,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/termosdeuso"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Termos de Uso
                   </a>
@@ -482,7 +510,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/politicaseguranca"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Política de Segurança
                   </a>
@@ -490,7 +518,7 @@ const AboutUs = () => {
                 <li>
                   <a
                     href="/cancelamento"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Cancelamento e Reembolso
                   </a>
@@ -501,7 +529,7 @@ const AboutUs = () => {
             <div>
               <h3 className="font-bold text-[#0C1F38] mb-4">Contato</h3>
               <ul className="space-y-2 text-sm">
-                <li className="text-gray-600">contato@eletricharge.com.br</li>
+                <li className="text-gray-600">suporte@chargin.io</li>
                 <li className="text-gray-600">+55 (11) 9999-9999</li>
                 <li className="text-gray-600">São Paulo, SP - Brasil</li>
               </ul>
@@ -510,7 +538,7 @@ const AboutUs = () => {
 
           <div className="border-t border-gray-200 mt-8 pt-8 text-center">
             <p className="text-sm text-gray-600">
-              &copy; {new Date().getFullYear()} EletriCharge. Todos os direitos
+              &copy; {new Date().getFullYear()} Chargin. Todos os direitos
               reservados.
             </p>
           </div>
