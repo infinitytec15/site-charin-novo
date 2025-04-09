@@ -41,7 +41,7 @@ const AppPage = () => {
   const gamificationLevels = [
     {
       name: "Bronze",
-      icon: <Award className="h-8 w-8 text-amber-600" />,
+      icon: Trophy,
       description: "Recarregue 5 vezes no mês e ganhe pontos bônus!",
       progress: 40,
       points: 120,
@@ -53,10 +53,11 @@ const AppPage = () => {
         "Acumule 2x mais pontos aos domingos",
         "Notificações de promoções exclusivas",
       ],
+      variant: "bronze",
     },
     {
       name: "Prata",
-      icon: <Award className="h-8 w-8 text-gray-400" />,
+      icon: Award,
       description: "Suba de nível: Bronze → Prata → Ouro",
       progress: 20,
       points: 60,
@@ -68,10 +69,11 @@ const AppPage = () => {
         "Reserva prioritária de estações",
         "Acumule 3x mais pontos aos domingos",
       ],
+      variant: "silver",
     },
     {
       name: "Ouro",
-      icon: <Award className="h-8 w-8 text-yellow-500" />,
+      icon: Star,
       description: "Troque pontos por créditos ou brindes em parceiros!",
       progress: 5,
       points: 15,
@@ -84,10 +86,11 @@ const AppPage = () => {
         "Suporte prioritário 24/7",
         "Bônus mensal de 50 pontos",
       ],
+      variant: "gold",
     },
     {
       name: "Premium",
-      icon: <Award className="h-8 w-8 text-[#00A651]" />,
+      icon: Sparkles,
       description: "Acesso antecipado a estações premium",
       progress: 0,
       points: 0,
@@ -101,6 +104,7 @@ const AppPage = () => {
         "Bônus mensal de 100 pontos",
         "Convites para eventos exclusivos",
       ],
+      variant: "premium",
     },
   ];
 
@@ -404,9 +408,10 @@ const AppPage = () => {
                 maxLevel={level.maxLevel}
                 points={level.points}
                 pointsToNextLevel={level.pointsToNextLevel}
-                icon={Award}
+                icon={level.icon}
                 description={level.description}
                 benefits={level.benefits}
+                variant={level.variant}
               />
             ))}
           </div>
@@ -423,6 +428,8 @@ const AppPage = () => {
                 unlocked={true}
                 level={3}
                 maxLevel={3}
+                variant="zap"
+                size="lg"
               />
               <AchievementBadge
                 icon={Flame}
@@ -431,6 +438,8 @@ const AppPage = () => {
                 unlocked={true}
                 level={2}
                 maxLevel={3}
+                variant="flame"
+                size="lg"
               />
               <AchievementBadge
                 icon={MapPin}
@@ -439,6 +448,8 @@ const AppPage = () => {
                 unlocked={true}
                 level={1}
                 maxLevel={3}
+                variant="map"
+                size="lg"
               />
               <AchievementBadge
                 icon={Star}
@@ -447,6 +458,8 @@ const AppPage = () => {
                 unlocked={true}
                 level={3}
                 maxLevel={3}
+                variant="star"
+                size="lg"
               />
               <AchievementBadge
                 icon={Trophy}
@@ -455,6 +468,8 @@ const AppPage = () => {
                 unlocked={false}
                 level={0}
                 maxLevel={3}
+                variant="trophy"
+                size="lg"
               />
               <AchievementBadge
                 icon={Sparkles}
@@ -463,6 +478,8 @@ const AppPage = () => {
                 unlocked={false}
                 level={0}
                 maxLevel={3}
+                variant="sparkles"
+                size="lg"
               />
             </div>
           </div>
@@ -472,82 +489,124 @@ const AppPage = () => {
               Seu Progresso
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              <Card className="border-none shadow-md hover:shadow-lg transition-all">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                    <Zap className="h-8 w-8 text-[#00A651]" />
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative">
+                <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-blue-500/10 blur-xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-blue-500/10 blur-xl"></div>
+                <CardContent className="p-6 flex flex-col items-center text-center relative z-10">
+                  <div className="bg-gradient-to-br from-blue-400 to-blue-600 p-4 rounded-full mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-blue-400 to-blue-600 -z-10 opacity-60"></div>
+                    <Zap className="h-8 w-8 text-white drop-shadow-md" />
                   </div>
                   <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
                     Recargas Totais
                   </h4>
-                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent mb-2 drop-shadow-sm">
                     27
+                  </div>
+                  <div className="w-full bg-blue-100/50 p-2 rounded-lg border border-blue-200/50 mb-2">
+                    <div className="text-xs text-blue-700 font-medium">
+                      +3 recargas na última semana
+                    </div>
                   </div>
                   <ProgressBadge
                     label="Próximo nível"
                     value={27}
                     max={50}
-                    variant="success"
+                    variant="energy"
                     className="w-full mt-2"
+                    animated={true}
                   />
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-md hover:shadow-lg transition-all">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                    <Trophy className="h-8 w-8 text-[#00A651]" />
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative">
+                <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-amber-500/10 blur-xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-amber-500/10 blur-xl"></div>
+                <CardContent className="p-6 flex flex-col items-center text-center relative z-10">
+                  <div className="bg-gradient-to-br from-amber-400 to-amber-600 p-4 rounded-full mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-amber-400 to-amber-600 -z-10 opacity-60"></div>
+                    <Trophy className="h-8 w-8 text-white drop-shadow-md" />
                   </div>
                   <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
                     Pontos Acumulados
                   </h4>
-                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-amber-500 to-amber-700 bg-clip-text text-transparent mb-2 drop-shadow-sm">
                     1,250
                   </div>
-                  <Badge variant="outline" className="bg-gray-100">
+                  <div className="w-full bg-amber-100/50 p-2 rounded-lg border border-amber-200/50 mb-2">
+                    <div className="text-xs text-amber-700 font-medium">
+                      +150 pontos esta semana
+                    </div>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className="bg-gradient-to-r from-amber-400 to-amber-600 text-white font-semibold shadow-md px-3 py-1 transform hover:scale-105 transition-all duration-300"
+                  >
                     Nível Bronze
                   </Badge>
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-md hover:shadow-lg transition-all">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                    <Leaf className="h-8 w-8 text-[#00A651]" />
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative">
+                <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-emerald-500/10 blur-xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-emerald-500/10 blur-xl"></div>
+                <CardContent className="p-6 flex flex-col items-center text-center relative z-10">
+                  <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-4 rounded-full mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-green-400 to-emerald-600 -z-10 opacity-60"></div>
+                    <Leaf className="h-8 w-8 text-white drop-shadow-md" />
                   </div>
                   <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
                     CO₂ Economizado
                   </h4>
-                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent mb-2 drop-shadow-sm">
                     78kg
+                  </div>
+                  <div className="w-full bg-emerald-100/50 p-2 rounded-lg border border-emerald-200/50 mb-2">
+                    <div className="text-xs text-emerald-700 font-medium">
+                      Equivalente a 5 árvores plantadas
+                    </div>
                   </div>
                   <ProgressBadge
                     label="Meta mensal"
                     value={78}
                     max={100}
-                    variant="success"
+                    variant="eco"
                     className="w-full mt-2"
+                    animated={true}
                   />
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-md hover:shadow-lg transition-all">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                    <Target className="h-8 w-8 text-[#00A651]" />
+              <Card className="border-none shadow-lg hover:shadow-xl transition-all bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative">
+                <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-pink-500/10 blur-xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-pink-500/10 blur-xl"></div>
+                <CardContent className="p-6 flex flex-col items-center text-center relative z-10">
+                  <div className="bg-gradient-to-br from-rose-400 to-pink-600 p-4 rounded-full mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-rose-400 to-pink-600 -z-10 opacity-60"></div>
+                    <Target className="h-8 w-8 text-white drop-shadow-md" />
                   </div>
                   <h4 className="text-lg font-bold text-[#0C1F38] mb-2">
                     Desafios Completos
                   </h4>
-                  <div className="text-3xl font-bold text-[#00A651] mb-2">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent mb-2 drop-shadow-sm">
                     4/12
+                  </div>
+                  <div className="w-full bg-pink-100/50 p-2 rounded-lg border border-pink-200/50 mb-2">
+                    <div className="text-xs text-pink-700 font-medium">
+                      Próximo desafio em 2 dias
+                    </div>
                   </div>
                   <ProgressBadge
                     label="Progresso"
                     value={4}
                     max={12}
-                    variant="success"
+                    variant="challenge"
                     className="w-full mt-2"
+                    animated={true}
                   />
                 </CardContent>
               </Card>
