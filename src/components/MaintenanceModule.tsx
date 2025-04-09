@@ -68,37 +68,77 @@ const MaintenanceModule = () => {
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>Usuário ou operador detecta problema técnico</span>
                   </li>
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>Abre chamado no painel administrativo</span>
                   </li>
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>
                       Chamado vai para feed visível por todos os técnicos
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>Um técnico disponível "aceita" o chamado</span>
                   </li>
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>Técnico executa a manutenção no local</span>
                   </li>
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>Envia fotos/vídeos da solução pelo app</span>
                   </li>
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>Chamado é finalizado e validado</span>
                   </li>
                   <li className="flex items-start">
-                    <Clock className="h-5 w-5 text-[#00FF99] mr-2 mt-1" />
+                    <div className="relative mr-3 mt-1">
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                      <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                        <Clock className="h-4 w-4 text-white drop-shadow-md" />
+                      </div>
+                    </div>
                     <span>Valor é creditado na carteira do técnico</span>
                   </li>
                 </ul>
@@ -136,27 +176,57 @@ const MaintenanceModule = () => {
             </h3>
             <ul className="text-gray-600 text-left space-y-2">
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Feed de chamados em tempo real</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Aceite de ordens de serviço</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Upload de fotos e vídeos</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Detalhes técnicos da estação</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Finalização e envio de relatório</span>
               </li>
               <li className="flex items-center">
-                <CheckCircle className="h-4 w-4 text-[#00FF99] mr-2" />
+                <div className="relative mr-3">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00FF99]/60 to-[#00A651]/60 rounded-full blur-sm"></div>
+                  <div className="bg-gradient-to-br from-[#00FF99] to-[#00A651] p-1 rounded-full relative">
+                    <CheckCircle className="h-3 w-3 text-white drop-shadow-md" />
+                  </div>
+                </div>
                 <span>Visualização da carteira digital</span>
               </li>
             </ul>

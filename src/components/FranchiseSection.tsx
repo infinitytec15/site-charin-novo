@@ -161,8 +161,10 @@ const FranchiseSection = () => {
               <CardContent className="pt-6">
                 <div className="space-y-6">
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-[#00A651] p-3 rounded-full">
-                      <TrendingUp className="h-6 w-6 text-white" />
+                    <div className="flex-shrink-0 bg-gradient-to-br from-[#00A651]/80 to-[#00A651] p-3 rounded-full shadow-lg relative overflow-hidden">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                      <TrendingUp className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold">
@@ -176,8 +178,10 @@ const FranchiseSection = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-[#00A651] p-3 rounded-full">
-                      <MapPin className="h-6 w-6 text-white" />
+                    <div className="flex-shrink-0 bg-gradient-to-br from-[#00A651]/80 to-[#00A651] p-3 rounded-full shadow-lg relative overflow-hidden">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                      <MapPin className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold">
@@ -191,8 +195,10 @@ const FranchiseSection = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-[#00A651] p-3 rounded-full">
-                      <DollarSign className="h-6 w-6 text-white" />
+                    <div className="flex-shrink-0 bg-gradient-to-br from-[#00A651]/80 to-[#00A651] p-3 rounded-full shadow-lg relative overflow-hidden">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                      <DollarSign className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
                     </div>
                     <div className="ml-4">
                       <h3 className="text-lg font-semibold">

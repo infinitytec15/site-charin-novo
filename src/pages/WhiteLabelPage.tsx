@@ -48,8 +48,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { ProgressBadge } from "@/components/ui/progress-badge";
-import { AchievementBadge } from "@/components/ui/achievement-badge";
 
 const WhiteLabelPage = () => {
   const scrollToForm = () => {
@@ -74,8 +72,6 @@ const WhiteLabelPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [showReward, setShowReward] = useState(false);
-  const [formProgress, setFormProgress] = useState(0);
 
   const handleFormChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
@@ -87,13 +83,6 @@ const WhiteLabelPage = () => {
         return newErrors;
       });
     }
-
-    // Calculate form progress
-    const totalFields = Object.keys(formData).length;
-    const filledFields = Object.values({ ...formData, [field]: value }).filter(
-      (val) => val && val.trim() !== "",
-    ).length;
-    setFormProgress(Math.round((filledFields / totalFields) * 100));
   };
 
   const validateForm = () => {
@@ -152,12 +141,6 @@ const WhiteLabelPage = () => {
       // Simulate API call with a delay
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // Show reward animation
-      setShowReward(true);
-      setTimeout(() => {
-        setShowReward(false);
-      }, 5000);
-
       // Here you would typically send the form data to your backend
       setFormSubmitted(true);
       toast({
@@ -178,7 +161,6 @@ const WhiteLabelPage = () => {
           segment: "",
           message: "",
         });
-        setFormProgress(0);
       }, 5000);
     } catch (error) {
       toast({
@@ -198,28 +180,24 @@ const WhiteLabelPage = () => {
       title: "Customização de marca",
       description: "Logo, cores, app e sistema com sua identidade visual.",
       gradient: "from-blue-400 to-blue-600",
-      points: 50,
     },
     {
       icon: <Server className="h-8 w-8 text-[#0C1F38]" />,
       title: "Infraestrutura de recarga",
       description: "Equipamentos homologados e suporte técnico completo.",
       gradient: "from-purple-400 to-indigo-600",
-      points: 75,
     },
     {
       icon: <BarChart3 className="h-8 w-8 text-[#0C1F38]" />,
       title: "Dashboard completo",
       description: "Gestão de recargas, relatórios, usuários e faturamento.",
       gradient: "from-emerald-400 to-[#00A651]",
-      points: 100,
     },
     {
       icon: <Headset className="h-8 w-8 text-[#0C1F38]" />,
       title: "Atendimento técnico e comercial",
       description: "Atendimento especializado no seu nome ou em parceria.",
       gradient: "from-amber-400 to-amber-600",
-      points: 80,
     },
   ];
 
@@ -262,7 +240,6 @@ const WhiteLabelPage = () => {
         "O modelo white label permite que sua empresa ofereça serviços de recarga de veículos elétricos com sua própria marca, sem precisar desenvolver a tecnologia do zero. Nós fornecemos toda a infraestrutura, software e suporte, enquanto você mantém o relacionamento com seus clientes.",
       icon: <HelpCircle className="h-5 w-5 text-white" />,
       gradient: "from-blue-400 to-blue-600",
-      points: 25,
     },
     {
       question: "Quais são os custos envolvidos?",
@@ -270,7 +247,6 @@ const WhiteLabelPage = () => {
         "Os custos variam de acordo com o modelo de negócio escolhido e a escala de implementação. Oferecemos opções de licenciamento do software, revenue share ou modelo de franquia. Entre em contato para uma proposta personalizada.",
       icon: <DollarSign className="h-5 w-5 text-white" />,
       gradient: "from-green-400 to-emerald-600",
-      points: 30,
     },
     {
       question: "Quanto tempo leva para implementar?",
@@ -278,7 +254,6 @@ const WhiteLabelPage = () => {
         "O tempo de implementação varia de 30 a 90 dias, dependendo da complexidade do projeto e das personalizações necessárias. Isso inclui a customização do software, instalação dos equipamentos e treinamento da equipe.",
       icon: <Clock className="h-5 w-5 text-white" />,
       gradient: "from-purple-400 to-indigo-600",
-      points: 35,
     },
     {
       question: "É possível integrar com sistemas existentes?",
@@ -286,7 +261,6 @@ const WhiteLabelPage = () => {
         "Sim, nossa plataforma foi desenvolvida com APIs abertas que permitem integração com diversos sistemas, como ERP, CRM, sistemas de pagamento e programas de fidelidade existentes.",
       icon: <Link className="h-5 w-5 text-white" />,
       gradient: "from-amber-400 to-amber-600",
-      points: 40,
     },
   ];
 
@@ -369,38 +343,7 @@ const WhiteLabelPage = () => {
                 Ofereça soluções de recarga para veículos elétricos com sua
                 própria marca, sem precisar desenvolver a tecnologia do zero.
               </p>
-              <div className="flex gap-4 mb-6">
-                <AchievementBadge
-                  icon={Sparkles}
-                  label="White Label"
-                  description="Solução completa com sua marca"
-                  unlocked={true}
-                  level={3}
-                  maxLevel={3}
-                  variant="star"
-                  size="md"
-                />
-                <AchievementBadge
-                  icon={Shield}
-                  label="Tecnologia Comprovada"
-                  description="Plataforma robusta e segura"
-                  unlocked={true}
-                  level={2}
-                  maxLevel={3}
-                  variant="zap"
-                  size="md"
-                />
-                <AchievementBadge
-                  icon={Globe}
-                  label="Expansão Global"
-                  description="Expanda seu negócio internacionalmente"
-                  unlocked={false}
-                  level={0}
-                  maxLevel={3}
-                  variant="map"
-                  size="md"
-                />
-              </div>
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   onClick={scrollToForm}
@@ -477,14 +420,6 @@ const WhiteLabelPage = () => {
                     {feature.title}
                   </h3>
                   <p className="text-gray-600 mb-4">{feature.description}</p>
-
-                  {/* Gamification element */}
-                  <Badge
-                    variant="outline"
-                    className={`bg-gradient-to-r ${feature.gradient} text-white font-semibold shadow-md px-3 py-1 transform hover:scale-105 transition-all duration-300`}
-                  >
-                    +{feature.points} pontos
-                  </Badge>
                 </CardContent>
               </Card>
             ))}
@@ -548,95 +483,9 @@ const WhiteLabelPage = () => {
                 para agendar uma demonstração personalizada da nossa solução
                 white label.
               </p>
-
-              {/* Gamification elements */}
-              <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 mb-6">
-                <h3 className="text-lg font-bold text-[#0C1F38] mb-3 flex items-center">
-                  <Trophy className="h-5 w-5 text-amber-500 mr-2" />
-                  Benefícios de Contato
-                </h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-sm">
-                    <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
-                      ✓
-                    </div>
-                    <span>Ganhe 150 pontos ao solicitar uma demonstração</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm">
-                    <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
-                      ✓
-                    </div>
-                    <span>Desbloqueie a conquista "Pioneiro White Label"</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm">
-                    <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
-                      ✓
-                    </div>
-                    <span>Acesso prioritário a novos recursos</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="flex gap-4">
-                <AchievementBadge
-                  icon={Target}
-                  label="Pioneiro"
-                  description="Seja um dos primeiros a adotar a solução"
-                  unlocked={false}
-                  level={0}
-                  maxLevel={3}
-                  variant="trophy"
-                  size="lg"
-                />
-                <AchievementBadge
-                  icon={Star}
-                  label="Parceiro Premium"
-                  description="Torne-se um parceiro premium"
-                  unlocked={false}
-                  level={0}
-                  maxLevel={3}
-                  variant="star"
-                  size="lg"
-                />
-                <AchievementBadge
-                  icon={LineChart}
-                  label="Crescimento Acelerado"
-                  description="Aumente sua receita com nossa solução"
-                  unlocked={false}
-                  level={0}
-                  maxLevel={3}
-                  variant="flame"
-                  size="lg"
-                />
-              </div>
             </div>
 
             <div className="bg-white p-8 rounded-xl shadow-lg relative">
-              {/* Reward popup */}
-              {showReward && (
-                <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-3 rounded-lg shadow-lg animate-bounce z-20">
-                  <div className="flex items-center gap-2">
-                    <Award className="h-5 w-5" />
-                    <div>
-                      <p className="font-bold">+150 pontos!</p>
-                      <p className="text-xs">Conquista desbloqueada</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Gamification progress */}
-              <div className="mb-6">
-                <ProgressBadge
-                  label="Progresso do formulário"
-                  value={formProgress}
-                  max={100}
-                  variant="success"
-                  className="w-full"
-                  animated={formProgress > 0}
-                />
-              </div>
-
               {formSubmitted ? (
                 <div className="text-center py-8">
                   <div className="bg-gradient-to-br from-emerald-400 to-[#00A651] p-4 rounded-full mx-auto w-16 h-16 flex items-center justify-center mb-4 shadow-lg">
@@ -661,11 +510,6 @@ const WhiteLabelPage = () => {
                     Obrigado pelo seu interesse. Nossa equipe entrará em contato
                     em breve para agendar sua demonstração personalizada.
                   </p>
-                  <div className="flex justify-center">
-                    <Badge className="bg-gradient-to-r from-amber-400 to-amber-600 text-white font-semibold shadow-md px-3 py-1">
-                      +150 pontos adicionados
-                    </Badge>
-                  </div>
                 </div>
               ) : (
                 <form className="space-y-6" onSubmit={handleSubmit}>
@@ -885,13 +729,6 @@ const WhiteLabelPage = () => {
                   <AccordionContent className="text-gray-600">
                     <div className="flex flex-col space-y-4">
                       <p>{item.answer}</p>
-                      <div className="flex justify-end">
-                        <Badge
-                          className={`bg-gradient-to-r ${item.gradient} text-white font-semibold shadow-md px-3 py-1 transform hover:scale-105 transition-all duration-300`}
-                        >
-                          +{item.points} pontos
-                        </Badge>
-                      </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
