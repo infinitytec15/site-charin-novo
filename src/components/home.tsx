@@ -20,275 +20,615 @@ import FAQ from "./FAQ";
 const Home = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header/Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-8 w-8 text-[#00A651]"
-            >
-              <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
-              <line x1="23" y1="13" x2="23" y2="11" />
-              <line x1="11" y1="6" x2="7" y2="18" />
-              <line x1="16" y1="6" x2="20" y2="18" />
-            </svg>
-            <span className="text-xl font-bold text-[#0C1F38]">Chargin</span>
+      {/* Header/Navigation - Modern 3D Style */}
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-md">
+        <div className="container flex h-20 items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative group">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-full blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
+              <div className="relative bg-white rounded-full p-2 shadow-3d">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-8 w-8 text-[#00A651] animate-pulse"
+                >
+                  <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
+                  <line x1="23" y1="13" x2="23" y2="11" />
+                  <line x1="11" y1="6" x2="7" y2="18" />
+                  <line x1="16" y1="6" x2="20" y2="18" />
+                </svg>
+              </div>
+            </div>
+            <span className="text-2xl font-bold text-[#0C1F38] tracking-tight">
+              Chargin
+            </span>
           </div>
-          <nav className="hidden md:flex items-center space-x-6">
+
+          <nav className="hidden lg:flex items-center space-x-1">
             <a
               href="/#map"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <MapPin className="h-4 w-4" />
               Mapa de Estações
             </a>
             <a
               href="/#simulator"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <Calculator className="h-4 w-4" />
               Simulador
             </a>
             <a
               href="/franchise"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <Zap className="h-4 w-4" />
               Seja um Franqueado
             </a>
             <a
               href="/app"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-smartphone"
+              >
+                <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+                <path d="M12 18h.01" />
+              </svg>
               Aplicativo
             </a>
             <a
               href="/points"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-map-pin"
+              >
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
               Pontos de Recarga
             </a>
             <a
               href="/whitelabel"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-tag"
+              >
+                <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z" />
+                <path d="M7 7h.01" />
+              </svg>
               White Label
             </a>
             <a
               href="/sobre"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-info"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
               Sobre Nós
             </a>
             <a
               href="/contato"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
+              className="px-4 py-2 rounded-full text-sm font-medium hover:text-[#00A651] hover:bg-[#00A651]/10 transition-all duration-300 flex items-center gap-2"
             >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-mail"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
               Contato
             </a>
           </nav>
-          <Button
-            className="bg-[#00A651] text-white hover:bg-[#00A651]/80"
-            onClick={() => (window.location.href = "/app")}
-          >
-            Baixe o App
-          </Button>
+
+          <div className="flex items-center gap-4">
+            <Button
+              className="bg-gradient-to-r from-[#00A651] to-[#00A651]/80 text-white hover:from-[#00A651]/90 hover:to-[#00A651]/70 shadow-lg transition-all duration-300 rounded-full px-6"
+              onClick={() => (window.location.href = "/app")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mr-2"
+              >
+                <path d="m12 19-7-7 7-7" />
+                <path d="m19 12-7 7-7-7" />
+              </svg>
+              Baixe o App
+            </Button>
+          </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="container py-20 md:py-32">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      {/* Hero Section - Modern 3D Style */}
+      <section className="container py-24 md:py-36">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="space-y-6"
+            className="space-y-8"
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-[#0C1F38] leading-tight">
-              A revolução da mobilidade elétrica começa aqui
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#00A651]/10 text-[#00A651] font-medium text-sm mb-4">
+              <div className="mr-2 bg-[#00A651] rounded-full w-2 h-2 animate-pulse"></div>
+              Mobilidade Sustentável
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold text-[#0C1F38] leading-tight tracking-tight">
+              <span className="relative inline-block">
+                <span className="relative z-10">A revolução</span>
+                <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10"></div>
+              </span>{" "}
+              da mobilidade elétrica começa aqui
             </h1>
-            <p className="text-lg text-gray-600">
+
+            <p className="text-xl text-gray-600 leading-relaxed">
               Energize seu caminho com a melhor rede de carregamento do Brasil.
               Recargas rápidas, seguras e disponíveis 24h.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+
+            <div className="flex flex-col sm:flex-row gap-5 pt-4">
               <Button
-                className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white px-6 py-6"
+                className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white px-8 py-7 rounded-xl shadow-3d transition-all duration-300 transform hover:translate-y-[-2px]"
                 size="lg"
                 onClick={() => (window.location.href = "/#map")}
               >
-                <MapPin className="mr-2 h-5 w-5" /> Encontre um ponto de recarga
+                <div className="mr-3 bg-white/20 p-2 rounded-lg">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                Encontre um ponto de recarga
               </Button>
+
               <Button
                 variant="outline"
-                className="border-[#0C1F38] text-[#0C1F38] hover:bg-[#0C1F38]/10 px-6 py-6"
+                className="border-2 border-[#0C1F38] text-[#0C1F38] hover:bg-[#0C1F38]/10 px-8 py-7 rounded-xl shadow-md transition-all duration-300 transform hover:translate-y-[-2px]"
                 size="lg"
                 onClick={() => (window.location.href = "/#simulator")}
               >
-                <Calculator className="mr-2 h-5 w-5" /> Simule sua recarga
+                <div className="mr-3 bg-[#0C1F38]/10 p-2 rounded-lg">
+                  <Calculator className="h-5 w-5" />
+                </div>
+                Simule sua recarga
               </Button>
             </div>
+
+            <div className="flex items-center gap-6 pt-6">
+              <div className="flex -space-x-3">
+                <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-[#00A651]/20 flex items-center justify-center text-[#00A651] font-bold">
+                  +
+                </div>
+                <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden">
+                  <img
+                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=1"
+                    alt="User"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden">
+                  <img
+                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=2"
+                    alt="User"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden">
+                  <img
+                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=3"
+                    alt="User"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">
+                Mais de{" "}
+                <span className="font-bold text-[#0C1F38]">
+                  10.000 usuários
+                </span>{" "}
+                satisfeitos
+              </p>
+            </div>
           </motion.div>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative"
           >
-            <img
-              src="https://images.unsplash.com/photo-1647166545674-ce28ce93bdca?w=800&q=80"
-              alt="Carro elétrico carregando"
-              className="rounded-xl shadow-2xl w-full h-auto"
-            />
-            <div className="absolute -bottom-5 -right-5 bg-[#00A651] p-4 rounded-lg shadow-lg">
-              <p className="text-white font-bold">+500 estações</p>
-              <p className="text-white text-sm">em todo o Brasil</p>
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-2xl blur opacity-30 animate-pulse"></div>
+            <div className="relative bg-white rounded-2xl p-2 shadow-3d">
+              <img
+                src="https://images.unsplash.com/photo-1647166545674-ce28ce93bdca?w=800&q=80"
+                alt="Carro elétrico carregando"
+                className="rounded-xl w-full h-auto"
+              />
+            </div>
+
+            <div className="absolute -bottom-6 -right-6 bg-gradient-to-r from-[#00A651] to-[#00A651]/80 p-5 rounded-xl shadow-lg transform rotate-3 animate-float">
+              <div className="flex items-center gap-3">
+                <div className="bg-white/20 p-2 rounded-lg">
+                  <MapPin className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-white font-bold text-xl">+500 estações</p>
+                  <p className="text-white/80 text-sm">em todo o Brasil</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute top-1/2 -left-10 transform -translate-y-1/2 bg-white p-4 rounded-xl shadow-lg rotate-[-6deg] animate-float">
+              <div className="flex items-center gap-3">
+                <div className="bg-[#00A651]/10 p-2 rounded-lg">
+                  <Zap className="h-5 w-5 text-[#00A651]" />
+                </div>
+                <p className="font-bold text-[#0C1F38]">Recarga Rápida</p>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-center text-[#0C1F38] mb-12">
-            Por que escolher nossa rede?
-          </h2>
+      <section className="bg-gradient-to-b from-white to-gray-50 py-20 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#00A651]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#0C1F38]/5 rounded-full blur-3xl"></div>
+
+        <div className="container relative z-10">
+          <div className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-[#00A651]/10 text-[#00A651] font-medium text-sm mb-4"
+            >
+              <div className="mr-2 bg-[#00A651] rounded-full w-2 h-2 animate-pulse"></div>
+              Vantagens Exclusivas
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-4xl md:text-5xl font-bold text-[#0C1F38] mb-4 relative inline-block"
+            >
+              <span className="relative z-10">
+                Por que escolher nossa rede?
+              </span>
+              <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10"></div>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-gray-600 max-w-2xl mx-auto text-lg"
+            >
+              Descubra como nossa infraestrutura de recarga está transformando a
+              mobilidade elétrica no Brasil.
+            </motion.p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border-none shadow-lg bg-white">
-              <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                  <Zap className="h-8 w-8 text-[#00A651]" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                  Recargas Ultrarrápidas
-                </h3>
-                <p className="text-gray-600">
-                  Nossos carregadores de alta potência garantem recargas até 80%
-                  em menos de 30 minutos.
-                </p>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              className="group"
+            >
+              <Card className="border-none shadow-3d bg-white rounded-xl overflow-hidden transform transition-all duration-300 hover:shadow-lg h-full">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A651]/30 to-[#0C1F38]/30 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-300"></div>
+                <CardContent className="p-8 flex flex-col items-center text-center relative h-full">
+                  <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] p-5 rounded-full shadow-lg relative overflow-hidden mb-8 group-hover:shadow-neon transition-all duration-300">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                    <Zap className="h-8 w-8 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10 animate-pulse" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-[#0C1F38] group-hover:text-[#00A651] transition-colors duration-300">
+                    Recargas Ultrarrápidas
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Nossos carregadores de alta potência garantem recargas até
+                    80% em menos de 30 minutos, otimizando seu tempo.
+                  </p>
+                  <div className="mt-6 w-12 h-1 bg-[#00A651]/30 rounded-full group-hover:w-24 transition-all duration-300"></div>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="border-none shadow-lg bg-white">
-              <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                  <Clock className="h-8 w-8 text-[#00A651]" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                  Disponível 24h
-                </h3>
-                <p className="text-gray-600">
-                  Nossas estações funcionam 24 horas por dia, 7 dias por semana,
-                  para sua conveniência.
-                </p>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              className="group"
+            >
+              <Card className="border-none shadow-3d bg-white rounded-xl overflow-hidden transform transition-all duration-300 hover:shadow-lg h-full">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A651]/30 to-[#0C1F38]/30 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-300"></div>
+                <CardContent className="p-8 flex flex-col items-center text-center relative h-full">
+                  <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] p-5 rounded-full shadow-lg relative overflow-hidden mb-8 group-hover:shadow-neon transition-all duration-300">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                    <Clock className="h-8 w-8 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-[#0C1F38] group-hover:text-[#00A651] transition-colors duration-300">
+                    Disponível 24h
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Nossas estações funcionam 24 horas por dia, 7 dias por
+                    semana, garantindo energia quando você precisar.
+                  </p>
+                  <div className="mt-6 w-12 h-1 bg-[#00A651]/30 rounded-full group-hover:w-24 transition-all duration-300"></div>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            <Card className="border-none shadow-lg bg-white">
-              <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                  <MapPin className="h-8 w-8 text-[#00A651]" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                  Ampla Cobertura
-                </h3>
-                <p className="text-gray-600">
-                  Com mais de 500 estações espalhadas pelo Brasil, você nunca
-                  ficará sem energia.
-                </p>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              className="group"
+            >
+              <Card className="border-none shadow-3d bg-white rounded-xl overflow-hidden transform transition-all duration-300 hover:shadow-lg h-full">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A651]/30 to-[#0C1F38]/30 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-300"></div>
+                <CardContent className="p-8 flex flex-col items-center text-center relative h-full">
+                  <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] p-5 rounded-full shadow-lg relative overflow-hidden mb-8 group-hover:shadow-neon transition-all duration-300">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                    <MapPin className="h-8 w-8 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-[#0C1F38] group-hover:text-[#00A651] transition-colors duration-300">
+                    Ampla Cobertura
+                  </h3>
+                  <p className="text-gray-600 text-lg">
+                    Com mais de 500 estações estrategicamente posicionadas pelo
+                    Brasil, você nunca ficará sem energia em suas viagens.
+                  </p>
+                  <div className="mt-6 w-12 h-1 bg-[#00A651]/30 rounded-full group-hover:w-24 transition-all duration-300"></div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Map Section */}
-      <section id="map" className="py-20 bg-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-              Encontre uma Estação
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+      <section id="map" className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-gray-50 to-transparent"></div>
+        <div className="absolute -top-20 -right-20 w-96 h-96 bg-[#00A651]/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-[#0C1F38]/10 rounded-full blur-3xl animate-pulse"></div>
+
+        <div className="container relative z-10">
+          <div className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-[#00A651]/10 text-[#00A651] font-medium text-sm mb-4"
+            >
+              <div className="mr-2 bg-[#00A651] rounded-full w-2 h-2 animate-pulse"></div>
+              Mapa Interativo
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-4xl md:text-5xl font-bold text-[#0C1F38] mb-4 relative inline-block"
+            >
+              <span className="relative z-10">Encontre uma Estação</span>
+              <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10"></div>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-gray-600 max-w-2xl mx-auto text-lg"
+            >
               Localize o ponto de recarga mais próximo de você. Filtre por tipo
               de conector, disponibilidade em tempo real e preço por kWh.
-            </p>
+            </motion.p>
           </div>
-          <div
-            className="w-full border border-gray-200 rounded-xl shadow-md overflow-hidden bg-white"
-            style={{
-              height: "800px",
-              position: "relative",
-              zIndex: 1,
-              display: "block",
-            }}
-            id="home-map-container"
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, type: "spring", stiffness: 100 }}
+            className="relative"
           >
-            <MapSection
-              containerHeight="800px"
-              containerClassName="border-none shadow-none rounded-none"
-            />
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-3xl blur opacity-30 animate-pulse"></div>
+            <div
+              className="w-full border border-gray-200 rounded-3xl shadow-3d overflow-hidden bg-white relative group transition-all duration-500"
+              style={{
+                height: "800px",
+                position: "relative",
+                zIndex: 1,
+                display: "block",
+              }}
+              id="home-map-container"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[#00A651]/5 to-[#0C1F38]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              <div className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md border border-gray-100 flex items-center gap-2 text-sm font-medium text-[#0C1F38]">
+                <MapPin className="h-4 w-4 text-[#00A651]" />
+                <span>Mapa de Estações Chargin</span>
+              </div>
+              <MapSection
+                containerHeight="800px"
+                containerClassName="border-none shadow-none rounded-none"
+              />
+            </div>
+          </motion.div>
+
+          <div className="flex justify-center mt-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-white/90 backdrop-blur-sm px-8 py-4 rounded-full shadow-md border border-gray-100 flex items-center gap-6 text-sm text-gray-700 font-medium"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-green-500 animate-pulse"></div>
+                <span>Disponível</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-yellow-500"></div>
+                <span>Ocupado</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded-full bg-gray-500"></div>
+                <span>Offline</span>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Simulator Section */}
-      <section id="simulator" className="py-20 bg-gray-50">
-        <div className="container">
+      <section
+        id="simulator"
+        className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+      >
+        <div className="absolute -top-40 -left-40 w-80 h-80 bg-[#00A651]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#0C1F38]/10 rounded-full blur-3xl"></div>
+
+        <div className="container relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-                Simule sua Recarga
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-6"
+            >
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#00A651]/10 text-[#00A651] font-medium text-sm mb-4">
+                <div className="mr-2 bg-[#00A651] rounded-full w-2 h-2 animate-pulse"></div>
+                Calculadora Inteligente
+              </div>
+
+              <h2 className="text-4xl font-bold text-[#0C1F38] mb-4">
+                <span className="relative inline-block">
+                  <span className="relative z-10">Simule sua Recarga</span>
+                  <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10"></div>
+                </span>
               </h2>
-              <p className="text-gray-600">
+
+              <p className="text-gray-600 text-lg">
                 Planeje com precisão. Simule sua recarga e chegue ao seu destino
                 com energia de sobra. Nosso simulador calcula o tempo e custo
                 com base no seu modelo de veículo.
               </p>
-              <ul className="space-y-3">
-                <li className="flex items-center">
-                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-gray-700">
-                    Selecione seu modelo de veículo
-                  </span>
-                </li>
-                <li className="flex items-center">
-                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-gray-700">
-                    Informe o nível atual da bateria
-                  </span>
-                </li>
-                <li className="flex items-center">
-                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-gray-700">
-                    Escolha o nível desejado de carga
-                  </span>
-                </li>
-                <li className="flex items-center">
-                  <div className="bg-[#00A651] rounded-full p-1 mr-3">
-                    <ArrowRight className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-gray-700">
-                    Veja o tempo e custo estimados
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <ChargingSimulator />
-            </div>
+
+              <div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl border border-gray-100 shadow-md mt-8">
+                <ul className="space-y-4">
+                  <li className="flex items-center">
+                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+                    </div>
+                    <span className="text-gray-700 font-medium">
+                      Selecione seu modelo de veículo
+                    </span>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+                    </div>
+                    <span className="text-gray-700 font-medium">
+                      Informe o nível atual da bateria
+                    </span>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+                    </div>
+                    <span className="text-gray-700 font-medium">
+                      Escolha o nível desejado de carga
+                    </span>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+                    </div>
+                    <span className="text-gray-700 font-medium">
+                      Veja o tempo e custo estimados
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-2xl blur opacity-30"></div>
+              <div className="bg-white p-6 rounded-2xl shadow-3d relative">
+                <ChargingSimulator />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
