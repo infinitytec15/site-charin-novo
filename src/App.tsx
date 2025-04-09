@@ -15,8 +15,6 @@ const Cancelamento = lazy(() => import("./pages/cancelamento"));
 const TermosDeUso = lazy(() => import("./pages/termosdeuso"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const MapStandalone = lazy(() => import("./pages/MapStandalone"));
-const BlogPage = lazy(() => import("./pages/BlogPage"));
-const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const AppPage = lazy(() => import("./pages/AppPage"));
 
@@ -66,8 +64,6 @@ function App() {
           <Route path="/termosdeuso" element={<TermosDeUso />} />
           <Route path="/sobre" element={<AboutUs />} />
           <Route path="/map-standalone" element={<MapStandalone />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<ArticlePage />} />
           <Route path="/contato" element={<ContactPage />} />
           <Route path="/app" element={<AppPage />} />
           {import.meta.env.VITE_TEMPO === "true" && (

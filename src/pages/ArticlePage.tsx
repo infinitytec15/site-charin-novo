@@ -4,8 +4,8 @@ import { Helmet } from "react-helmet";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// Import mock data (in a real app, this would come from an API)
-import { mockArticles } from "./BlogPage";
+// Import mock data from the correct location
+import { mockArticles } from "@/data/mockArticles";
 
 interface Article {
   id: number;

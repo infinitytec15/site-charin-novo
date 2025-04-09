@@ -79,12 +79,6 @@ const Home = () => {
               White Label
             </a>
             <a
-              href="/blog"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Blog
-            </a>
-            <a
               href="/sobre"
               className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >

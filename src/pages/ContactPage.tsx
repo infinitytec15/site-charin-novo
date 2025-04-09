@@ -192,12 +192,6 @@ const ContactPage = () => {
               Aplicativo
             </a>
             <a
-              href="/blog"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Blog
-            </a>
-            <a
               href="/contato"
               className="text-sm font-medium hover:text-[#00A651] transition-colors"
             >
