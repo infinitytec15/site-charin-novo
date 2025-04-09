@@ -136,6 +136,7 @@ const FranchiseSection = () => {
               zIndex: 1,
               display: "block",
             }}
+            id="franchise-map-container"
           >
             <iframe
               src="/map-standalone?franchise=true"

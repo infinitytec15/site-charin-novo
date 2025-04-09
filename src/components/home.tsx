@@ -190,12 +190,19 @@ const Home = () => {
               zIndex: 1,
               display: "block",
             }}
+            id="home-map-container"
           >
-            <div
-              style={{ width: "100%", height: "100%", position: "relative" }}
-            >
-              <MapSection />
-            </div>
+            <iframe
+              src="/map-standalone"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                display: "block",
+                backgroundColor: "white",
+              }}
+              title="Mapa de Estações"
+            />
           </div>
         </div>
       </section>

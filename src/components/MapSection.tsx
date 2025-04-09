@@ -412,8 +412,9 @@ const MapSection = () => {
 
   // Add franchise-specific stations when in franchise mode
   const allStations = useMemo(() => {
-    // Check if we're in the franchise section by looking at the parent container's height
+    // Check if we're in the franchise section by looking at window flag or parent container
     const isFranchiseSection =
+      (window as any).isFranchiseMap ||
       document.querySelector('div[style*="height: 600px"]') !== null;
 
     if (isFranchiseSection) {
