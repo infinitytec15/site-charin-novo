@@ -245,6 +245,16 @@ const ContactPage = () => {
                   variant="zap"
                   size="md"
                 />
+                <AchievementBadge
+                  icon={Trophy}
+                  label="Engajamento"
+                  description="Participe ativamente da comunidade"
+                  unlocked={true}
+                  level={2}
+                  maxLevel={3}
+                  variant="trophy"
+                  size="md"
+                />
               </div>
             </div>
             <div className="hidden md:block">
@@ -271,7 +281,7 @@ const ContactPage = () => {
                     <div className="flex items-center gap-2">
                       <Award className="h-5 w-5" />
                       <div>
-                        <p className="font-bold">+50 pontos!</p>
+                        <p className="font-bold">+75 pontos!</p>
                         <p className="text-xs">Conquista desbloqueada</p>
                       </div>
                     </div>
@@ -538,13 +548,19 @@ const ContactPage = () => {
                       <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
                         ✓
                       </div>
-                      <span>Ganhe 50 pontos ao enviar uma mensagem</span>
+                      <span>Ganhe 75 pontos ao enviar uma mensagem</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
                       <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
                         ✓
                       </div>
                       <span>Desbloqueie a conquista "Comunicador"</span>
+                    </li>
+                    <li className="flex items-center gap-2 text-sm">
+                      <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
+                        ✓
+                      </div>
+                      <span>Avance para o próximo nível de gamificação</span>
                     </li>
                     <li className="flex items-center gap-2 text-sm">
                       <div className="bg-gradient-to-br from-green-400 to-emerald-600 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs shadow-sm">

@@ -42,15 +42,15 @@ const AppPage = () => {
     {
       name: "Bronze",
       icon: Trophy,
-      description: "Recarregue 5 vezes no mês e ganhe pontos bônus!",
+      description: "Intervalo de Pontos: 0 a 299 pontos",
       progress: 40,
       points: 120,
       pointsToNextLevel: 300,
       level: 1,
       maxLevel: 3,
       benefits: [
-        "5% de desconto em recargas rápidas",
-        "Acumule 2x mais pontos aos domingos",
+        "Badge Bronze exibido no perfil do usuário",
+        "Acesso a promoções e desafios exclusivos para acumular pontos adicionais",
         "Notificações de promoções exclusivas",
       ],
       variant: "bronze",
@@ -58,51 +58,51 @@ const AppPage = () => {
     {
       name: "Prata",
       icon: Award,
-      description: "Suba de nível: Bronze → Prata → Ouro",
+      description: "Intervalo de Pontos: 300 a 599 pontos",
       progress: 20,
-      points: 60,
-      pointsToNextLevel: 300,
+      points: 350,
+      pointsToNextLevel: 600,
       level: 1,
       maxLevel: 5,
       benefits: [
-        "10% de desconto em recargas rápidas",
-        "Reserva prioritária de estações",
-        "Acumule 3x mais pontos aos domingos",
+        "Badge Prata no perfil",
+        "5% de desconto por kWh em estações parceiras",
+        "Prioridade no acesso a promoções regionais",
       ],
       variant: "silver",
     },
     {
       name: "Ouro",
       icon: Star,
-      description: "Troque pontos por créditos ou brindes em parceiros!",
+      description: "Intervalo de Pontos: 600 a 999 pontos",
       progress: 5,
-      points: 15,
-      pointsToNextLevel: 300,
-      level: 0,
+      points: 650,
+      pointsToNextLevel: 1000,
+      level: 1,
       maxLevel: 5,
       benefits: [
-        "15% de desconto em todas as recargas",
-        "Acesso a estações exclusivas",
+        "Badge Ouro no perfil",
+        "10% de desconto em serviços de parceiros (oficinas, elétricas)",
+        "1 recarga gratuita por mês (limitada a R$ 20)",
         "Suporte prioritário 24/7",
-        "Bônus mensal de 50 pontos",
       ],
       variant: "gold",
     },
     {
       name: "Premium",
       icon: Sparkles,
-      description: "Acesso antecipado a estações premium",
+      description: "Intervalo de Pontos: 1.000 pontos ou mais",
       progress: 0,
-      points: 0,
-      pointsToNextLevel: 500,
-      level: 0,
+      points: 1050,
+      pointsToNextLevel: 1500,
+      level: 1,
       maxLevel: 3,
       benefits: [
-        "20% de desconto em todas as recargas",
-        "Acesso a estações premium exclusivas",
-        "Suporte VIP com atendimento dedicado",
-        "Bônus mensal de 100 pontos",
-        "Convites para eventos exclusivos",
+        "Badge Premium no perfil",
+        "Acesso antecipado a estações premium (ex.: ultra-rápidas)",
+        "Entrada VIP em eventos e campanhas da Chargin",
+        "Suporte prioritário",
+        "Bônus mensal de 10% sobre os pontos acumulados",
       ],
       variant: "premium",
     },
@@ -533,17 +533,17 @@ const AppPage = () => {
                     Pontos Acumulados
                   </h4>
                   <div className="text-3xl font-bold bg-gradient-to-r from-amber-500 to-amber-700 bg-clip-text text-transparent mb-2 drop-shadow-sm">
-                    1,250
+                    350
                   </div>
                   <div className="w-full bg-amber-100/50 p-2 rounded-lg border border-amber-200/50 mb-2">
                     <div className="text-xs text-amber-700 font-medium">
-                      +150 pontos esta semana
+                      +50 pontos esta semana
                     </div>
                   </div>
                   <ProgressBadge
-                    label="Progresso para Prata"
-                    value={1250}
-                    max={2000}
+                    label="Progresso para Ouro"
+                    value={350}
+                    max={600}
                     variant="points"
                     className="w-full mb-3"
                     animated={true}
@@ -640,11 +640,16 @@ const AppPage = () => {
             {appPlans.map((plan, index) => (
               <Card
                 key={index}
-                className="border-none shadow-lg hover:shadow-xl transition-all h-full"
+                className="border-none shadow-lg hover:shadow-xl transition-all h-full bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative"
               >
-                <CardContent className="p-6 flex flex-col h-full">
-                  <div className="bg-[#00A651]/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                    {plan.icon}
+                <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-emerald-500/10 blur-xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-emerald-500/10 blur-xl"></div>
+                <CardContent className="p-6 flex flex-col h-full relative z-10">
+                  <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                    <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-green-400 to-emerald-600 -z-10 opacity-60"></div>
+                    {React.cloneElement(plan.icon, {
+                      className: "h-8 w-8 text-white drop-shadow-md",
+                    })}
                   </div>
                   <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
                     {plan.title}
@@ -706,10 +711,15 @@ const AppPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="border-none shadow-lg hover:shadow-xl transition-all h-full">
-                  <CardContent className="p-6 flex flex-col items-center text-center h-full">
-                    <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                      {feature.icon}
+                <Card className="border-none shadow-lg hover:shadow-xl transition-all h-full bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative">
+                  <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-blue-500/10 blur-xl"></div>
+                  <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-blue-500/10 blur-xl"></div>
+                  <CardContent className="p-6 flex flex-col items-center text-center h-full relative z-10">
+                    <div className="bg-gradient-to-br from-blue-400 to-blue-600 p-4 rounded-full mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                      <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-blue-400 to-blue-600 -z-10 opacity-60"></div>
+                      {React.cloneElement(feature.icon, {
+                        className: "h-8 w-8 text-white drop-shadow-md",
+                      })}
                     </div>
                     <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
                       {feature.title}
@@ -739,11 +749,16 @@ const AppPage = () => {
             {sustainabilityFeatures.map((feature, index) => (
               <Card
                 key={index}
-                className="border-none shadow-lg hover:shadow-xl transition-all bg-white/80 backdrop-blur-sm"
+                className="border-none shadow-lg hover:shadow-xl transition-all bg-white/80 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative"
               >
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="bg-[#00A651]/20 p-4 rounded-full mb-4">
-                    {feature.icon}
+                <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-green-500/10 blur-xl"></div>
+                <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-green-500/10 blur-xl"></div>
+                <CardContent className="p-6 flex flex-col items-center text-center relative z-10">
+                  <div className="bg-gradient-to-br from-green-500 to-teal-600 p-4 rounded-full mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                    <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-green-500 to-teal-600 -z-10 opacity-60"></div>
+                    {React.cloneElement(feature.icon, {
+                      className: "h-8 w-8 text-white drop-shadow-md",
+                    })}
                   </div>
                   <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
                     {feature.title}
