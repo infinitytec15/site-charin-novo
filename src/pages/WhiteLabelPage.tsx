@@ -24,6 +24,10 @@ import {
   Award,
   Target,
   Sparkles,
+  HelpCircle,
+  DollarSign,
+  Clock,
+  Link,
 } from "lucide-react";
 import MaintenanceModule from "@/components/MaintenanceModule";
 import { Button } from "@/components/ui/button";
@@ -256,21 +260,33 @@ const WhiteLabelPage = () => {
       question: "Como funciona o modelo white label?",
       answer:
         "O modelo white label permite que sua empresa ofereça serviços de recarga de veículos elétricos com sua própria marca, sem precisar desenvolver a tecnologia do zero. Nós fornecemos toda a infraestrutura, software e suporte, enquanto você mantém o relacionamento com seus clientes.",
+      icon: <HelpCircle className="h-5 w-5 text-white" />,
+      gradient: "from-blue-400 to-blue-600",
+      points: 25,
     },
     {
       question: "Quais são os custos envolvidos?",
       answer:
         "Os custos variam de acordo com o modelo de negócio escolhido e a escala de implementação. Oferecemos opções de licenciamento do software, revenue share ou modelo de franquia. Entre em contato para uma proposta personalizada.",
+      icon: <DollarSign className="h-5 w-5 text-white" />,
+      gradient: "from-green-400 to-emerald-600",
+      points: 30,
     },
     {
       question: "Quanto tempo leva para implementar?",
       answer:
         "O tempo de implementação varia de 30 a 90 dias, dependendo da complexidade do projeto e das personalizações necessárias. Isso inclui a customização do software, instalação dos equipamentos e treinamento da equipe.",
+      icon: <Clock className="h-5 w-5 text-white" />,
+      gradient: "from-purple-400 to-indigo-600",
+      points: 35,
     },
     {
       question: "É possível integrar com sistemas existentes?",
       answer:
         "Sim, nossa plataforma foi desenvolvida com APIs abertas que permitem integração com diversos sistemas, como ERP, CRM, sistemas de pagamento e programas de fidelidade existentes.",
+      icon: <Link className="h-5 w-5 text-white" />,
+      gradient: "from-amber-400 to-amber-600",
+      points: 40,
     },
   ];
 
@@ -507,8 +523,11 @@ const WhiteLabelPage = () => {
                 ></div>
                 <CardContent className="p-6 relative">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="bg-[#00A651]/20 p-3 rounded-full">
-                      {audience.icon}
+                    <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-3 rounded-full shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                      <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-green-400 to-emerald-600 -z-10 opacity-60"></div>
+                      {React.cloneElement(audience.icon, {
+                        className: "h-8 w-8 text-white drop-shadow-md",
+                      })}
                     </div>
                     <h3 className="text-xl font-bold text-[#0C1F38]">
                       {audience.title}
@@ -858,11 +877,28 @@ const WhiteLabelPage = () => {
             <Accordion type="single" collapsible className="w-full">
               {faqItems.map((item, index) => (
                 <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left text-[#0C1F38] hover:text-[#00A651] font-medium">
+                  <AccordionTrigger className="text-left text-[#0C1F38] hover:text-[#00A651] font-medium flex items-center gap-2">
+                    <div
+                      className={`bg-gradient-to-br ${item.gradient} p-2 rounded-full shadow-md transform hover:scale-110 transition-all duration-300 border border-white/20 relative hidden md:flex`}
+                    >
+                      <div
+                        className={`absolute inset-0 rounded-full blur-sm bg-gradient-to-br ${item.gradient} -z-10 opacity-60`}
+                      ></div>
+                      {item.icon}
+                    </div>
                     {item.question}
                   </AccordionTrigger>
                   <AccordionContent className="text-gray-600">
-                    {item.answer}
+                    <div className="flex flex-col space-y-4">
+                      <p>{item.answer}</p>
+                      <div className="flex justify-end">
+                        <Badge
+                          className={`bg-gradient-to-r ${item.gradient} text-white font-semibold shadow-md px-3 py-1 transform hover:scale-105 transition-all duration-300`}
+                        >
+                          +{item.points} pontos
+                        </Badge>
+                      </div>
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -884,10 +920,11 @@ const WhiteLabelPage = () => {
           </p>
           <Button
             onClick={scrollToForm}
-            className="bg-gradient-to-r from-[#00A651] to-[#008C45] hover:from-[#00A651]/90 hover:to-[#008C45]/90 text-white px-8 py-6 shadow-md transform hover:scale-105 transition-all duration-300"
+            className="bg-gradient-to-r from-[#00A651] to-[#008C45] hover:from-[#00A651]/90 hover:to-[#008C45]/90 text-white py-6 px-8 shadow-md transform hover:scale-[1.02] transition-all duration-300"
             size="lg"
           >
             Solicitar demonstração
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
       </section>
@@ -898,21 +935,7 @@ const WhiteLabelPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-6 w-6 text-[#00A651]"
-                >
-                  <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
-                  <line x1="23" y1="13" x2="23" y2="11" />
-                  <line x1="11" y1="6" x2="7" y2="18" />
-                  <line x1="16" y1="6" x2="20" y2="18" />
-                </svg>
+                <Zap className="h-6 w-6 text-[#00A651]" />
                 <span className="text-lg font-bold text-[#0C1F38]">
                   Chargin
                 </span>
@@ -951,10 +974,10 @@ const WhiteLabelPage = () => {
                 </li>
                 <li>
                   <a
-                    href="/contato"
+                    href="/sobre"
                     className="text-gray-600 hover:text-[#00A651]"
                   >
-                    Contato
+                    Sobre Nós
                   </a>
                 </li>
               </ul>
@@ -994,8 +1017,8 @@ const WhiteLabelPage = () => {
               <h3 className="font-bold text-[#0C1F38] mb-4">Contato</h3>
               <ul className="space-y-2 text-sm">
                 <li className="text-gray-600">suporte@chargin.io</li>
-                <li className="text-gray-600">(15) 3343-0000</li>
-                <li className="text-gray-600">Sorocaba, SP - Brasil</li>
+                <li className="text-gray-600">+55 (11) 9999-9999</li>
+                <li className="text-gray-600">São Paulo, SP - Brasil</li>
               </ul>
             </div>
           </div>

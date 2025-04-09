@@ -16,26 +16,74 @@ import AcquisitionProcess from "@/components/franchise/AcquisitionProcess";
 import FAQComponent from "@/components/franchise/FAQComponent";
 import FinalCTAComponent from "@/components/franchise/FinalCTAComponent";
 import { useToast } from "@/components/ui/use-toast";
-// Importando a biblioteca de estados e cidades do Brasil
-import {
-  getAllStates,
-  getCitiesByState as getStatesCities,
-} from "brazil-geo-lookup";
+// Lista estática de estados brasileiros
+const getStates = () => [
+  { code: "1", name: "Acre" },
+  { code: "2", name: "Alagoas" },
+  { code: "3", name: "Amapá" },
+  { code: "4", name: "Amazonas" },
+  { code: "5", name: "Bahia" },
+  { code: "6", name: "Ceará" },
+  { code: "7", name: "Distrito Federal" },
+  { code: "8", name: "Espírito Santo" },
+  { code: "9", name: "Goiás" },
+  { code: "10", name: "Maranhão" },
+  { code: "11", name: "Mato Grosso" },
+  { code: "12", name: "Mato Grosso do Sul" },
+  { code: "13", name: "Minas Gerais" },
+  { code: "14", name: "Pará" },
+  { code: "15", name: "Paraíba" },
+  { code: "16", name: "Paraná" },
+  { code: "17", name: "Pernambuco" },
+  { code: "18", name: "Piauí" },
+  { code: "19", name: "Rio de Janeiro" },
+  { code: "20", name: "Rio Grande do Norte" },
+  { code: "21", name: "Rio Grande do Sul" },
+  { code: "22", name: "Rondônia" },
+  { code: "23", name: "Roraima" },
+  { code: "24", name: "Santa Catarina" },
+  { code: "25", name: "São Paulo" },
+  { code: "26", name: "Sergipe" },
+  { code: "27", name: "Tocantins" },
+];
 
-// Função para obter todos os estados
-const getStates = () => {
-  return getAllStates().map((estado) => ({
-    code: estado.id,
-    name: estado.name,
-  }));
-};
-
-// Função para obter cidades por estado
+// Função para obter cidades por estado (versão simplificada)
 const getCitiesByState = (stateCode) => {
-  const citiesForState = getStatesCities(stateCode);
-  return citiesForState.map((cidade, index) => ({
+  // Mapeamento simplificado de algumas cidades principais por estado
+  const citiesByState = {
+    "1": ["Rio Branco", "Cruzeiro do Sul", "Sena Madureira"],
+    "2": ["Maceió", "Arapiraca", "Palmeira dos Índios"],
+    "3": ["Macapá", "Santana", "Laranjal do Jari"],
+    "4": ["Manaus", "Parintins", "Itacoatiara"],
+    "5": ["Salvador", "Feira de Santana", "Vitória da Conquista"],
+    "6": ["Fortaleza", "Caucaia", "Juazeiro do Norte"],
+    "7": ["Brasília", "Ceilândia", "Taguatinga"],
+    "8": ["Vitória", "Serra", "Vila Velha"],
+    "9": ["Goiânia", "Aparecida de Goiânia", "Anápolis"],
+    "10": ["São Luís", "Imperatriz", "Timon"],
+    "11": ["Cuiabá", "Várzea Grande", "Rondonópolis"],
+    "12": ["Campo Grande", "Dourados", "Três Lagoas"],
+    "13": ["Belo Horizonte", "Uberlândia", "Contagem"],
+    "14": ["Belém", "Ananindeua", "Santarém"],
+    "15": ["João Pessoa", "Campina Grande", "Santa Rita"],
+    "16": ["Curitiba", "Londrina", "Maringá"],
+    "17": ["Recife", "Jaboatão dos Guararapes", "Olinda"],
+    "18": ["Teresina", "Parnaíba", "Picos"],
+    "19": ["Rio de Janeiro", "São Gonçalo", "Duque de Caxias"],
+    "20": ["Natal", "Mossoró", "Parnamirim"],
+    "21": ["Porto Alegre", "Caxias do Sul", "Pelotas"],
+    "22": ["Porto Velho", "Ji-Paraná", "Ariquemes"],
+    "23": ["Boa Vista", "Rorainópolis", "Caracaraí"],
+    "24": ["Florianópolis", "Joinville", "Blumenau"],
+    "25": ["São Paulo", "Guarulhos", "Campinas"],
+    "26": ["Aracaju", "Nossa Senhora do Socorro", "Lagarto"],
+    "27": ["Palmas", "Araguaína", "Gurupi"],
+  };
+
+  const cities = citiesByState[stateCode] || [];
+  return cities.map((cityName, index) => ({
     code: `${stateCode}-${index}`,
-    name: cidade.name,
+    name: cityName,
   }));
 };
 
