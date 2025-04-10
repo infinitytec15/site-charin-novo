@@ -30,6 +30,7 @@ import {
   Link,
 } from "lucide-react";
 import MaintenanceModule from "@/components/MaintenanceModule";
+import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -267,70 +268,8 @@ const WhiteLabelPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header/Navigation - Reusing from Home */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-8 w-8 text-[#00A651]"
-            >
-              <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
-              <line x1="23" y1="13" x2="23" y2="11" />
-              <line x1="11" y1="6" x2="7" y2="18" />
-              <line x1="16" y1="6" x2="20" y2="18" />
-            </svg>
-            <span className="text-xl font-bold text-[#0C1F38]">Chargin</span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="/"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Início
-            </a>
-            <a
-              href="/#map"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Mapa de Estações
-            </a>
-            <a
-              href="/#simulator"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Simulador
-            </a>
-            <a
-              href="/franchise"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Seja um Franqueado
-            </a>
-            <a
-              href="/app"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Aplicativo
-            </a>
-            <a
-              href="/contato"
-              className="text-sm font-medium hover:text-[#00A651] transition-colors"
-            >
-              Contato
-            </a>
-          </nav>
-          <Button className="bg-[#00A651] text-white hover:bg-[#00A651]/80">
-            Baixe o App
-          </Button>
-        </div>
-      </header>
+      {/* Header/Navigation */}
+      <Header />
 
       {/* Hero Section */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-[#0C1F38] to-[#0C1F38]/90 text-white">

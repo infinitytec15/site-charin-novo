@@ -108,20 +108,12 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedModelId, setSelectedModelId] = useState<string>("");
   const [availableModels, setAvailableModels] = useState<CarModel[]>([]);
-  const [currentBattery, setCurrentBattery] = useState<number>(20);
-  const [targetBattery, setTargetBattery] = useState<number>(80);
-  const [selectedChargerType, setSelectedChargerType] =
-    useState<string>("fast-dc");
+  const [currentBattery, setCurrentBattery] = useState<number>(0);
+  const [targetBattery, setTargetBattery] = useState<number>(0);
+  const [selectedChargerType, setSelectedChargerType] = useState<string>("");
   const [simulationResult, setSimulationResult] =
     useState<SimulationResult | null>(null);
   const [selectedCar, setSelectedCar] = useState<CarModel | null>(null);
-
-  // Initialize with GWM as default brand
-  useEffect(() => {
-    if (carBrands.length > 0) {
-      setSelectedBrand("GWM");
-    }
-  }, []);
 
   // Update available models when brand changes
   useEffect(() => {
@@ -273,13 +265,18 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
   };
 
   const resetSimulation = () => {
-    setCurrentBattery(20);
-    setTargetBattery(80);
+    setSelectedBrand("");
+    setSelectedModelId("");
+    setAvailableModels([]);
+    setCurrentBattery(0);
+    setTargetBattery(0);
+    setSelectedChargerType("");
     setSimulationResult(null);
+    setSelectedCar(null);
 
     toast({
       title: "Simulação reiniciada",
-      description: "Os valores foram redefinidos para uma nova simulação",
+      description: "Todos os valores foram redefinidos para uma nova simulação",
       variant: "default",
     });
   };
@@ -475,8 +472,10 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
             </SelectContent>
           </Select>
           <p className="text-xs text-gray-500 mt-1">
-            {chargerTypes.find((c) => c.id === selectedChargerType)
-              ?.description || "Selecione um tipo de carregador"}
+            {selectedChargerType
+              ? chargerTypes.find((c) => c.id === selectedChargerType)
+                  ?.description
+              : "Selecione um tipo de carregador"}
           </p>
         </div>
 
@@ -528,7 +527,11 @@ const ChargingSimulator: React.FC<ChargingSimulatorProps> = ({
           <Button
             onClick={calculateSimulation}
             className="w-full bg-[#00A651] hover:bg-[#00A651]/80 text-white font-bold"
-            disabled={!selectedCar}
+            disabled={
+              !selectedCar ||
+              !selectedChargerType ||
+              currentBattery >= targetBattery
+            }
           >
             <BatteryMedium className="mr-2 h-4 w-4" />
             Calcular Recarga

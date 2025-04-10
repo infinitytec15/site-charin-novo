@@ -91,7 +91,7 @@ const FranchisePage = () => {
     // Send email using a service like EmailJS or a backend API
     // For now, we'll simulate the API call
     const emailData = {
-      to_email: "suporte@chargin.io",
+      to_email: "gilberto@chargin.io",
       from_name: formData.name,
       from_email: formData.email,
       subject: "Novo interesse em franquia EletriCharge",
@@ -106,7 +106,7 @@ const FranchisePage = () => {
       `,
     };
 
-    console.log("Sending email to suporte@chargin.io with data:", emailData);
+    console.log("Sending email to gilberto@chargin.io with data:", emailData);
 
     // Simulate API call
     setTimeout(() => {

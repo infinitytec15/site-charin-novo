@@ -10,62 +10,13 @@ import {
   Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
 
 const HoteisPage = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header/Navigation - Reused from Home component */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Mapa de Estações
-            </a>
-            <a
-              href="#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Simulador
-            </a>
-            <a
-              href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Seja um Franqueado
-            </a>
-            <a
-              href="/white-label"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              White Label
-            </a>
-            <a
-              href="/points"
-              className="text-sm font-medium text-[#00FF99] transition-colors"
-            >
-              Pontos de Recarga
-            </a>
-            <a
-              href="#about"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Sobre Nós
-            </a>
-          </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
-            Baixe o App
-          </Button>
-        </div>
-      </header>
+      {/* Header/Navigation */}
+      <Header />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 bg-[#0C1F38]">

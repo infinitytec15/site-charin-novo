@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
 
 // Import mock data from the correct location
 import { mockArticles } from "@/data/mockArticles";
@@ -94,6 +95,8 @@ export default function ArticlePage() {
         <meta property="og:image" content={article.thumbnail} />
         <meta name="author" content={article.author} />
       </Helmet>
+
+      <Header />
 
       {/* Article Header */}
       <header className="bg-[#0C1F38] text-white py-16">

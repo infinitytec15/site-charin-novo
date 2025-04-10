@@ -77,6 +77,8 @@ const ContactPage = () => {
     setIsSubmitting(true);
 
     // Simulate API call
+    // In a real implementation, this would send data to gilberto@chargin.io
+    console.log("Sending contact form data to gilberto@chargin.io", formData);
     setTimeout(() => {
       setIsSubmitting(false);
 

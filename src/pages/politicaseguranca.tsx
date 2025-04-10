@@ -1,7 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Zap, Shield, Lock, Eye, AlertTriangle } from "lucide-react";
+import { Shield, Lock, Eye, AlertTriangle, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import Header from "@/components/Header";
 
 const PoliticaSeguranca = () => {
   return (
@@ -15,48 +16,7 @@ const PoliticaSeguranca = () => {
       </Helmet>
 
       {/* Header/Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="/"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Início
-            </a>
-            <a
-              href="/#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Mapa de Estações
-            </a>
-            <a
-              href="/#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Simulador
-            </a>
-            <a
-              href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Seja um Franqueado
-            </a>
-            <a
-              href="/points"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Pontos de Recarga
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <main className="container py-12">
@@ -268,21 +228,7 @@ const PoliticaSeguranca = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-6 w-6 text-[#00A651]"
-                >
-                  <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
-                  <line x1="23" y1="13" x2="23" y2="11" />
-                  <line x1="11" y1="6" x2="7" y2="18" />
-                  <line x1="16" y1="6" x2="20" y2="18" />
-                </svg>
+                <Zap className="h-6 w-6 text-[#00A651]" />
                 <span className="text-lg font-bold text-[#0C1F38]">
                   Chargin
                 </span>

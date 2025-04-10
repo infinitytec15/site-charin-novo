@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet";
+import Header from "@/components/Header";
 import { Zap } from "lucide-react";
 
 export default function TermosDeUso() {
@@ -13,48 +14,7 @@ export default function TermosDeUso() {
       </Helmet>
 
       {/* Header/Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="/"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Início
-            </a>
-            <a
-              href="/#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Mapa de Estações
-            </a>
-            <a
-              href="/#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Simulador
-            </a>
-            <a
-              href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Seja um Franqueado
-            </a>
-            <a
-              href="/points"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Pontos de Recarga
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-3xl md:text-4xl font-bold text-[#0C1F38] mb-8">
@@ -256,7 +216,7 @@ export default function TermosDeUso() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-6 w-6 text-[#00FF99]" />
+                <Zap className="h-6 w-6 text-[#00A651]" />
                 <span className="text-lg font-bold text-[#0C1F38]">
                   EletriCharge
                 </span>

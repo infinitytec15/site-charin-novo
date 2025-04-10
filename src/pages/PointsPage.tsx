@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
+import ContactModal from "@/components/ContactModal";
 
 // 3D Icon Animation
 const Icon3D = ({ children, color = "#00FF99", size = 10 }) => {
@@ -98,9 +99,15 @@ const pointCategories = [
 ];
 
 const PointsPage = () => {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  const openContactModal = () => setIsContactModalOpen(true);
+  const closeContactModal = () => setIsContactModalOpen(false);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      <ContactModal isOpen={isContactModalOpen} onClose={closeContactModal} />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 bg-[#0C1F38]">
@@ -125,6 +132,7 @@ const PointsPage = () => {
               <Button
                 className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 mt-4 rounded-full px-8"
                 size="lg"
+                onClick={openContactModal}
               >
                 Fale com um consultor
               </Button>

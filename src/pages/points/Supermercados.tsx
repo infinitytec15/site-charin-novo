@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Header from "@/components/Header";
 
 // 3D Icon Animation
 const Icon3D = ({ children, color = "#00FF99", size = 10 }) => {
@@ -45,62 +46,7 @@ const Supermercados = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header/Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <motion.div
-              whileHover={{ rotate: [0, 15, -15, 0], scale: 1.1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Zap className="h-8 w-8 text-[#00FF99]" />
-            </motion.div>
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="/#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Mapa de Estações
-            </a>
-            <a
-              href="/#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Simulador
-            </a>
-            <a
-              href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Seja um Franqueado
-            </a>
-            <a
-              href="/white-label"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              White Label
-            </a>
-            <a
-              href="/points"
-              className="text-sm font-medium text-[#00FF99] transition-colors"
-            >
-              Pontos de Recarga
-            </a>
-            <a
-              href="/#about"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Sobre Nós
-            </a>
-          </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80 rounded-full">
-            Baixe o App
-          </Button>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 bg-[#0C1F38]">
