@@ -317,27 +317,41 @@ const AppPage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-[#0C1F38] to-[#0C1F38]/90 text-white">
-        <div className="container mx-auto px-4">
+      <section className="py-20 md:py-32 bg-gradient-to-br from-[#0C1F38] to-[#0C1F38]/90 text-white relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
+          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#00A651]/30 blur-3xl"></div>
+          <div className="absolute top-1/2 -left-24 w-96 h-96 rounded-full bg-[#00A651]/30 blur-3xl"></div>
+          <div className="absolute -bottom-24 right-1/4 w-96 h-96 rounded-full bg-blue-500/20 blur-3xl"></div>
+          <div className="absolute w-full h-full bg-gradient-to-b from-transparent to-black/20"></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Mobilidade elétrica na palma da mão
-              </h1>
-              <p className="text-xl text-gray-300">
+              <div>
+                <span className="inline-block px-4 py-1 rounded-full bg-[#00A651]/20 text-[#00FF99] font-medium text-sm mb-4 border border-[#00A651]/30">
+                  Novo App Chargin 2.0
+                </span>
+                <h1 className="text-4xl md:text-6xl font-bold leading-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  Mobilidade elétrica na palma da mão
+                </h1>
+              </div>
+              <p className="text-xl text-gray-300 leading-relaxed">
                 Descubra como o app da Chargin transforma sua experiência de
                 recarga com tecnologia, vantagens e recompensas exclusivas.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-6 pt-4">
                 <a
                   href="https://play.google.com/store"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="transform hover:scale-105 transition-transform duration-300"
                   onClick={() => {
                     // Analytics tracking could be added here
                     console.log("Google Play button clicked");
@@ -346,13 +360,14 @@ const AppPage = () => {
                   <img
                     src="https://play.google.com/intl/en_us/badges/static/images/badges/pt-br_badge_web_generic.png"
                     alt="Disponível no Google Play"
-                    className="h-16"
+                    className="h-16 drop-shadow-lg"
                   />
                 </a>
                 <a
                   href="https://apps.apple.com"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="transform hover:scale-105 transition-transform duration-300"
                   onClick={() => {
                     // Analytics tracking could be added here
                     console.log("App Store button clicked");
@@ -361,7 +376,7 @@ const AppPage = () => {
                   <img
                     src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg"
                     alt="Baixar na App Store"
-                    className="h-16"
+                    className="h-16 drop-shadow-lg"
                   />
                 </a>
               </div>
@@ -370,117 +385,273 @@ const AppPage = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative mx-auto max-w-[300px]"
+              className="relative mx-auto max-w-[320px]"
             >
-              <div className="relative z-10 overflow-hidden rounded-[36px] border-[8px] border-gray-800 shadow-xl">
+              <div className="relative z-10 overflow-hidden rounded-[36px] border-[8px] border-gray-800 shadow-2xl">
                 <img
                   src="https://images.unsplash.com/photo-1647166545674-ce28ce93bdca?w=800&q=80"
                   alt="App da Chargin em um smartphone"
                   className="h-full w-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-4 -left-4 h-72 w-72 rounded-full bg-[#00A651]/20 blur-3xl"></div>
-              <div className="absolute -top-4 -right-4 h-72 w-72 rounded-full bg-[#00A651]/20 blur-3xl"></div>
+              <div className="absolute -bottom-4 -left-4 h-72 w-72 rounded-full bg-[#00A651]/30 blur-3xl animate-pulse"></div>
+              <div
+                className="absolute -top-4 -right-4 h-72 w-72 rounded-full bg-[#00A651]/30 blur-3xl animate-pulse"
+                style={{ animationDelay: "1s" }}
+              ></div>
+
+              {/* Floating elements */}
+              <motion.div
+                className="absolute -right-16 top-12 bg-white/90 backdrop-blur-sm p-3 rounded-xl shadow-xl flex items-center gap-2 text-sm font-medium"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+              >
+                <div className="bg-green-500 p-1.5 rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <span>Recarga completa</span>
+              </motion.div>
+
+              <motion.div
+                className="absolute -left-16 bottom-20 bg-white/90 backdrop-blur-sm p-3 rounded-xl shadow-xl flex items-center gap-2 text-sm font-medium"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2, duration: 0.5 }}
+              >
+                <div className="bg-blue-500 p-1.5 rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </div>
+                <span>Estação próxima</span>
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Gamification Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-white relative">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <svg
+            className="absolute top-0 left-0 w-full h-64 text-gray-50"
+            preserveAspectRatio="none"
+            viewBox="0 0 1440 320"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,208C1248,192,1344,192,1392,192L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+          </svg>
+          <div className="absolute top-1/4 right-0 w-64 h-64 bg-[#00A651]/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-              ⚡ Seus Desafios, Suas Recompensas
+            <div className="inline-block mb-4">
+              <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#00A651]/20 to-[#00A651]/40 text-[#00A651] mb-4 mx-auto">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </span>
+            </div>
+            <h2 className="text-4xl font-bold text-[#0C1F38] mb-4 bg-gradient-to-r from-[#0C1F38] to-[#0C1F38]/70 bg-clip-text text-transparent">
+              Seus Desafios, Suas Recompensas
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Acumule pontos, suba de nível e desbloqueie vantagens exclusivas a
-              cada recarga.
+              cada recarga. Transforme sua experiência de mobilidade elétrica em
+              uma jornada de conquistas.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
             {gamificationLevels.map((level, index) => (
-              <LevelCard
+              <motion.div
                 key={index}
-                title={level.name}
-                level={level.level}
-                maxLevel={level.maxLevel}
-                points={level.points}
-                pointsToNextLevel={level.pointsToNextLevel}
-                icon={level.icon}
-                description={level.description}
-                benefits={level.benefits}
-                variant={level.variant}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="transform hover:-translate-y-2 transition-all duration-300"
+              >
+                <LevelCard
+                  title={level.name}
+                  level={level.level}
+                  maxLevel={level.maxLevel}
+                  points={level.points}
+                  pointsToNextLevel={level.pointsToNextLevel}
+                  icon={level.icon}
+                  description={level.description}
+                  benefits={level.benefits}
+                  variant={level.variant}
+                />
+              </motion.div>
             ))}
           </div>
 
-          <div className="mt-12">
-            <h3 className="text-2xl font-bold text-[#0C1F38] mb-6 text-center">
-              Suas Conquistas
-            </h3>
+          <div className="mt-16 relative z-10">
+            <div className="flex flex-col items-center mb-8">
+              <div className="inline-block mb-4">
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-amber-400/20 to-amber-600/40 text-amber-500 mb-4 mx-auto">
+                  <Trophy className="h-6 w-6" />
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-[#0C1F38] mb-2 bg-gradient-to-r from-[#0C1F38] to-[#0C1F38]/70 bg-clip-text text-transparent">
+                Suas Conquistas
+              </h3>
+              <p className="text-gray-600 max-w-2xl text-center mb-6">
+                Desbloqueie conquistas exclusivas e mostre seu progresso na
+                comunidade Chargin
+              </p>
+            </div>
+
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
-              <AchievementBadge
-                icon={Zap}
-                label="Primeira Recarga"
-                description="Complete sua primeira recarga em uma estação Chargin"
-                unlocked={true}
-                level={3}
-                maxLevel={3}
-                variant="zap"
-                size="lg"
-              />
-              <AchievementBadge
-                icon={Flame}
-                label="Recarga Rápida"
-                description="Complete 5 recargas rápidas em menos de 30 minutos"
-                unlocked={true}
-                level={2}
-                maxLevel={3}
-                variant="flame"
-                size="lg"
-              />
-              <AchievementBadge
-                icon={MapPin}
-                label="Explorador"
-                description="Utilize 10 estações diferentes"
-                unlocked={true}
-                level={1}
-                maxLevel={3}
-                variant="map"
-                size="lg"
-              />
-              <AchievementBadge
-                icon={Star}
-                label="Avaliador"
-                description="Avalie 5 estações diferentes"
-                unlocked={true}
-                level={3}
-                maxLevel={3}
-                variant="star"
-                size="lg"
-              />
-              <AchievementBadge
-                icon={Trophy}
-                label="Maratonista"
-                description="Recarregue 3 dias consecutivos"
-                unlocked={false}
-                level={0}
-                maxLevel={3}
-                variant="trophy"
-                size="lg"
-              />
-              <AchievementBadge
-                icon={Sparkles}
-                label="Eco Warrior"
-                description="Economize 100kg de CO₂ usando estações Chargin"
-                unlocked={false}
-                level={0}
-                maxLevel={3}
-                variant="sparkles"
-                size="lg"
-              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="transform hover:scale-110 transition-all duration-300"
+              >
+                <AchievementBadge
+                  icon={Zap}
+                  label="Primeira Recarga"
+                  description="Complete sua primeira recarga em uma estação Chargin"
+                  unlocked={true}
+                  level={3}
+                  maxLevel={3}
+                  variant="zap"
+                  size="lg"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="transform hover:scale-110 transition-all duration-300"
+              >
+                <AchievementBadge
+                  icon={Flame}
+                  label="Recarga Rápida"
+                  description="Complete 5 recargas rápidas em menos de 30 minutos"
+                  unlocked={true}
+                  level={2}
+                  maxLevel={3}
+                  variant="flame"
+                  size="lg"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="transform hover:scale-110 transition-all duration-300"
+              >
+                <AchievementBadge
+                  icon={MapPin}
+                  label="Explorador"
+                  description="Utilize 10 estações diferentes"
+                  unlocked={true}
+                  level={1}
+                  maxLevel={3}
+                  variant="map"
+                  size="lg"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="transform hover:scale-110 transition-all duration-300"
+              >
+                <AchievementBadge
+                  icon={Star}
+                  label="Avaliador"
+                  description="Avalie 5 estações diferentes"
+                  unlocked={true}
+                  level={3}
+                  maxLevel={3}
+                  variant="star"
+                  size="lg"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="transform hover:scale-110 transition-all duration-300"
+              >
+                <AchievementBadge
+                  icon={Trophy}
+                  label="Maratonista"
+                  description="Recarregue 3 dias consecutivos"
+                  unlocked={false}
+                  level={0}
+                  maxLevel={3}
+                  variant="trophy"
+                  size="lg"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.6 }}
+                viewport={{ once: true }}
+                className="transform hover:scale-110 transition-all duration-300"
+              >
+                <AchievementBadge
+                  icon={Sparkles}
+                  label="Eco Warrior"
+                  description="Economize 100kg de CO₂ usando estações Chargin"
+                  unlocked={false}
+                  level={0}
+                  maxLevel={3}
+                  variant="sparkles"
+                  size="lg"
+                />
+              </motion.div>
             </div>
           </div>
 
@@ -624,68 +795,134 @@ const AppPage = () => {
       </section>
 
       {/* Plans Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-              Planos Inteligentes – Pensados para Cada Estilo
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute top-0 right-0 w-96 h-96 bg-[#00A651]/5 rounded-full blur-3xl animate-pulse opacity-70"
+            style={{ animationDuration: "8s" }}
+          ></div>
+          <div
+            className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse opacity-70"
+            style={{ animationDuration: "10s", animationDelay: "1s" }}
+          ></div>
+          <div
+            className="absolute top-1/3 left-1/4 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl animate-pulse opacity-50"
+            style={{ animationDuration: "12s", animationDelay: "2s" }}
+          ></div>
+          <svg
+            className="absolute bottom-0 left-0 w-full h-32 text-white"
+            preserveAspectRatio="none"
+            viewBox="0 0 1440 320"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,208C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-block mb-4">
+              <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-blue-400/20 to-blue-600/40 text-blue-500 mb-4 mx-auto shadow-lg border border-blue-100/30 transform hover:scale-110 transition-all duration-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-7 w-7"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path>
+                  <path d="M7 7h.01"></path>
+                </svg>
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#0C1F38] via-[#1a3c5e] to-[#0C1F38]/70 bg-clip-text text-transparent drop-shadow-sm">
+              Planos Inteligentes para Cada Estilo
             </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Escolha o plano que melhor se adapta às suas necessidades de
-              recarga.
+              recarga. Soluções personalizadas para motoristas individuais,
+              empresas e residências.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {appPlans.map((plan, index) => (
-              <Card
+              <motion.div
                 key={index}
-                className="border-none shadow-lg hover:shadow-xl transition-all h-full bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
               >
-                <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-emerald-500/10 blur-xl"></div>
-                <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-emerald-500/10 blur-xl"></div>
-                <CardContent className="p-6 flex flex-col h-full relative z-10">
-                  <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-4 shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20 relative">
-                    <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-green-400 to-emerald-600 -z-10 opacity-60"></div>
-                    {React.cloneElement(plan.icon, {
-                      className: "h-8 w-8 text-white drop-shadow-md",
-                    })}
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-[#0C1F38]">
-                    {plan.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4">{plan.description}</p>
-                  <ul className="mt-auto space-y-2">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-2">
-                        <div className="text-[#00A651]">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="h-5 w-5"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
-                        </div>
-                        <span className="text-gray-700">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                <Card className="border-none shadow-lg hover:shadow-xl transition-all h-full bg-white/95 backdrop-blur-sm transform hover:-translate-y-2 hover:scale-[1.03] overflow-hidden relative group">
+                  <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-emerald-500/10 blur-xl group-hover:bg-emerald-500/20 transition-all duration-500"></div>
+                  <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-emerald-500/10 blur-xl group-hover:bg-emerald-500/20 transition-all duration-500"></div>
+                  <CardContent className="p-6 flex flex-col h-full relative z-10">
+                    <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-5 shadow-lg transform group-hover:scale-110 transition-all duration-300 border border-white/20 relative">
+                      <div className="absolute inset-0 rounded-full blur-sm bg-gradient-to-br from-green-400 to-emerald-600 -z-10 opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                      {React.cloneElement(plan.icon, {
+                        className: "h-8 w-8 text-white drop-shadow-md",
+                      })}
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-[#0C1F38] group-hover:text-[#00A651] transition-colors duration-300">
+                      {plan.title}
+                    </h3>
+                    <p className="text-gray-600 mb-5">{plan.description}</p>
+                    <ul className="mt-auto space-y-3">
+                      {plan.features.map((feature, idx) => (
+                        <li
+                          key={idx}
+                          className="flex items-center gap-3 group-hover:translate-x-1 transition-transform duration-300 ease-in-out"
+                          style={{ transitionDelay: `${idx * 50}ms` }}
+                        >
+                          <div className="text-[#00A651] flex-shrink-0">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="h-5 w-5"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          </div>
+                          <span className="text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
-          <div className="text-center mt-8">
-            <p className="text-[#00A651] font-medium">
-              ✨ Todos os planos incluem pontuação e acesso a promoções
-              especiais.
-            </p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mt-10"
+          >
+            <div className="inline-block px-6 py-3 bg-gradient-to-r from-[#00A651]/10 to-[#00A651]/5 rounded-full shadow-sm border border-[#00A651]/10">
+              <p className="text-[#00A651] font-medium flex items-center justify-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                Todos os planos incluem pontuação e acesso a promoções especiais
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
