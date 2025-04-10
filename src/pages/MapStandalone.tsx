@@ -12,14 +12,15 @@ const MapStandalone = () => {
     setMapKey(Date.now());
 
     // Set a flag to indicate this is a standalone map
-    window.isStandaloneMap = true;
+    // Using window as any to avoid TypeScript errors
+    (window as any).isStandaloneMap = true;
 
     // Set a flag to indicate if this is a franchise map
-    window.isFranchiseMap = isFranchise;
+    (window as any).isFranchiseMap = isFranchise;
 
     return () => {
-      window.isStandaloneMap = false;
-      window.isFranchiseMap = false;
+      (window as any).isStandaloneMap = false;
+      (window as any).isFranchiseMap = false;
     };
   }, [isFranchise]);
 

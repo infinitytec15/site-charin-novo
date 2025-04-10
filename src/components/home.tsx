@@ -549,68 +549,86 @@ const Home = () => {
       {/* Simulator Section */}
       <section
         id="simulator"
-        className="py-20 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
+        className="py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden"
       >
-        <div className="absolute -top-40 -left-40 w-80 h-80 bg-[#00A651]/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#0C1F38]/10 rounded-full blur-3xl"></div>
+        {/* Animated background elements */}
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-[#00A651]/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/4 right-1/3 w-64 h-64 bg-[#0C1F38]/5 rounded-full blur-3xl animate-[pulse_15s_ease-in-out_infinite]"></div>
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#0C1F38]/10 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite]"></div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-20 left-10 w-6 h-6 bg-[#00A651]/20 rounded-full animate-[float_5s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-40 right-20 w-8 h-8 bg-[#00A651]/30 rounded-full animate-[float_7s_ease-in-out_infinite]"></div>
+        <div className="absolute top-1/2 left-1/4 w-4 h-4 bg-[#0C1F38]/20 rounded-full animate-[float_4s_ease-in-out_infinite]"></div>
 
         <div className="container relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, type: "spring", stiffness: 100 }}
+              className="space-y-8"
             >
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#00A651]/10 text-[#00A651] font-medium text-sm mb-4">
-                <div className="mr-2 bg-[#00A651] rounded-full w-2 h-2 animate-pulse"></div>
-                Calculadora Inteligente
+              <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-to-r from-[#00A651]/10 to-[#00A651]/20 text-[#00A651] font-medium text-sm mb-4 shadow-sm">
+                <div className="mr-2 bg-[#00A651] rounded-full w-2.5 h-2.5 animate-[pulse_2s_ease-in-out_infinite]"></div>
+                <span className="relative overflow-hidden inline-block">
+                  Calculadora Inteligente
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#00A651]/40 transform -translate-x-full animate-[shimmer_2.5s_infinite]"></span>
+                </span>
               </div>
 
-              <h2 className="text-4xl font-bold text-[#0C1F38] mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0C1F38] mb-4 leading-tight">
                 <span className="relative inline-block">
                   <span className="relative z-10">Simule sua Recarga</span>
-                  <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10"></div>
+                  <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10 transform transition-all duration-300 group-hover:h-5"></div>
                 </span>
               </h2>
 
-              <p className="text-gray-600 text-lg">
+              <p className="text-xl text-gray-600 leading-relaxed">
                 Planeje com precisão. Simule sua recarga e chegue ao seu destino
                 com energia de sobra. Nosso simulador calcula o tempo e custo
                 com base no seu modelo de veículo.
               </p>
 
-              <div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl border border-gray-100 shadow-md mt-8">
-                <ul className="space-y-4">
-                  <li className="flex items-center">
-                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
-                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+              <div className="bg-white/70 backdrop-blur-sm p-8 rounded-2xl border border-gray-100/50 shadow-lg mt-8 transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <ul className="space-y-6">
+                  <li className="flex items-center group">
+                    <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] rounded-full p-3 mr-5 shadow-lg relative overflow-hidden group-hover:shadow-neon transition-all duration-300">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10 group-hover:translate-x-0.5 transition-transform duration-300" />
                     </div>
-                    <span className="text-gray-700 font-medium">
+                    <span className="text-gray-700 font-medium text-lg group-hover:text-[#00A651] transition-colors duration-300">
                       Selecione seu modelo de veículo
                     </span>
                   </li>
-                  <li className="flex items-center">
-                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
-                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+                  <li className="flex items-center group">
+                    <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] rounded-full p-3 mr-5 shadow-lg relative overflow-hidden group-hover:shadow-neon transition-all duration-300">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10 group-hover:translate-x-0.5 transition-transform duration-300" />
                     </div>
-                    <span className="text-gray-700 font-medium">
+                    <span className="text-gray-700 font-medium text-lg group-hover:text-[#00A651] transition-colors duration-300">
                       Informe o nível atual da bateria
                     </span>
                   </li>
-                  <li className="flex items-center">
-                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
-                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+                  <li className="flex items-center group">
+                    <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] rounded-full p-3 mr-5 shadow-lg relative overflow-hidden group-hover:shadow-neon transition-all duration-300">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10 group-hover:translate-x-0.5 transition-transform duration-300" />
                     </div>
-                    <span className="text-gray-700 font-medium">
+                    <span className="text-gray-700 font-medium text-lg group-hover:text-[#00A651] transition-colors duration-300">
                       Escolha o nível desejado de carga
                     </span>
                   </li>
-                  <li className="flex items-center">
-                    <div className="bg-gradient-to-br from-[#00A651]/80 to-[#00A651] rounded-full p-2 mr-4 shadow-md">
-                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+                  <li className="flex items-center group">
+                    <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] rounded-full p-3 mr-5 shadow-lg relative overflow-hidden group-hover:shadow-neon transition-all duration-300">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                      <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                      <ArrowRight className="h-5 w-5 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10 group-hover:translate-x-0.5 transition-transform duration-300" />
                     </div>
-                    <span className="text-gray-700 font-medium">
+                    <span className="text-gray-700 font-medium text-lg group-hover:text-[#00A651] transition-colors duration-300">
                       Veja o tempo e custo estimados
                     </span>
                   </li>
@@ -619,14 +637,33 @@ const Home = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.7,
+                delay: 0.3,
+                type: "spring",
+                stiffness: 100,
+              }}
+              className="relative group"
             >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-2xl blur opacity-30"></div>
-              <div className="bg-white p-6 rounded-2xl shadow-3d relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-3xl blur opacity-30 group-hover:opacity-70 transition-all duration-500 animate-pulse"></div>
+              <div className="bg-white p-8 rounded-2xl shadow-3d relative transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 <ChargingSimulator />
+              </div>
+
+              {/* Decorative elements */}
+              <div className="absolute -bottom-6 -right-6 bg-gradient-to-r from-[#00A651] to-[#00A651]/80 p-4 rounded-xl shadow-lg transform rotate-3 animate-float hidden md:block">
+                <div className="flex items-center gap-3">
+                  <div className="bg-white/20 p-2 rounded-lg">
+                    <Calculator className="h-4 w-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-white font-bold">Simulador</p>
+                    <p className="text-white/80 text-xs">Cálculo preciso</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -634,58 +671,213 @@ const Home = () => {
       </section>
 
       {/* Franchise Section - Link to dedicated page */}
-      <section id="franchise" className="py-20 bg-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-              Seja um Franqueado
+      <section
+        id="franchise"
+        className="py-24 bg-white relative overflow-hidden"
+      >
+        {/* Animated background elements */}
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-gray-50 to-transparent"></div>
+        <div className="absolute -top-20 right-0 w-96 h-96 bg-[#00A651]/5 rounded-full blur-3xl animate-[pulse_12s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#0C1F38]/5 rounded-full blur-3xl animate-[pulse_15s_ease-in-out_infinite]"></div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-40 left-20 w-6 h-6 bg-[#00A651]/20 rounded-full animate-[float_6s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-20 right-40 w-8 h-8 bg-[#00A651]/30 rounded-full animate-[float_8s_ease-in-out_infinite]"></div>
+
+        <div className="container relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, type: "spring", stiffness: 100 }}
+            className="text-center mb-16 max-w-3xl mx-auto"
+          >
+            <div className="inline-flex items-center px-5 py-2.5 rounded-full bg-gradient-to-r from-[#00A651]/10 to-[#00A651]/20 text-[#00A651] font-medium text-sm mb-6 shadow-sm">
+              <div className="mr-2 bg-[#00A651] rounded-full w-2.5 h-2.5 animate-[pulse_2s_ease-in-out_infinite]"></div>
+              <span className="relative overflow-hidden inline-block">
+                Oportunidade de Negócio
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#00A651]/40 transform -translate-x-full animate-[shimmer_2.5s_infinite]"></span>
+              </span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0C1F38] mb-6 leading-tight">
+              <span className="relative inline-block">
+                <span className="relative z-10">Seja um Franqueado</span>
+                <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10"></div>
+              </span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
               Transforme energia em oportunidade. Torne-se um franqueado e
-              lidere a mobilidade elétrica em sua região.
+              lidere a mobilidade elétrica em sua região com um modelo de
+              negócio inovador e sustentável.
             </p>
-            <Button
-              onClick={() => (window.location.href = "/franchise")}
-              className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white px-6 py-6"
-              size="lg"
-            >
-              Saiba mais sobre nossas franquias
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
+
+            <div className="relative group inline-block">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-xl blur opacity-30 group-hover:opacity-100 transition-all duration-500"></div>
+              <Button
+                onClick={() => (window.location.href = "/franchise")}
+                className="relative bg-gradient-to-r from-[#0C1F38] to-[#0C1F38]/90 hover:from-[#0C1F38]/90 hover:to-[#0C1F38] text-white px-8 py-7 rounded-xl shadow-3d transition-all duration-300 transform group-hover:translate-y-[-2px] text-lg font-semibold"
+                size="lg"
+              >
+                <div className="mr-3 bg-white/10 p-2 rounded-lg">
+                  <Zap className="h-5 w-5" />
+                </div>
+                Saiba mais sobre nossas franquias
+                <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </Button>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+              <div className="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-gray-100/50 shadow-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+                <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg relative overflow-hidden group-hover:shadow-neon transition-all duration-300">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                  <MapPin className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                </div>
+                <h3 className="text-2xl font-bold text-center mb-2 text-[#0C1F38] group-hover:text-[#00A651] transition-colors duration-300">
+                  +50
+                </h3>
+                <p className="text-gray-600 text-center">Cidades disponíveis</p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-gray-100/50 shadow-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+                <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg relative overflow-hidden group-hover:shadow-neon transition-all duration-300">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                  <TrendingUp className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                </div>
+                <h3 className="text-2xl font-bold text-center mb-2 text-[#0C1F38] group-hover:text-[#00A651] transition-colors duration-300">
+                  25%
+                </h3>
+                <p className="text-gray-600 text-center">Retorno anual médio</p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-gray-100/50 shadow-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group">
+                <div className="bg-gradient-to-br from-[#00A651] to-[#008C45] w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg relative overflow-hidden group-hover:shadow-neon transition-all duration-300">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent to-white/20"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1/3 rounded-b-full bg-black/10"></div>
+                  <DollarSign className="h-6 w-6 text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)] relative z-10" />
+                </div>
+                <h3 className="text-2xl font-bold text-center mb-2 text-[#0C1F38] group-hover:text-[#00A651] transition-colors duration-300">
+                  18
+                </h3>
+                <p className="text-gray-600 text-center">Meses para ROI</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gray-50">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1558425281-b2e5c050e962?w=800&q=80"
-                alt="Equipe Chargin"
-                className="rounded-xl shadow-lg w-full h-auto"
-              />
-            </div>
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-[#0C1F38] mb-4">
-                Sobre Nós
-              </h2>
-              <p className="text-gray-600">
-                Somos movidos pela inovação e pelo compromisso com um futuro
-                mais limpo. Nossa missão é acelerar a transição para a
-                mobilidade elétrica, oferecendo soluções de recarga confiáveis,
-                acessíveis e sustentáveis.
-              </p>
-              <p className="text-gray-600">
-                Com uma equipe apaixonada por tecnologia e meio ambiente,
-                trabalhamos diariamente para expandir nossa rede e melhorar a
-                experiência dos usuários de veículos elétricos em todo o Brasil.
-              </p>
-              <Button className="bg-[#0C1F38] hover:bg-[#0C1F38]/90 text-white">
-                Conheça nossa história
-              </Button>
-            </div>
+      <section id="about" className="py-24 bg-white relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-gray-50 to-transparent"></div>
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-[#00A651]/10 rounded-full blur-3xl animate-[pulse_12s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#0C1F38]/5 rounded-full blur-3xl animate-[pulse_15s_ease-in-out_infinite]"></div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-40 right-20 w-6 h-6 bg-[#00A651]/20 rounded-full animate-[float_6s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-20 left-40 w-8 h-8 bg-[#00A651]/30 rounded-full animate-[float_8s_ease-in-out_infinite]"></div>
+
+        <div className="container relative z-10">
+          <div className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-[#00A651]/10 text-[#00A651] font-medium text-sm mb-4"
+            >
+              <div className="mr-2 bg-[#00A651] rounded-full w-2 h-2 animate-pulse"></div>
+              Nossa História
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-4xl md:text-5xl font-bold text-[#0C1F38] mb-4 relative inline-block"
+            >
+              <span className="relative z-10">Sobre Nós</span>
+              <div className="absolute bottom-2 left-0 w-full h-3 bg-[#00A651]/20 rounded-full -z-10"></div>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-gray-600 max-w-2xl mx-auto text-lg"
+            >
+              Conheça a equipe que está transformando a mobilidade elétrica no
+              Brasil
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, type: "spring", stiffness: 100 }}
+              className="relative group"
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-3xl blur opacity-30 group-hover:opacity-70 transition-all duration-500"></div>
+              <div className="relative overflow-hidden rounded-2xl shadow-3d">
+                <img
+                  src="https://images.unsplash.com/photo-1558425281-b2e5c050e962?w=800&q=80"
+                  alt="Equipe Chargin"
+                  className="w-full h-auto transform transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0C1F38]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end">
+                  <div className="p-6 text-white">
+                    <p className="font-bold text-xl">Equipe Chargin</p>
+                    <p className="text-white/80">Inovação e sustentabilidade</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 0.7,
+                delay: 0.2,
+                type: "spring",
+                stiffness: 100,
+              }}
+              className="space-y-8"
+            >
+              <div className="bg-white/70 backdrop-blur-sm p-8 rounded-2xl border border-gray-100/50 shadow-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  Somos movidos pela inovação e pelo compromisso com um futuro
+                  mais limpo. Nossa missão é acelerar a transição para a
+                  mobilidade elétrica, oferecendo soluções de recarga
+                  confiáveis, acessíveis e sustentáveis.
+                </p>
+              </div>
+
+              <div className="bg-white/70 backdrop-blur-sm p-8 rounded-2xl border border-gray-100/50 shadow-lg transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  Com uma equipe apaixonada por tecnologia e meio ambiente,
+                  trabalhamos diariamente para expandir nossa rede e melhorar a
+                  experiência dos usuários de veículos elétricos em todo o
+                  Brasil.
+                </p>
+              </div>
+
+              <div className="relative group inline-block">
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#00A651] to-[#0C1F38] rounded-xl blur opacity-30 group-hover:opacity-100 transition-all duration-500"></div>
+                <Button
+                  onClick={() => (window.location.href = "/sobre")}
+                  className="relative bg-gradient-to-r from-[#0C1F38] to-[#0C1F38]/90 hover:from-[#0C1F38]/90 hover:to-[#0C1F38] text-white px-8 py-6 rounded-xl shadow-3d transition-all duration-300 transform group-hover:translate-y-[-2px] text-lg font-semibold"
+                  size="lg"
+                >
+                  <div className="mr-3 bg-white/10 p-2 rounded-lg">
+                    <BookOpen className="h-5 w-5" />
+                  </div>
+                  Conheça nossa história
+                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </Button>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
