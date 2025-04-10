@@ -792,7 +792,21 @@ const WhiteLabelPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-6 w-6 text-[#00A651]" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-6 w-6 text-[#00A651]"
+                >
+                  <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
+                  <line x1="23" y1="13" x2="23" y2="11" />
+                  <line x1="11" y1="6" x2="7" y2="18" />
+                  <line x1="16" y1="6" x2="20" y2="18" />
+                </svg>
                 <span className="text-lg font-bold text-[#0C1F38]">
                   Chargin
                 </span>
@@ -830,11 +844,8 @@ const WhiteLabelPage = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/sobre"
-                    className="text-gray-600 hover:text-[#00A651]"
-                  >
-                    Sobre Nós
+                  <a href="/app" className="text-gray-600 hover:text-[#00A651]">
+                    Aplicativo
                   </a>
                 </li>
               </ul>
@@ -874,8 +885,10 @@ const WhiteLabelPage = () => {
               <h3 className="font-bold text-[#0C1F38] mb-4">Contato</h3>
               <ul className="space-y-2 text-sm">
                 <li className="text-gray-600">suporte@chargin.io</li>
-                <li className="text-gray-600">+55 (11) 9999-9999</li>
-                <li className="text-gray-600">São Paulo, SP - Brasil</li>
+                <li className="text-gray-600">(15) 3343-0000</li>
+                <li className="text-gray-600">
+                  Av. dos Caramuru, 1293-A - Buritizal, Macapá - AP, 68902-863
+                </li>
               </ul>
             </div>
           </div>

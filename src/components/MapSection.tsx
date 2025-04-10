@@ -9,9 +9,6 @@ import {
   Clock,
   DollarSign,
   Navigation,
-  Maximize2,
-  Minimize2,
-  X,
 } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
@@ -54,30 +51,35 @@ if (typeof window !== "undefined") {
     }
     .leaflet-container {
       background-color: #f0f0f0 !important;
-      z-index: 1;
+      z-index: 100 !important;
       width: 100% !important;
       height: 100% !important;
       position: absolute !important;
       top: 0 !important;
       left: 0 !important;
+      isolation: isolate !important;
+      transform: translateZ(0) !important;
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
+      will-change: transform !important;
     }
     .leaflet-pane {
-      z-index: 1 !important;
+      z-index: 100 !important;
     }
     .leaflet-tile-pane {
-      z-index: 1 !important;
+      z-index: 100 !important;
     }
     .leaflet-overlay-pane {
-      z-index: 2 !important;
+      z-index: 200 !important;
     }
     .leaflet-marker-pane {
-      z-index: 3 !important;
+      z-index: 300 !important;
     }
     .leaflet-popup-pane {
-      z-index: 4 !important;
+      z-index: 400 !important;
     }
     .leaflet-control {
-      z-index: 5 !important;
+      z-index: 500 !important;
     }
     .leaflet-popup-content-wrapper {
       max-width: 300px !important;
@@ -87,8 +89,39 @@ if (typeof window !== "undefined") {
       margin: 8px !important;
       width: auto !important;
     }
+    /* Prevent scroll-through behavior */
+    .map-section-scrollable {
+      isolation: isolate !important;
+      background-color: white !important;
+      transform: translateZ(0) !important;
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
+      will-change: transform !important;
+    }
+    /* Ensure the map container is opaque */
+    .leaflet-container-fix {
+      background-color: #f0f0f0 !important;
+      isolation: isolate !important;
+      transform: translateZ(0) !important;
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
+    }
   `;
   document.head.appendChild(style);
+
+  // Add event listener to prevent scroll propagation
+  document.addEventListener("DOMContentLoaded", () => {
+    const mapContainers = document.querySelectorAll(".leaflet-container");
+    mapContainers.forEach((container) => {
+      container.addEventListener(
+        "wheel",
+        (e) => {
+          e.stopPropagation();
+        },
+        { passive: false },
+      );
+    });
+  });
 }
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -367,7 +400,7 @@ const MapCenterAnimator = ({
   return null;
 };
 
-// Ensure map is properly sized
+// Ensure map is properly sized and prevent scroll-through
 const FixMapSize = () => {
   const map = useMap();
 
@@ -411,6 +444,24 @@ const FixMapSize = () => {
         childList: true,
         subtree: true,
       });
+
+      // Prevent scroll events from propagating through the map container
+      mapContainer.addEventListener(
+        "wheel",
+        (e) => {
+          e.stopPropagation();
+        },
+        { passive: false },
+      );
+
+      // Prevent touch events from propagating (for mobile)
+      mapContainer.addEventListener(
+        "touchmove",
+        (e) => {
+          e.stopPropagation();
+        },
+        { passive: false },
+      );
     }
 
     // Force resize when tab becomes visible
@@ -424,6 +475,12 @@ const FixMapSize = () => {
     return () => {
       window.removeEventListener("resize", resizeMap);
       document.removeEventListener("visibilitychange", resizeMap);
+      if (mapContainer) {
+        mapContainer.removeEventListener("wheel", (e) => e.stopPropagation());
+        mapContainer.removeEventListener("touchmove", (e) =>
+          e.stopPropagation(),
+        );
+      }
       observer.disconnect();
     };
   }, [map]);
@@ -435,16 +492,12 @@ interface MapSectionProps {
   isFranchiseMode?: boolean;
   containerHeight?: string;
   containerClassName?: string;
-  isFullScreen?: boolean;
-  onFullScreenChange?: (isFullScreen: boolean) => void;
 }
 
 const MapSection = ({
   isFranchiseMode = false,
   containerHeight = "800px",
   containerClassName = "",
-  isFullScreen = false,
-  onFullScreenChange,
 }: MapSectionProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
@@ -452,12 +505,7 @@ const MapSection = ({
   const mapSectionRef = useRef<HTMLDivElement>(null);
   const routingControlRef = useRef<L.Routing.Control | null>(null);
   const { toast } = useToast();
-  const [fullScreen, setFullScreen] = useState(isFullScreen);
-
-  // Update fullScreen state when isFullScreen prop changes
-  useEffect(() => {
-    setFullScreen(isFullScreen);
-  }, [isFullScreen]);
+  const [fullScreen, setFullScreen] = useState(false);
 
   // Add custom styles for scrollbar and animations to head
   useEffect(() => {
@@ -477,6 +525,35 @@ const MapSection = ({
       .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: #00CC77;
       }
+      /* Ensure fullscreen map is above everything */
+      .fixed.z-\[9999999\] {
+        z-index: 9999999 !important;
+        background-color: white !important;
+        isolation: isolate !important;
+        position: fixed !important;
+        inset: 0 !important;
+        visibility: visible !important;
+        display: block !important;
+        opacity: 1 !important;
+      }
+      /* Hide all other content when map is fullscreen */
+      body.map-fullscreen > *:not(.fixed.z-\[9999999\]) {
+        visibility: hidden !important;
+      }
+      body.map-fullscreen .fixed.z-\[9999999\] {
+        visibility: visible !important;
+      }
+      /* Hide specific elements that might be showing through */
+      body.map-fullscreen h1, 
+      body.map-fullscreen h2, 
+      body.map-fullscreen h3,
+      body.map-fullscreen .encontre-estacao-text {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        z-index: -1 !important;
+      }
+
       .station-card {
         transition: all 0.3s ease;
       }
@@ -523,6 +600,11 @@ const MapSection = ({
         overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: #00FF99 #f1f1f1;
+        background-color: white !important;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        will-change: transform;
       }
       .map-section-scrollable::-webkit-scrollbar {
         width: 6px;
@@ -533,6 +615,18 @@ const MapSection = ({
       .map-section-scrollable::-webkit-scrollbar-thumb {
         background-color: #00FF99;
         border-radius: 6px;
+      }
+      /* Prevent body scrolling when map is in fullscreen */
+      body.map-fullscreen {
+        overflow: hidden !important;
+      }
+      /* Ensure no background bleed in fullscreen */
+      .fullscreen-enter {
+        background-color: white !important;
+        z-index: 9999999 !important;
+        isolation: isolate !important;
+        position: fixed !important;
+        inset: 0 !important;
       }
     `;
     document.head.appendChild(style);
@@ -596,20 +690,85 @@ const MapSection = ({
     }
   }, []);
 
-  // Hide header when in fullscreen mode
+  // Hide all content and prevent body scrolling when in fullscreen mode
   useEffect(() => {
     const header = document.querySelector("header");
-    if (header && fullScreen) {
-      header.style.display = "none";
-    } else if (header) {
-      header.style.display = "block";
+    const body = document.body;
+    const allPageContent = document.querySelectorAll(
+      "body > *:not(#root):not(script)",
+    );
+
+    // Find and hide the specific "Encontre uma Estação" element
+    const encontreTexts = document.querySelectorAll(
+      "h1, h2, h3, h4, h5, h6, div",
+    );
+    encontreTexts.forEach((el) => {
+      if (el.textContent && el.textContent.includes("Encontre uma Estação")) {
+        el.classList.add("encontre-estacao-text");
+      }
+    });
+
+    if (fullScreen) {
+      // Hide all other content
+      if (header) header.style.display = "none";
+      body.classList.add("map-fullscreen");
+
+      // Hide any other elements that might be showing through
+      allPageContent.forEach((el) => {
+        if (el instanceof HTMLElement) {
+          el.style.visibility = "hidden";
+        }
+      });
+
+      // Prevent scrolling on the body
+      const scrollY = window.scrollY;
+      body.style.position = "fixed";
+      body.style.top = `-${scrollY}px`;
+      body.style.width = "100%";
+      body.style.overflow = "hidden";
+
+      // Make sure our map container is above everything else
+      if (mapSectionRef.current) {
+        mapSectionRef.current.style.zIndex = "9999999";
+        mapSectionRef.current.style.visibility = "visible";
+        mapSectionRef.current.style.display = "block";
+        mapSectionRef.current.style.opacity = "1";
+        mapSectionRef.current.style.backgroundColor = "white";
+      }
+    } else {
+      // Restore visibility
+      if (header) header.style.display = "block";
+      body.classList.remove("map-fullscreen");
+
+      // Show all other elements again
+      allPageContent.forEach((el) => {
+        if (el instanceof HTMLElement) {
+          el.style.visibility = "visible";
+        }
+      });
+
+      // Restore scrolling
+      const scrollY = body.style.top;
+      body.style.position = "";
+      body.style.top = "";
+      body.style.width = "";
+      body.style.overflow = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
 
     return () => {
-      // Restore header visibility when component unmounts
-      if (header) {
-        header.style.display = "block";
-      }
+      // Restore visibility and scrolling when component unmounts
+      if (header) header.style.display = "block";
+      body.classList.remove("map-fullscreen");
+      allPageContent.forEach((el) => {
+        if (el instanceof HTMLElement) {
+          el.style.visibility = "visible";
+        }
+      });
+      body.style.position = "";
+      body.style.top = "";
+      body.style.width = "";
+      body.style.overflow = "";
     };
   }, [fullScreen]);
 
@@ -623,21 +782,6 @@ const MapSection = ({
 
   // State to track if filters have been applied
   const [filtersApplied, setFiltersApplied] = useState(false);
-
-  // Toggle fullscreen mode
-  const toggleFullScreen = () => {
-    const newFullScreenState = !fullScreen;
-    setFullScreen(newFullScreenState);
-    // Call the callback if provided
-    if (onFullScreenChange) {
-      onFullScreenChange(newFullScreenState);
-    }
-    // Force map to recalculate size after fullscreen toggle
-    setTimeout(() => {
-      const event = new Event("resize");
-      window.dispatchEvent(event);
-    }, 100);
-  };
 
   // Mock data for charging stations
   const mockStations: ChargingStation[] = [
@@ -900,52 +1044,28 @@ const MapSection = ({
   return (
     <div
       ref={mapSectionRef}
-      className={`${fullScreen ? "fixed inset-0 z-50" : "w-full h-full"} bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-lg border border-gray-200 ${containerClassName} transition-all duration-500 ease-in-out ${fullScreen ? "fullscreen-enter map-section-scrollable" : "fullscreen-exit"}`}
+      className={`${fullScreen ? "fixed inset-0 z-[9999999]" : "w-full h-full"} bg-white p-4 md:p-6 lg:p-8 rounded-xl shadow-lg border border-gray-200 ${containerClassName} transition-all duration-500 ease-in-out ${fullScreen ? "fullscreen-enter map-section-scrollable" : "fullscreen-exit"}`}
       style={{
         backgroundColor: "white",
         position: fullScreen ? "fixed" : "relative",
-        zIndex: fullScreen ? 50 : 5,
+        isolation: "isolate",
+        zIndex: fullScreen ? 9999999 : 100, // Ultra high z-index when fullscreen
         backdropFilter: fullScreen ? "blur(10px)" : "none",
         boxShadow: fullScreen
           ? "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-          : "",
+          : "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)", // Add shadow even when not fullscreen
         overflowY: "auto",
         maxHeight: fullScreen ? "100vh" : "auto",
+        isolation: "isolate", // Create a new stacking context
+        transform: "translateZ(0)", // Force hardware acceleration
+        backfaceVisibility: "hidden", // Prevent background bleed
       }}
     >
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6">
         <h2 className="text-2xl md:text-3xl font-bold text-[#0C1F38] flex items-center">
           <MapPin className="mr-2 h-6 w-6 text-[#00FF99] icon-3d icon-float" />
           Encontre Pontos de Recarga
         </h2>
-        <div className="flex gap-2">
-          {fullScreen && (
-            <Button
-              variant="outline"
-              className="border-red-500 text-red-500 hover:bg-red-50 transition-all duration-300 shadow-sm hover:shadow-md"
-              onClick={toggleFullScreen}
-            >
-              <X className="h-4 w-4 icon-3d" />
-            </Button>
-          )}
-          <Button
-            variant="outline"
-            className="border-[#0C1F38] text-[#0C1F38] hover:bg-[#00FF99]/20 transition-all duration-300 shadow-sm hover:shadow-md"
-            onClick={toggleFullScreen}
-          >
-            {fullScreen ? (
-              <>
-                <Minimize2 className="mr-2 h-4 w-4 icon-3d" />
-                Minimizar
-              </>
-            ) : (
-              <>
-                <Maximize2 className="mr-2 h-4 w-4 icon-3d" />
-                Expandir
-              </>
-            )}
-          </Button>
-        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
@@ -1020,11 +1140,14 @@ const MapSection = ({
                   height: fullScreen ? "calc(100vh - 300px)" : containerHeight,
                   backgroundColor: "#f0f0f0",
                   position: "relative",
-                  zIndex: 1,
+                  zIndex: 10,
                   display: "block",
                   visibility: "visible",
                   opacity: 1,
+                  isolation: "isolate", // Create a new stacking context
                 }}
+                onWheel={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
               >
                 <MapContainer
                   center={[-15.7801, -47.9292]} // Centralizado no Brasil
@@ -1036,13 +1159,19 @@ const MapSection = ({
                     position: "absolute",
                     top: 0,
                     left: 0,
-                    zIndex: 1,
+                    zIndex: 10, // Increased z-index
                     visibility: "visible",
                     opacity: 1,
                     borderRadius: "0.5rem",
+                    isolation: "isolate", // Create a new stacking context
                   }}
                   className="leaflet-container-fix"
                   key="map-container"
+                  // Add event handlers to prevent scroll propagation
+                  onClick={(e) => {
+                    e.originalEvent.stopPropagation();
+                    e.originalEvent.preventDefault();
+                  }}
                 >
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

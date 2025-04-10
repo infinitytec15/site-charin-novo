@@ -3,62 +3,12 @@ import { motion } from "framer-motion";
 import { ArrowRight, Zap, MapPin, Building, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Header from "@/components/Header";
 
 const CentrosUrbanos = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header/Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Zap className="h-8 w-8 text-[#00FF99]" />
-            <span className="text-xl font-bold text-[#0C1F38]">
-              EletriCharge
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <a
-              href="/#map"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Mapa de Estações
-            </a>
-            <a
-              href="/#simulator"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Simulador
-            </a>
-            <a
-              href="/franchise"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Seja um Franqueado
-            </a>
-            <a
-              href="/white-label"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              White Label
-            </a>
-            <a
-              href="/points"
-              className="text-sm font-medium text-[#00FF99] transition-colors"
-            >
-              Pontos de Recarga
-            </a>
-            <a
-              href="/#about"
-              className="text-sm font-medium hover:text-[#00FF99] transition-colors"
-            >
-              Sobre Nós
-            </a>
-          </nav>
-          <Button className="bg-[#00FF99] text-[#0C1F38] hover:bg-[#00FF99]/80">
-            Baixe o App
-          </Button>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 bg-[#0C1F38]">
@@ -256,15 +206,29 @@ const CentrosUrbanos = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - Standardized */}
       <footer className="bg-gray-100 py-12">
-        <div className="container">
+        <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-6 w-6 text-[#00FF99]" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-6 w-6 text-[#00A651]"
+                >
+                  <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19" />
+                  <line x1="23" y1="13" x2="23" y2="11" />
+                  <line x1="11" y1="6" x2="7" y2="18" />
+                  <line x1="16" y1="6" x2="20" y2="18" />
+                </svg>
                 <span className="text-lg font-bold text-[#0C1F38]">
-                  EletriCharge
+                  Chargin
                 </span>
               </div>
               <p className="text-gray-600 text-sm">
@@ -278,7 +242,7 @@ const CentrosUrbanos = () => {
                 <li>
                   <a
                     href="/#map"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Mapa de Estações
                   </a>
@@ -286,7 +250,7 @@ const CentrosUrbanos = () => {
                 <li>
                   <a
                     href="/#simulator"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Simulador de Recarga
                   </a>
@@ -294,17 +258,14 @@ const CentrosUrbanos = () => {
                 <li>
                   <a
                     href="/franchise"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Seja um Franqueado
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/points"
-                    className="text-gray-600 hover:text-[#00FF99]"
-                  >
-                    Pontos de Recarga
+                  <a href="/app" className="text-gray-600 hover:text-[#00A651]">
+                    Aplicativo
                   </a>
                 </li>
               </ul>
@@ -316,7 +277,7 @@ const CentrosUrbanos = () => {
                 <li>
                   <a
                     href="/codigoconduta"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Código de Conduta
                   </a>
@@ -324,7 +285,7 @@ const CentrosUrbanos = () => {
                 <li>
                   <a
                     href="/politicaprivacidade"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Política de Privacidade
                   </a>
@@ -332,25 +293,9 @@ const CentrosUrbanos = () => {
                 <li>
                   <a
                     href="/termosdeuso"
-                    className="text-gray-600 hover:text-[#00FF99]"
+                    className="text-gray-600 hover:text-[#00A651]"
                   >
                     Termos de Uso
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/politicaseguranca"
-                    className="text-gray-600 hover:text-[#00FF99]"
-                  >
-                    Política de Segurança
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/cancelamento"
-                    className="text-gray-600 hover:text-[#00FF99]"
-                  >
-                    Cancelamento e Reembolso
                   </a>
                 </li>
               </ul>
@@ -359,16 +304,18 @@ const CentrosUrbanos = () => {
             <div>
               <h3 className="font-bold text-[#0C1F38] mb-4">Contato</h3>
               <ul className="space-y-2 text-sm">
-                <li className="text-gray-600">contato@eletricharge.com.br</li>
-                <li className="text-gray-600">+55 (11) 9999-9999</li>
-                <li className="text-gray-600">São Paulo, SP - Brasil</li>
+                <li className="text-gray-600">suporte@chargin.io</li>
+                <li className="text-gray-600">(15) 3343-0000</li>
+                <li className="text-gray-600">
+                  Av. dos Caramuru, 1293-A - Buritizal, Macapá - AP, 68902-863
+                </li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-200 mt-8 pt-8 text-center">
             <p className="text-sm text-gray-600">
-              &copy; {new Date().getFullYear()} EletriCharge. Todos os direitos
+              &copy; {new Date().getFullYear()} Chargin. Todos os direitos
               reservados.
             </p>
           </div>
