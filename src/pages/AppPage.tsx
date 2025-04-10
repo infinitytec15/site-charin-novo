@@ -23,6 +23,7 @@ import {
   Flame,
   Sparkles,
 } from "lucide-react";
+import AppCarousel from "@/components/AppCarousel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LevelCard } from "@/components/ui/level-card";
@@ -385,68 +386,9 @@ const AppPage = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative mx-auto max-w-[320px]"
             >
-              <div className="relative z-10 overflow-hidden rounded-[36px] border-[8px] border-gray-800 shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1647166545674-ce28ce93bdca?w=800&q=80"
-                  alt="App da Chargin em um smartphone"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-4 -left-4 h-72 w-72 rounded-full bg-[#00A651]/30 blur-3xl animate-pulse"></div>
-              <div
-                className="absolute -top-4 -right-4 h-72 w-72 rounded-full bg-[#00A651]/30 blur-3xl animate-pulse"
-                style={{ animationDelay: "1s" }}
-              ></div>
-
-              {/* Floating elements */}
-              <motion.div
-                className="absolute -right-16 top-12 bg-white/90 backdrop-blur-sm p-3 rounded-xl shadow-xl flex items-center gap-2 text-sm font-medium"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-              >
-                <div className="bg-green-500 p-1.5 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </div>
-                <span>Recarga completa</span>
-              </motion.div>
-
-              <motion.div
-                className="absolute -left-16 bottom-20 bg-white/90 backdrop-blur-sm p-3 rounded-xl shadow-xl flex items-center gap-2 text-sm font-medium"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.2, duration: 0.5 }}
-              >
-                <div className="bg-blue-500 p-1.5 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                </div>
-                <span>Estação próxima</span>
-              </motion.div>
+              {/* App Carousel */}
+              <AppCarousel />
             </motion.div>
           </div>
         </div>
@@ -655,11 +597,30 @@ const AppPage = () => {
             </div>
           </div>
 
-          <div className="mt-12">
-            <h3 className="text-2xl font-bold text-[#0C1F38] mb-6 text-center">
-              Seu Progresso
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <motion.div
+            className="mt-16 relative z-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex flex-col items-center mb-8">
+              <div className="inline-block mb-4">
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-purple-400/20 to-purple-600/40 text-purple-500 mb-4 mx-auto shadow-lg border border-purple-100/30 transform hover:scale-110 transition-all duration-300">
+                  <Target className="h-6 w-6" />
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-[#0C1F38] mb-2 bg-gradient-to-r from-[#0C1F38] to-[#0C1F38]/70 bg-clip-text text-transparent">
+                Seu Progresso
+              </h3>
+              <p className="text-gray-600 max-w-2xl text-center mb-6">
+                Acompanhe suas métricas e conquistas na plataforma Chargin
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 relative z-10">
+              {/* Decorative background elements */}
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
               <Card className="border-none shadow-lg hover:shadow-xl transition-all bg-white/95 backdrop-blur-sm transform hover:-translate-y-1 hover:scale-[1.02] overflow-hidden relative">
                 <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-blue-500/10 blur-xl"></div>
                 <div className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full bg-blue-500/10 blur-xl"></div>
@@ -790,7 +751,7 @@ const AppPage = () => {
                 </CardContent>
               </Card>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
