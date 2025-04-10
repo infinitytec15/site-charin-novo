@@ -8,46 +8,46 @@ const MobileFooter = () => {
         <div className="flex justify-between items-center">
           <a
             href="/contato"
-            className="flex flex-col items-center justify-center px-2"
+            className="flex flex-col items-center justify-center px-2 group"
           >
             <div className="icon-3d">
-              <Mail className="h-6 w-6 text-[#0C1F38]" />
+              <Mail className="h-6 w-6 text-[#0C1F38] transition-all duration-300 group-hover:text-blue-600" />
             </div>
             <span className="text-xs mt-1 text-[#0C1F38]">Contato</span>
           </a>
           <a
             href="/#map"
-            className="flex flex-col items-center justify-center px-2"
+            className="flex flex-col items-center justify-center px-2 group"
           >
             <div className="icon-3d">
-              <MapPin className="h-6 w-6 text-[#0C1F38]" />
+              <MapPin className="h-6 w-6 text-[#0C1F38] transition-all duration-300 group-hover:text-blue-600" />
             </div>
             <span className="text-xs mt-1 text-[#0C1F38]">Estações</span>
           </a>
           <a
             href="/app"
-            className="flex flex-col items-center justify-center px-2"
+            className="flex flex-col items-center justify-center px-2 group"
           >
             <div className="icon-3d">
-              <Smartphone className="h-6 w-6 text-[#0C1F38]" />
+              <Smartphone className="h-6 w-6 text-[#0C1F38] transition-all duration-300 group-hover:text-blue-600" />
             </div>
             <span className="text-xs mt-1 text-[#0C1F38]">App</span>
           </a>
           <a
             href="/whitelabel"
-            className="flex flex-col items-center justify-center px-2"
+            className="flex flex-col items-center justify-center px-2 group"
           >
             <div className="icon-3d">
-              <Tag className="h-6 w-6 text-[#0C1F38]" />
+              <Tag className="h-6 w-6 text-[#0C1F38] transition-all duration-300 group-hover:text-blue-600" />
             </div>
             <span className="text-xs mt-1 text-[#0C1F38]">WhiteLabel</span>
           </a>
           <a
             href="/franchise"
-            className="flex flex-col items-center justify-center px-2"
+            className="flex flex-col items-center justify-center px-2 group"
           >
             <div className="icon-3d">
-              <Zap className="h-6 w-6 text-[#0C1F38]" />
+              <Zap className="h-6 w-6 text-[#0C1F38] transition-all duration-300 group-hover:text-blue-600" />
             </div>
             <span className="text-xs mt-1 text-[#0C1F38]">Franquia</span>
           </a>
