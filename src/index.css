@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile Footer and Header Visibility */
+@media (max-width: 1023px) {
+  .mobile-footer-visible {
+    display: block;
+  }
+  .header-hidden-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-footer-visible {
+    display: none;
+  }
+  .header-hidden-mobile {
+    display: block;
+  }
+}
+
+/* 3D Icon Styles */
+.icon-3d {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.1),
+    -4px -4px 8px rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.icon-3d:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    6px 6px 10px rgba(0, 0, 0, 0.1),
+    -6px -6px 10px rgba(255, 255, 255, 0.9);
+}
+
+.icon-3d:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 2px 2px 5px rgba(0, 0, 0, 0.1),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.9);
+}
+
 /* Leaflet specific styles */
 .leaflet-container {
   width: 100% !important;

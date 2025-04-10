@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { useRoutes, Routes, Route } from "react-router-dom";
 import routes from "tempo-routes";
 import { Toaster } from "@/components/ui/toaster";
+import MobileFooter from "./components/MobileFooter";
 
 // Lazy load components for better performance
 const Home = lazy(() => import("./components/home"));
@@ -39,6 +40,7 @@ function App() {
       }
     >
       <>
+        <MobileFooter />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/franchise" element={<FranchisePage />} />
